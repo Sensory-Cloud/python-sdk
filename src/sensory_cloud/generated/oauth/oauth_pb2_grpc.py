@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from sensory_cloud.generated.common import common_pb2 as common_dot_common__pb2
-from sensory_cloud.generated.oauth import oauth_pb2 as oauth_dot_oauth__pb2
+from common import common_pb2 as common_dot_common__pb2
+from oauth import oauth_pb2 as oauth_dot_oauth__pb2
 
 
 class OauthServiceStub(object):

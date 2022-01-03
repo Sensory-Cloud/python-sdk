@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from sensory_cloud.generated.v1.video import video_pb2 as v1_dot_video_dot_video__pb2
+from v1.video import video_pb2 as v1_dot_video_dot_video__pb2
 
 
 class VideoModelsStub(object):
