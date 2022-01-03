@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from v1.management import device_pb2 as v1_dot_management_dot_device__pb2
+from sensory_cloud.generated.v1.management import device_pb2 as v1_dot_management_dot_device__pb2
 
 
 class DeviceServiceStub(object):

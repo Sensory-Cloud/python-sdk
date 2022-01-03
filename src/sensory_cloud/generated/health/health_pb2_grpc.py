@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from common import common_pb2 as common_dot_common__pb2
-from health import health_pb2 as health_dot_health__pb2
+from sensory_cloud.generated.common import common_pb2 as common_dot_common__pb2
+from sensory_cloud.generated.health import health_pb2 as health_dot_health__pb2
 
 
 class HealthServiceStub(object):

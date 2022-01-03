@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from v1.audio import audio_pb2 as v1_dot_audio_dot_audio__pb2
+from sensory_cloud.generated.v1.audio import audio_pb2 as v1_dot_audio_dot_audio__pb2
 
 
 class AudioModelsStub(object):

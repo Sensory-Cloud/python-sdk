@@ -12,8 +12,8 @@ _sym_db = _symbol_database.Default()
 
 
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
-from validate import validate_pb2 as validate_dot_validate__pb2
-from common import common_pb2 as common_dot_common__pb2
+from sensory_cloud.generated.validate import validate_pb2 as validate_dot_validate__pb2
+from sensory_cloud.generated.common import common_pb2 as common_dot_common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
