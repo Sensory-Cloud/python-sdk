@@ -45,7 +45,15 @@ class RequestConfig(Enum):
 
 
 class RequestIterator:
-    first_request: bool = True
+    """
+    The RequestIterator class facilitates the request streams that are sent to the 
+    grpc server.  There are four possible audio request types and request configurations 
+    that are given by the AudioRequest and RequestConfig enums respectively.  The first
+    request sent must be a configuration request and all subsequent requests contain the audio
+    content being streamed.
+    """
+    
+    _first_request: bool = True
 
     def __init__(
         self,
@@ -53,19 +61,20 @@ class RequestIterator:
         request_config: RequestConfig,
         audio_stream_iterator: typing.Iterable[bytes],
     ):
-        self.audio_request = audio_request
-        self.request_config = request_config
-        self.audio_stream_iterator = audio_stream_iterator
+        self._audio_request = audio_request
+        self._request_config = request_config
+        self._audio_stream_iterator = audio_stream_iterator
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        if self.first_request:
-            self.first_request = False
-            return self.audio_request(config=self.request_config)
+        if self._first_request:
+            self._first_request = False
+            return self._audio_request(config=self._request_config)
         else:
-            return self.audio_request(audioContent=next(self.audio_stream_iterator))
+            audio_content = next(self._audio_stream_iterator)
+            return self._audio_request(audioContent=audio_content)
 
 
 class AudioService:

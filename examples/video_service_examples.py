@@ -29,16 +29,16 @@ from sensory_cloud.generated.v1.video.video_pb2 import (
 )
 
 
-from credential_store import CredentialStore
+from secure_credential_store_example import SecureCredentialStore
 
 
 dotenv.load_dotenv(override=True)
 
 is_connection_secure = True
 is_liveness_enabled = False
-model_name = "face_biometric_hektor_gpu"
+model_name = "face_recognition_mathilde"
 device_name = 'jhersch-python-sdk-dev'
-enrollment_description = "jhersch-video-enrollment"
+enrollment_description = "jhersch-video-enrollment-cpu"
 
 fully_qualifiied_domain_name = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
 tenant_id = os.environ.get("TENANT_ID")
@@ -70,17 +70,6 @@ class VideoStreamIterator:
         self._camera.release()
 
 
-def view_camera():
-    camera = cv2.VideoCapture(0)
-    while show_camera:
-        success, frame = camera.read()
-
-        cv2.imshow('frame', frame)
-
-    camera.release()
-    cv2.destroyAllWindows()
-
-
 def example_enroll_with_video():
     config = Config(
         fully_qualifiied_domain_name=fully_qualifiied_domain_name, 
@@ -89,7 +78,7 @@ def example_enroll_with_video():
     )
     config.connect()
 
-    cred_store = CredentialStore(client_id, client_secret)
+    cred_store = SecureCredentialStore(client_id, client_secret)
     oauth_service = OauthService(config=config, secure_credential_store=cred_store)
 
     token_manager = TokenManager(oauth_service=oauth_service)
@@ -110,26 +99,27 @@ def example_enroll_with_video():
     print("Recording enrollment...")
     percent_complete = 0
     enrollment_id = None
-    print(f"percent complete = {percent_complete}")
-    for response in enrollment_stream:
-        if response.percentComplete != percent_complete:
-            percent_complete = response.percentComplete
-            print(f"percent complete = {percent_complete}")
-        if response.percentComplete >= 100:
-            break
-    enrollment_id = response.enrollmentId
-    print("Enrollment complete!")
-    print(f"Enrollment Id = {enrollment_id}")
-
-    video_stream_iterator.close()
-    enrollment_stream.cancel()
+    try:
+        print(f"percent complete = {percent_complete}")
+        for response in enrollment_stream:
+            if response.percentComplete != percent_complete:
+                percent_complete = response.percentComplete
+                print(f"percent complete = {percent_complete}")
+            if response.percentComplete >= 100:
+                break
+        enrollment_id = response.enrollmentId
+        print("Enrollment complete!")
+        print(f"Enrollment Id = {enrollment_id}")
+    except Exception as e:
+        f"Enrollment failed with error: {str(e)}"
+    finally:
+        video_stream_iterator.close()
+        enrollment_stream.cancel()
 
     return enrollment_id
 
 
-if __name__ == "__main__":
-    show_camera = True
-
+def example_authenticate_with_video():
     config = Config(
         fully_qualifiied_domain_name=fully_qualifiied_domain_name, 
         is_connection_secure=is_connection_secure, 
@@ -137,12 +127,14 @@ if __name__ == "__main__":
     )
     config.connect()
 
-    cred_store = CredentialStore(client_id, client_secret)
+    cred_store = SecureCredentialStore(client_id, client_secret)
     oauth_service = OauthService(config=config, secure_credential_store=cred_store)
 
     token_manager = TokenManager(oauth_service=oauth_service)
 
     video_service = VideoService(config=config, token_manager=token_manager)
+
+    models = video_service.get_models()
 
     video_stream_iterator = VideoStreamIterator()
 
@@ -150,13 +142,21 @@ if __name__ == "__main__":
         enrollment_id=enrollment_id, is_liveness_enabled=False, video_stream_iterator=video_stream_iterator
     )
 
-    print("Authenticating...")
-    for response in authenticate_stream:
-        if response.success:
-            show_camera = False
-            break
-    print("Authentication successful!")
+    success = False
+    try:
+        print("Authenticating...")
+        for response in authenticate_stream:
+            if response.success:
+                success = True
+                break
+        print("Authentication successful!")
+    except Exception as e:
+        print(f"Authentication failed with error {str(e)}")
+    finally:
+        video_stream_iterator.close()
+        authenticate_stream.cancel()
 
+    return success
 
-    video_stream_iterator.close()
-    authenticate_stream.cancel()
+if __name__ == "__main__":
+    success = example_authenticate_with_video()

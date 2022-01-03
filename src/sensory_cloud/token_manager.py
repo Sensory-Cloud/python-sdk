@@ -23,7 +23,7 @@ class ITokenManager(ABC):
 class TokenManager(ITokenManager):
 
     _expires_buffer_seconds: int = 60**2
-    _token_mutex: threading.Lock = threading.Lock() # this might work?
+    _token_mutex: threading.Lock = threading.Lock()
     _token: str = None
     _expires: datetime.datetime = None
 

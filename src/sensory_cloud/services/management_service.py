@@ -75,7 +75,7 @@ class ManagementService:
         request: AppendEnrollmentGroupRequest = AppendEnrollmentGroupRequest(
             groupId=group_id
         )
-        request.enrollmentIds += enrollment_ids
+        request.enrollmentIds.extend(enrollment_ids)
 
         return self._enrollment_client.AppendEnrollmentGroup(
             request=request, metadata=metadata

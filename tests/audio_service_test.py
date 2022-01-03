@@ -1,5 +1,4 @@
 import unittest
-from unittest import mock
 from unittest.mock import MagicMock
 
 from sensory_cloud.config import Config
