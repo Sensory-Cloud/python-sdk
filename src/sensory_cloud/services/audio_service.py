@@ -2,6 +2,7 @@ import typing
 from enum import Enum
 
 from sensory_cloud.config import Config
+from sensory_cloud.generated.v1 import audio
 from sensory_cloud.token_manager import ITokenManager, Metadata
 from sensory_cloud.generated.v1.audio.audio_pb2_grpc import (
     AudioModelsStub,
@@ -27,6 +28,11 @@ from sensory_cloud.generated.v1.audio.audio_pb2 import (
     ValidateEventConfig,
     ValidateEventRequest,
     ValidateEventResponse,
+    CreateEnrollmentEventConfig,
+    CreateEnrolledEventRequest,
+    ValidateEnrolledEventResponse,
+    ValidateEnrolledEventConfig,
+    ValidateEnrolledEventRequest,
 )
 
 
@@ -35,6 +41,8 @@ class AudioRequest(Enum):
     AuthenticateRequest
     TranscribeRequest
     ValidateEventRequest
+    CreateEnrolledEventRequest
+    ValidateEnrolledEventRequest
 
 
 class RequestConfig(Enum):
@@ -42,17 +50,18 @@ class RequestConfig(Enum):
     AuthenticateConfig
     TranscribeConfig
     ValidateEventConfig
+    CreateEnrollmentEventConfig
 
 
 class RequestIterator:
     """
-    The RequestIterator class facilitates the request streams that are sent to the 
-    grpc server.  There are four possible audio request types and request configurations 
+    The RequestIterator class facilitates the request streams that are sent to the
+    grpc server.  There are four possible audio request types and request configurations
     that are given by the AudioRequest and RequestConfig enums respectively.  The first
     request sent must be a configuration request and all subsequent requests contain the audio
     content being streamed.
     """
-    
+
     _first_request: bool = True
 
     def __init__(
@@ -116,6 +125,7 @@ class AudioService:
         audio_stream_iterator: typing.Iterable[bytes],
     ) -> typing.Iterable[CreateEnrollmentResponse]:
         """
+        Description here
 
         Arguments:
             audio_config: AudioConfig object
@@ -258,6 +268,82 @@ class AudioService:
 
         return event_stream
 
+    def stream_create_enrolled_event(
+        self,
+        audio_config: AudioConfig,
+        description: str,
+        user_id: str,
+        model_name: str,
+        audio_stream_iterator: typing.Iterable[bytes],
+    ) -> typing.Iterable[CreateEnrollmentResponse]:
+
+        config: CreateEnrollmentEventConfig = CreateEnrollmentEventConfig(
+            audio=audio_config,
+            userId=user_id,
+            modelName=model_name,
+            description=description,
+        )
+
+        request_iterator: RequestIterator = RequestIterator(
+            audio_request=CreateEnrolledEventRequest,
+            request_config=config,
+            audio_stream_iterator=audio_stream_iterator,
+        )
+
+        metadata: Metadata = self._token_manager.get_authorization_metadata()
+
+        enrollment_stream: typing.Iterable[
+            CreateEnrollmentResponse
+        ] = self._audio_events_client.CreateEnrolledEvent(
+            request_iterator=request_iterator, metadata=metadata
+        )
+
+        return enrollment_stream
+
+    def stream_validate_enrolled_event(
+        self,
+        audio_config: AudioConfig,
+        enrollment_id: str,
+        audio_stream_iterator: typing.Iterable[bytes],
+        sensitivity: ThresholdSensitivity = ThresholdSensitivity.Value("MEDIUM"),
+    ) -> typing.Iterable[ValidateEnrolledEventResponse]:
+
+        config = ValidateEnrolledEventConfig(
+            audio=audio_config,
+            enrollmentId=enrollment_id,
+            sensitivity=sensitivity,
+        )
+
+        validate_enrolled_event_stream: typing.Iterable[
+            ValidateEnrolledEventResponse
+        ] = self._stream_event_validation(
+            config=config, audio_stream_iterator=audio_stream_iterator
+        )
+
+        return validate_enrolled_event_stream
+
+    def stream_group_validate_enrolled_event(
+        self,
+        audio_config: AudioConfig,
+        enrollment_group_id: str,
+        audio_stream_iterator: typing.Iterable[bytes],
+        sensitivity: ThresholdSensitivity = ThresholdSensitivity.Value("MEDIUM"),
+    ) -> typing.Iterable[ValidateEnrolledEventResponse]:
+
+        config = ValidateEnrolledEventConfig(
+            audio=audio_config,
+            enrollmentGroupId=enrollment_group_id,
+            sensitivity=sensitivity,
+        )
+
+        validate_enrolled_event_stream: typing.Iterable[
+            ValidateEnrolledEventResponse
+        ] = self._stream_event_validation(
+            config=config, audio_stream_iterator=audio_stream_iterator
+        )
+
+        return validate_enrolled_event_stream
+
     def stream_transcription(
         self,
         audio_config: AudioConfig,
@@ -309,3 +395,25 @@ class AudioService:
         )
 
         return authenticate_stream
+
+    def _stream_event_validation(
+        self,
+        config: ValidateEnrolledEventConfig,
+        audio_stream_iterator: typing.Iterable[bytes],
+    ) -> typing.Iterable[ValidateEnrolledEventResponse]:
+
+        request_iterator: RequestIterator = RequestIterator(
+            audio_request=ValidateEnrolledEventRequest,
+            request_config=config,
+            audio_stream_iterator=audio_stream_iterator,
+        )
+
+        metadata: Metadata = self._token_manager.get_authorization_metadata()
+
+        validate_enrolled_event_stream: typing.Iterable[
+            ValidateEnrolledEventResponse
+        ] = self._audio_events_client.ValidateEnrolledEvent(
+            request_iterator=request_iterator, metadata=metadata
+        )
+
+        return validate_enrolled_event_stream

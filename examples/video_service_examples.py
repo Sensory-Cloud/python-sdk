@@ -146,6 +146,7 @@ def example_authenticate_with_video():
     try:
         print("Authenticating...")
         for response in authenticate_stream:
+            print(response.success)
             if response.success:
                 success = True
                 break

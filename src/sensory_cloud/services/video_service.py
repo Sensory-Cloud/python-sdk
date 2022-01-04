@@ -58,7 +58,8 @@ class RequestIterator:
             self.first_request = False
             return self.video_request(config=self.request_config)
         else:
-            return self.video_request(imageContent=next(self.video_stream_iterator))
+            image_content = next(self.video_stream_iterator)
+            return self.video_request(imageContent=image_content)
 
 
 class VideoService:
@@ -77,7 +78,9 @@ class VideoService:
         metadata: Metadata = self._token_manager.get_authorization_metadata()
         request: GetModelsRequest = GetModelsRequest()
 
-        return self._video_models_client.GetModels(request=request, metadata=metadata)
+        response: GetModelsResponse = self._video_models_client.GetModels(request=request, metadata=metadata)
+
+        return response
 
     def stream_enrollment(
         self,
