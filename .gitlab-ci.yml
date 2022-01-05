@@ -13,7 +13,7 @@
 # - template: Security/SAST.gitlab-ci.yml
 
 
-image: python:3.8
+image: python:3.5
 
 # stages:
 #   - build
