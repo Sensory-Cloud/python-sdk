@@ -1,5 +1,7 @@
-**/__pycache__
+.tox/
 build/
+dist/
 *.egg-info
 *.env
 *.pyc
+**/__pycache__

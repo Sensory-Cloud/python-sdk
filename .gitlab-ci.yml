@@ -4,9 +4,32 @@
 # Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+
+# stages:
+# - test
+# sast:
+#   stage: test
+# include:
+# - template: Security/SAST.gitlab-ci.yml
+
+
+image: python:3.8
+
 stages:
-- test
-sast:
+  - build
+  - test
+
+build:
+  stage: build
+  script:
+    - python setup.py bdist_wheel
+    # - pip install dist/*
+  artifacts:
+    paths:
+      - dist/*.whl
+
+test:
   stage: test
-include:
-- template: Security/SAST.gitlab-ci.yml
+  script:
+    - pip install dist/*.whl
+    - tox
