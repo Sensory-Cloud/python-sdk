@@ -15,23 +15,32 @@
 
 image: python:3.8
 
+# stages:
+#   - build
+#   - test
+
+# build:
+#   stage: build
+#   script:
+#     - python setup.py bdist_wheel
+#     # - pip install dist/*
+#   artifacts:
+#     paths:
+#       - dist/*.whl
+
+# test:
+#   stage: test
+#   script:
+#     - pip install dist/*.whl
+#     - python -m unittest discover test/ -v
+#     # - pip install tox
+#     # - tox
+
 stages:
-  - build
-  - test
+  - run
 
-build:
-  stage: build
+run:
+  stage: run
   script:
-    - python setup.py bdist_wheel
-    # - pip install dist/*
-  artifacts:
-    paths:
-      - dist/*.whl
-
-test:
-  stage: test
-  script:
-    - pip install dist/*.whl
-    - python -m unittest discover test/ -v
-    # - pip install tox
-    # - tox
+    - pip install tox
+    - tox
