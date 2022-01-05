@@ -203,6 +203,9 @@ class OauthServiceTest(unittest.TestCase):
             "Returned device id should be the same",
         )
 
+    def test_dummy(self):
+        self.assertTrue(False)
+
 
 if __name__ == "__main__":
     unittest.main()
