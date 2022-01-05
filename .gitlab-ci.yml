@@ -32,4 +32,6 @@ test:
   stage: test
   script:
     - pip install dist/*.whl
-    - tox
+    - python -m unittest discover test/ -v
+    # - pip install tox
+    # - tox
