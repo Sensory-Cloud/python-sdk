@@ -18,7 +18,7 @@ dotenv.load_dotenv(override=True)
 is_connection_secure = True
 is_liveness_enabled = False
 model_name = "wakeword-16kHz-open_sesame.ubm"
-device_name = 'jhersch-python-sdk-dev'
+device_name = "jhersch-python-sdk-dev"
 enrollment_description = "my enrollment"
 
 fully_qualifiied_domain_name = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
@@ -34,18 +34,24 @@ enrollment_id = os.environ.get("AUDIO_ENROLLMENT_ID")
 class AudioStreamIterator:
     _p_output, _p_input = multiprocessing.Pipe()
 
-    def __init__(self, channels: int, rate: int, frames_per_buffer: int, format: int = pyaudio.paInt16):
+    def __init__(
+        self,
+        channels: int,
+        rate: int,
+        frames_per_buffer: int,
+        format: int = pyaudio.paInt16,
+    ):
         self.channels = channels
         self.rate = rate
         self.frames_per_buffer = frames_per_buffer
         self._py_audio = pyaudio.PyAudio()
         self._stream = self._py_audio.open(
-            format=format, 
-            channels=channels, 
-            rate=rate, 
-            input=True, 
-            frames_per_buffer=frames_per_buffer, 
-            stream_callback=self._record_callback
+            format=format,
+            channels=channels,
+            rate=rate,
+            input=True,
+            frames_per_buffer=frames_per_buffer,
+            stream_callback=self._record_callback,
         )
 
     def _record_callback(self, in_data, count, time_info, status):
@@ -67,9 +73,9 @@ class AudioStreamIterator:
 def get_audio() -> typing.Tuple[AudioService, AudioConfig, AudioStreamIterator]:
 
     config = Config(
-        fully_qualifiied_domain_name=fully_qualifiied_domain_name, 
-        is_connection_secure=is_connection_secure, 
-        tenant_id=tenant_id
+        fully_qualifiied_domain_name=fully_qualifiied_domain_name,
+        is_connection_secure=is_connection_secure,
+        tenant_id=tenant_id,
     )
     config.connect()
 
@@ -81,15 +87,15 @@ def get_audio() -> typing.Tuple[AudioService, AudioConfig, AudioStreamIterator]:
     audio_service = AudioService(config, token_manager)
 
     audio_config = AudioConfig(
-        encoding=AudioConfig.AudioEncoding.Value('LINEAR16'),
+        encoding=AudioConfig.AudioEncoding.Value("LINEAR16"),
         audioChannelCount=1,
         sampleRateHertz=16000,
-        languageCode = "en-US",
+        languageCode="en-US",
     )
 
-    upload_interval = 100 # (ms)
+    upload_interval = 100  # (ms)
     frames_per_buffer = int(audio_config.sampleRateHertz * (upload_interval / 1000))
-    
+
     audio_stream_iterator = AudioStreamIterator(
         channels=audio_config.audioChannelCount,
         rate=audio_config.sampleRateHertz,
@@ -110,7 +116,7 @@ def example_enroll_with_audio() -> str:
         device_id=device_id,
         model_name=model_name,
         is_liveness_enabled=is_liveness_enabled,
-        audio_stream_iterator=audio_stream_iterator
+        audio_stream_iterator=audio_stream_iterator,
     )
 
     enrollment_id = None
@@ -144,7 +150,7 @@ def example_authenticate_with_audio() -> bool:
         audio_config=audio_config,
         enrollment_id=enrollment_id,
         is_liveness_enabled=is_liveness_enabled,
-        audio_stream_iterator=audio_stream_iterator
+        audio_stream_iterator=audio_stream_iterator,
     )
 
     authentication_success = False
@@ -162,24 +168,26 @@ def example_authenticate_with_audio() -> bool:
         authenticate_stream.cancel()
 
     return authentication_success
-    
+
 
 def example_audio_transcription() -> typing.List[str]:
     transcription_model = "vad-lvscr-lights-2.snsr"
     audio_service, audio_config, audio_stream_iterator = get_audio()
 
-    transcribe_stream: typing.Iterable[TranscribeResponse] = audio_service.stream_transcription(
+    transcribe_stream: typing.Iterable[
+        TranscribeResponse
+    ] = audio_service.stream_transcription(
         audio_config=audio_config,
         user_id=user_id,
         model_name=transcription_model,
-        audio_stream_iterator=audio_stream_iterator
+        audio_stream_iterator=audio_stream_iterator,
     )
 
     transcriptions: typing.List[str] = []
     try:
         print("LVCSR lights session begin\n")
         for response in transcribe_stream:
-            if response.transcript == 'help':
+            if response.transcript == "help":
                 cmd = "'Help' is the exit command for this demo, so ending session..."
                 print(f"{cmd}\n")
                 transcriptions.append(response.transcript)
@@ -200,12 +208,12 @@ def example_audio_transcription() -> typing.List[str]:
 def example_audio_event():
     event_model = "sound-16kHz-combined-all.trg"
     audio_service, audio_config, audio_stream_iterator = get_audio()
-    
+
     event_stream = audio_service.stream_event(
         audio_config=audio_config,
         user_id=user_id,
         model_name=event_model,
-        audio_stream_iterator=audio_stream_iterator
+        audio_stream_iterator=audio_stream_iterator,
     )
 
     events = []
@@ -217,8 +225,10 @@ def example_audio_event():
                 events.append(response)
                 print(response.resultId, response.score)
 
-                if response.resultId == 'Door Knock':
-                    print("A door knock detection is the exit signal for this demo, so ending session...")
+                if response.resultId == "Door Knock":
+                    print(
+                        "A door knock detection is the exit signal for this demo, so ending session..."
+                    )
                     break
         print("Session end")
     except Exception as e:

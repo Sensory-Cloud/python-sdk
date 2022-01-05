@@ -19,8 +19,7 @@ def example_management_service():
     client_secret = os.environ.get("CLIENT_SECRET")
 
     config = Config(
-        fully_qualifiied_domain_name=fully_qualifiied_domain_name, 
-        tenant_id=tenant_id
+        fully_qualifiied_domain_name=fully_qualifiied_domain_name, tenant_id=tenant_id
     )
     config.connect()
 

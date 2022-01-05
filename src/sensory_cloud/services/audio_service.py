@@ -56,7 +56,7 @@ class RequestConfig(Enum):
 class RequestIterator:
     """
     The RequestIterator class facilitates the request streams that are sent to the
-    grpc server.  There are four possible audio request types and request configurations
+    grpc server.  There are six possible audio request types and and five request configurations
     that are given by the AudioRequest and RequestConfig enums respectively.  The first
     request sent must be a configuration request and all subsequent requests contain the audio
     content being streamed.
@@ -70,6 +70,15 @@ class RequestIterator:
         request_config: RequestConfig,
         audio_stream_iterator: typing.Iterable[bytes],
     ):
+        """
+        Constructor method for the RequestIterator class
+
+        Arguments:
+            audio_request: AudioRequest enum denoting which type of request is being sent
+            request_config: RequestConfig enum containing the initial request configuration
+            audio_stream_iterator: Iterator containing audio bytes
+        """
+
         self._audio_request = audio_request
         self._request_config = request_config
         self._audio_stream_iterator = audio_stream_iterator
@@ -87,9 +96,19 @@ class RequestIterator:
 
 
 class AudioService:
-    """ """
+    """ 
+    Class that handles all audio requests to Sensory Cloud
+    """
 
     def __init__(self, config: Config, token_manager: ITokenManager):
+        """
+        Constructor method for the AudioService class
+
+        Arguments:
+            config: Config object containing the relevant grpc connection information
+            token_manager: ITokenManager object that generates and returns JWT metadata
+        """
+
         self._config: Config = config
         self._token_manager: ITokenManager = token_manager
         self._audio_models_client: AudioModelsStub = AudioModelsStub(config.channel)
@@ -102,7 +121,12 @@ class AudioService:
         )
 
     def get_models(self) -> GetModelsResponse:
-        """ """
+        """ 
+        Method that fetches all the audio models supported by your instance of Sensory Cloud.
+
+        Returns:
+            A GetModelsResponse containing information about all audio models
+        """
 
         request: GetModelsRequest = GetModelsRequest()
 
@@ -125,7 +149,8 @@ class AudioService:
         audio_stream_iterator: typing.Iterable[bytes],
     ) -> typing.Iterable[CreateEnrollmentResponse]:
         """
-        Description here
+        Stream audio to Sensory Cloud as a means for user enrollment.
+        Only biometric-typed models are supported by the method.
 
         Arguments:
             audio_config: AudioConfig object
@@ -177,6 +202,8 @@ class AudioService:
         ),
     ) -> typing.Iterable[AuthenticateResponse]:
         """
+        Authenticate against an existing audio enrollment in Sensory Cloud.
+        Only biometric-typed models are supported by the method.
 
         Arguments:
             audio_config: AudioConfig object
@@ -184,7 +211,9 @@ class AudioService:
             is_liveness_enabled: Boolean indicating whether or not liveness is enabled
             audio_stream_iterator: Iterator of audio bytes
             sensitivity: ThresholdSensitivity enum that sets the sensitivity level of the authentication
+                default = ThresholdSensitivity.Value("MEDIUM")
             security: AuthenticateConfig.ThresholdSecurity that sets the security level of the authentication
+                default = AuthenticateConfig.ThresholdSecurity.Value("HIGH")
 
         Returns:
             An iterator of AuthenticateResponse objects
@@ -217,7 +246,22 @@ class AudioService:
             "HIGH"
         ),
     ) -> typing.Iterable[AuthenticateResponse]:
-        """ """
+        """ 
+        Authenticate against an existing audio enrollment in Sensory Cloud.
+
+        Arguments:
+            audio_config: AudioConfig object
+            enrollment_group_id: String containing the enrollment group id to authenticate on
+            is_liveness_enabled: Boolean indicating whether or not liveness is enabled
+            audio_stream_iterator: Iterator of audio bytes
+            sensitivity: ThresholdSensitivity enum that sets the sensitivity level of the authentication
+                default = ThresholdSensitivity.Value("MEDIUM")
+            security: AuthenticateConfig.ThresholdSecurity that sets the security level of the authentication
+                default = AuthenticateConfig.ThresholdSecurity.Value("HIGH")
+
+        Returns:
+            An iterator of AuthenticateResponse objects
+        """
 
         authenticate_config: AuthenticateConfig = AuthenticateConfig(
             audio=audio_config,
@@ -243,7 +287,20 @@ class AudioService:
         audio_stream_iterator: typing.Iterable[bytes],
         sensitivity: ThresholdSensitivity = ThresholdSensitivity.Value("MEDIUM"),
     ) -> typing.Iterable[ValidateEventResponse]:
-        """ """
+        """ 
+        Stream audio to Sensory Cloud in order to recognize a specific phrase or sound
+
+        Arguments:
+            audio_config: AudioConfig object
+            user_id: String containing the user id
+            model_name: String containing the name of the model to be used
+            audio_stream_iterator: Iterator of audio bytes
+            sensitivity: ThresholdSensitivity enum that sets the sensitivity level of the authentication
+                default = ThresholdSensitivity.Value("MEDIUM")
+
+        Returns:
+            An iterator of ValidateEventResponse objects
+        """
 
         config = ValidateEventConfig(
             audio=audio_config,
@@ -276,6 +333,24 @@ class AudioService:
         model_name: str,
         audio_stream_iterator: typing.Iterable[bytes],
     ) -> typing.Iterable[CreateEnrollmentResponse]:
+        """
+        Stream audio to Sensory Cloud as a means for audio enrollment.
+        This method is similar to StreamEnrollment, but does not have the same
+        time limits or model type restrictions.
+        Biometric model types are not supported by this function.
+        This endpoint cannot be used to establish device trust.
+
+        Arguments:
+            audio_config: AudioConfig object
+            description: String containing a description of this enrollment. 
+                Useful if a user could have multiple enrollments, as it helps differentiate between them.
+            user_id: String containing the user id
+            model_name: String containing the name of the model to be used
+            audio_stream_iterator: Iterator of audio bytes
+
+        Returns:
+            An iterator of CreateEnrollmentResponse objects
+        """
 
         config: CreateEnrollmentEventConfig = CreateEnrollmentEventConfig(
             audio=audio_config,
@@ -307,6 +382,25 @@ class AudioService:
         audio_stream_iterator: typing.Iterable[bytes],
         sensitivity: ThresholdSensitivity = ThresholdSensitivity.Value("MEDIUM"),
     ) -> typing.Iterable[ValidateEnrolledEventResponse]:
+        """
+        Validate an existing event enrollment in Sensory Cloud.
+        This method is similar to Authenticate, but does not have the same
+        time limits or model type restrictions. Additionally, the server will
+        never close the stream, and thus a client may validate an enrolled sound
+        as many times as they'd like.
+        Any model types are supported by this function.
+        This endpoint cannot be used to establish device trust.
+
+        Arguments:
+            audio_config: AudioConfig object
+            enrollment_id: String containing the enrollment id
+            audio_stream_iterator: Iterator of audio bytes
+            sensitivity: ThresholdSensitivity enum that sets the sensitivity level of the authentication
+                default = ThresholdSensitivity.Value("MEDIUM")
+
+        Returns:
+            An iterator of ValidateEnrolledEventResponse objects
+        """
 
         config = ValidateEnrolledEventConfig(
             audio=audio_config,
@@ -329,6 +423,25 @@ class AudioService:
         audio_stream_iterator: typing.Iterable[bytes],
         sensitivity: ThresholdSensitivity = ThresholdSensitivity.Value("MEDIUM"),
     ) -> typing.Iterable[ValidateEnrolledEventResponse]:
+        """
+        Validate an existing groupd of events in Sensory Cloud.
+        This method is similar to GroupAuthenticate, but does not have the same
+        time limits or model type restrictions. Additionally, the server will
+        never close the stream, and thus a client may validate an enrolled group
+        as many times as they'd like.
+        Any model types are supported by this function.
+        This endpoint cannot be used to establish device trust.
+
+        Arguments:
+            audio_config: AudioConfig object
+            enrollment_group_id: String containing the enrollment group id
+            audio_stream_iterator: Iterator of audio bytes
+            sensitivity: ThresholdSensitivity enum that sets the sensitivity level of the authentication
+                default = ThresholdSensitivity.Value("MEDIUM")
+
+        Returns:
+            An iterator of ValidateEnrolledEventResponse objects
+        """
 
         config = ValidateEnrolledEventConfig(
             audio=audio_config,
@@ -351,7 +464,18 @@ class AudioService:
         model_name: str,
         audio_stream_iterator: typing.Iterable[bytes],
     ) -> typing.Iterable[TranscribeResponse]:
-        """ """
+        """
+        Stream audio to Sensory Cloud in order to transcribe spoken words
+
+        Arguments:
+            audio_config: AudioConfig object
+            user_id: String containing the user id
+            model_name: String containing the name of the model to be used
+            audio_stream_iterator: Iterator of audio bytes
+
+        Returns:
+            An iterator of TranscribeResponse objects
+        """
 
         config: TranscribeConfig = TranscribeConfig(
             audio=audio_config, modelName=model_name, userId=user_id
@@ -378,7 +502,15 @@ class AudioService:
         config: AuthenticateConfig,
         audio_stream_iterator: typing.Iterable[bytes],
     ) -> typing.Iterable[AuthenticateResponse]:
-        """ """
+        """
+        Private method behind the public authentication methods
+
+        Arguments:
+            config: AuthenticateConfig object containing authentication configuration parameters
+
+        Returns:
+            An iterator of AuthenticateResponse objects
+        """
 
         request_iterator: RequestIterator = RequestIterator(
             audio_request=AuthenticateRequest,
@@ -401,6 +533,15 @@ class AudioService:
         config: ValidateEnrolledEventConfig,
         audio_stream_iterator: typing.Iterable[bytes],
     ) -> typing.Iterable[ValidateEnrolledEventResponse]:
+        """
+        Private method behind the public event validation methods
+
+        Arguments:
+            config: ValidateEnrolledEventConfig object containing enrolled event configuration parameters
+
+        Returns:
+            An iterator of ValidateEnrolledEventResponse objects
+        """
 
         request_iterator: RequestIterator = RequestIterator(
             audio_request=ValidateEnrolledEventRequest,

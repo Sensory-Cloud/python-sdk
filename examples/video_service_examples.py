@@ -37,7 +37,7 @@ dotenv.load_dotenv(override=True)
 is_connection_secure = True
 is_liveness_enabled = False
 model_name = "face_recognition_mathilde"
-device_name = 'jhersch-python-sdk-dev'
+device_name = "jhersch-python-sdk-dev"
 enrollment_description = "jhersch-video-enrollment-cpu"
 
 fully_qualifiied_domain_name = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
@@ -72,9 +72,9 @@ class VideoStreamIterator:
 
 def example_enroll_with_video():
     config = Config(
-        fully_qualifiied_domain_name=fully_qualifiied_domain_name, 
-        is_connection_secure=is_connection_secure, 
-        tenant_id=tenant_id
+        fully_qualifiied_domain_name=fully_qualifiied_domain_name,
+        is_connection_secure=is_connection_secure,
+        tenant_id=tenant_id,
     )
     config.connect()
 
@@ -93,9 +93,9 @@ def example_enroll_with_video():
         device_id=device_id,
         model_name=model_name,
         is_liveness_enabled=is_liveness_enabled,
-        video_stream_iterator=video_stream_iterator
+        video_stream_iterator=video_stream_iterator,
     )
-    
+
     print("Recording enrollment...")
     percent_complete = 0
     enrollment_id = None
@@ -121,9 +121,9 @@ def example_enroll_with_video():
 
 def example_authenticate_with_video():
     config = Config(
-        fully_qualifiied_domain_name=fully_qualifiied_domain_name, 
-        is_connection_secure=is_connection_secure, 
-        tenant_id=tenant_id
+        fully_qualifiied_domain_name=fully_qualifiied_domain_name,
+        is_connection_secure=is_connection_secure,
+        tenant_id=tenant_id,
     )
     config.connect()
 
@@ -139,7 +139,9 @@ def example_authenticate_with_video():
     video_stream_iterator = VideoStreamIterator()
 
     authenticate_stream = video_service.stream_authentication(
-        enrollment_id=enrollment_id, is_liveness_enabled=False, video_stream_iterator=video_stream_iterator
+        enrollment_id=enrollment_id,
+        is_liveness_enabled=False,
+        video_stream_iterator=video_stream_iterator,
     )
 
     success = False
@@ -158,6 +160,7 @@ def example_authenticate_with_video():
         authenticate_stream.cancel()
 
     return success
+
 
 if __name__ == "__main__":
     success = example_authenticate_with_video()

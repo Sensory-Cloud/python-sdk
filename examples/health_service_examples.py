@@ -15,8 +15,10 @@ fully_qualifiied_domain_name = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
 
 
 def health_service_example():
-    
-    config: Config = Config(fully_qualifiied_domain_name=fully_qualifiied_domain_name, tenant_id=tenant_id)
+
+    config: Config = Config(
+        fully_qualifiied_domain_name=fully_qualifiied_domain_name, tenant_id=tenant_id
+    )
     config.connect()
 
     health_service: HealthService = HealthService(config=config)
@@ -26,6 +28,7 @@ def health_service_example():
     config.channel.close()
 
     return server_health
+
 
 if __name__ == "__main__":
     server_health = health_service_example()

@@ -21,13 +21,14 @@ def example_device_register() -> None:
     device_credential: str = os.environ.get("DEVICE_CREDENTIAL")
 
     config: Config = Config(
-        fully_qualifiied_domain_name=fully_qualifiied_domain_name, 
-        tenant_id=tenant_id
+        fully_qualifiied_domain_name=fully_qualifiied_domain_name, tenant_id=tenant_id
     )
     config.connect()
 
     cred_store: SecureCredentialStore = SecureCredentialStore(client_id, client_secret)
 
-    oauth_service: OauthService = OauthService(config=config, secure_credential_store=cred_store)
+    oauth_service: OauthService = OauthService(
+        config=config, secure_credential_store=cred_store
+    )
 
     oauth_service.register(device_id, device_name, device_credential)
