@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from v1.file import file_pb2 as v1_dot_file_dot_file__pb2
+from sensory_cloud.generated.v1.file import file_pb2 as v1_dot_file_dot_file__pb2
 
 
 class FileStub(object):

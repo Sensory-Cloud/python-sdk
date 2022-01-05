@@ -16,38 +16,96 @@ from sensory_cloud.generated.v1.management.device_pb2 import (
 
 
 class OAuthClient:
+    """
+    Class that holds OAuth client id and secret
+    """
+    
     def __init__(
         self,
         client_id: str,
         client_secret: str,
     ):
+        """
+        Constructor method for the OAuthClient class
+
+        Arguments:
+            client_id: String containing the client id
+            client_secret: String containing the client secret
+        """
+        
         self._client_id = client_id
         self._client_secret = client_secret
 
     @property
     def client_id(self) -> str:
+        """
+        Get method for the client id attribute
+
+        Returns:
+            String containing the client id
+        """
+        
         return self._client_id
 
     @property
     def client_secret(self) -> str:
+        """
+        Get method for the client secret attribute
+
+        Returns:
+            String containing the client secret
+        """
+
         return self._client_secret
 
 
 class OAuthToken:
+    """
+    Class that holds OAuth token and expiration
+    """
+    
     def __init__(self, token: str, expires: datetime.datetime):
+        """
+        Constructor method for the OAuthToken class
+
+        Arguments:
+            token: String containing the oauth token
+            expires: datetime.datetime object containing the token's 
+                expiration time stamp
+        """
+        
         self._token = token
         self._expires = expires
 
     @property
     def token(self) -> str:
+        """
+        Get method that returns the oauth token attribute
+
+        Returns:
+            String containing the oauth token
+        """
+        
         return self._token
 
     @property
-    def expires(self) -> str:
+    def expires(self) -> datetime.datetime:
+        """
+        Get method that returns the expiration date attribute
+
+        Returns:
+            A datetime.datetime object containing the token's 
+                expiration time stamp
+        """
+        
         return self._expires
 
 
 class IOauthService(ABC):
+    """
+    Abstract class that manages OAuth interactions with Sensory Cloud
+    """
+    
     @abstractmethod
     def generate_credentials(self) -> OAuthClient:
         """Method that generates a client id and a client secret"""
@@ -62,7 +120,7 @@ class IOauthService(ABC):
     ) -> DeviceResponse:
         """
         Method that registers credentials provided by the attached SecureCredentialStore to Sensory Cloud.
-        This should only be called once per unique credential pair.An error will be thrown if registration fails.
+        This should only be called once per unique credential pair. An error will be thrown if registration fails.
         """
 
 
@@ -77,7 +135,20 @@ class ISecureCredentialStore(ABC):
 
 
 class OauthService(IOauthService):
+    """
+    Class that manages OAuth interactions with Sensory Cloud
+    """
+    
     def __init__(self, config: Config, secure_credential_store: ISecureCredentialStore):
+        """
+        Constructor method for OauthService
+
+        Arguments:
+            config: Config object containing the relevant grpc connection information
+            secure_credential_store: ISecureCredentialStore that stores the client id
+                and client secret
+        """
+
         self._config: Config = config
         self._oauth_client: OauthServiceStub = OauthServiceStub(channel=config.channel)
         self._device_client: DeviceServiceStub = DeviceServiceStub(

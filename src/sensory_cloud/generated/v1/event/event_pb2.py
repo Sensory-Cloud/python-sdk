@@ -12,8 +12,8 @@ _sym_db = _symbol_database.Default()
 
 
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
-from validate import validate_pb2 as validate_dot_validate__pb2
-from common import common_pb2 as common_dot_common__pb2
+from sensory_cloud.generated.validate import validate_pb2 as validate_dot_validate__pb2
+from sensory_cloud.generated.common import common_pb2 as common_dot_common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\027io.sensory.api.v1.eventB\026SensoryApiV1EventProtoP\001Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/event',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14v1/event/event.proto\x12\x14sensory.api.v1.event\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\x1a\x13\x63ommon/common.proto\"M\n\x19PublishUsageEventsRequest\x12\x30\n\x06\x65vents\x18\x01 \x03(\x0b\x32 .sensory.api.v1.event.UsageEvent\"\xea\x01\n\nUsageEvent\x12\x37\n\ttimestamp\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x08\xfa\x42\x05\xb2\x01\x02\x08\x01\x12\x19\n\x08\x64uration\x18\x02 \x01(\x03\x42\x07\xfa\x42\x04\"\x02 \x00\x12\x14\n\x02id\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1b\n\x08\x63lientId\x18\x04 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12:\n\x04type\x18\x05 \x01(\x0e\x32\".sensory.api.common.UsageEventTypeB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x19\n\x05route\x18\x06 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x03\"\x1c\n\x1aPublishUsageEventsResponse2\x89\x01\n\x0c\x45ventService\x12y\n\x12PublishUsageEvents\x12/.sensory.api.v1.event.PublishUsageEventsRequest\x1a\x30.sensory.api.v1.event.PublishUsageEventsResponse\"\x00\x42o\n\x17io.sensory.api.v1.eventB\x16SensoryApiV1EventProtoP\x01Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/eventb\x06proto3'
+  serialized_pb=b'\n\x14v1/event/event.proto\x12\x14sensory.api.v1.event\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\x1a\x13\x63ommon/common.proto\"M\n\x19PublishUsageEventsRequest\x12\x30\n\x06\x65vents\x18\x01 \x03(\x0b\x32 .sensory.api.v1.event.UsageEvent\"\xea\x01\n\nUsageEvent\x12\x37\n\ttimestamp\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x08\xfa\x42\x05\xb2\x01\x02\x08\x01\x12\x19\n\x08\x64uration\x18\x02 \x01(\x03\x42\x07\xfa\x42\x04\"\x02(\x00\x12\x14\n\x02id\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1b\n\x08\x63lientId\x18\x04 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12:\n\x04type\x18\x05 \x01(\x0e\x32\".sensory.api.common.UsageEventTypeB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x19\n\x05route\x18\x06 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x03\"\x1c\n\x1aPublishUsageEventsResponse2\x89\x01\n\x0c\x45ventService\x12y\n\x12PublishUsageEvents\x12/.sensory.api.v1.event.PublishUsageEventsRequest\x1a\x30.sensory.api.v1.event.PublishUsageEventsResponse\"\x00\x42o\n\x17io.sensory.api.v1.eventB\x16SensoryApiV1EventProtoP\x01Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/eventb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,validate_dot_validate__pb2.DESCRIPTOR,common_dot_common__pb2.DESCRIPTOR,])
 
@@ -82,7 +82,7 @@ _USAGEEVENT = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      serialized_options=b'\372B\004\"\002 \000', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+      serialized_options=b'\372B\004\"\002(\000', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
       name='id', full_name='sensory.api.v1.event.UsageEvent.id', index=2,
       number=3, type=9, cpp_type=9, label=1,

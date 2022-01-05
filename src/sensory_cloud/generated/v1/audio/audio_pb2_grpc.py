@@ -98,8 +98,8 @@ class AudioBiometricsServicer(object):
     """
 
     def CreateEnrollment(self, request_iterator, context):
-        """Enrolls a user with a stream of audio. Streams a CreateEnrollmentResponse
-        as the audio is processed.
+        """Enrolls a user with a stream of audio. Streams a CreateEnrollmentResponse as the audio is processed.
+        CreateEnrollment only supports biometric-enabled models
         Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -109,6 +109,7 @@ class AudioBiometricsServicer(object):
     def Authenticate(self, request_iterator, context):
         """Authenticates a user with a stream of audio against an existing enrollment.
         Streams an AuthenticateResponse as the audio is processed.
+        Authenticate only supports biometric-enabled models
         Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -189,6 +190,16 @@ class AudioEventsStub(object):
                 request_serializer=v1_dot_audio_dot_audio__pb2.ValidateEventRequest.SerializeToString,
                 response_deserializer=v1_dot_audio_dot_audio__pb2.ValidateEventResponse.FromString,
                 )
+        self.CreateEnrolledEvent = channel.stream_stream(
+                '/sensory.api.v1.audio.AudioEvents/CreateEnrolledEvent',
+                request_serializer=v1_dot_audio_dot_audio__pb2.CreateEnrolledEventRequest.SerializeToString,
+                response_deserializer=v1_dot_audio_dot_audio__pb2.CreateEnrollmentResponse.FromString,
+                )
+        self.ValidateEnrolledEvent = channel.stream_stream(
+                '/sensory.api.v1.audio.AudioEvents/ValidateEnrolledEvent',
+                request_serializer=v1_dot_audio_dot_audio__pb2.ValidateEnrolledEventRequest.SerializeToString,
+                response_deserializer=v1_dot_audio_dot_audio__pb2.ValidateEnrolledEventResponse.FromString,
+                )
 
 
 class AudioEventsServicer(object):
@@ -204,6 +215,24 @@ class AudioEventsServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CreateEnrolledEvent(self, request_iterator, context):
+        """Enrolls a sound or voice. Streams a CreateEnrollmentResponse as the audio is processed.
+        CreateEnrollment supports all enrollable models
+        Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ValidateEnrolledEvent(self, request_iterator, context):
+        """Authenticates a sound or voice. Streams a ValidateEventResponse as the audio is processed.
+        ValidateEnrolledEvent supports all enrollable models
+        Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AudioEventsServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -211,6 +240,16 @@ def add_AudioEventsServicer_to_server(servicer, server):
                     servicer.ValidateEvent,
                     request_deserializer=v1_dot_audio_dot_audio__pb2.ValidateEventRequest.FromString,
                     response_serializer=v1_dot_audio_dot_audio__pb2.ValidateEventResponse.SerializeToString,
+            ),
+            'CreateEnrolledEvent': grpc.stream_stream_rpc_method_handler(
+                    servicer.CreateEnrolledEvent,
+                    request_deserializer=v1_dot_audio_dot_audio__pb2.CreateEnrolledEventRequest.FromString,
+                    response_serializer=v1_dot_audio_dot_audio__pb2.CreateEnrollmentResponse.SerializeToString,
+            ),
+            'ValidateEnrolledEvent': grpc.stream_stream_rpc_method_handler(
+                    servicer.ValidateEnrolledEvent,
+                    request_deserializer=v1_dot_audio_dot_audio__pb2.ValidateEnrolledEventRequest.FromString,
+                    response_serializer=v1_dot_audio_dot_audio__pb2.ValidateEnrolledEventResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -237,6 +276,40 @@ class AudioEvents(object):
         return grpc.experimental.stream_stream(request_iterator, target, '/sensory.api.v1.audio.AudioEvents/ValidateEvent',
             v1_dot_audio_dot_audio__pb2.ValidateEventRequest.SerializeToString,
             v1_dot_audio_dot_audio__pb2.ValidateEventResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateEnrolledEvent(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/sensory.api.v1.audio.AudioEvents/CreateEnrolledEvent',
+            v1_dot_audio_dot_audio__pb2.CreateEnrolledEventRequest.SerializeToString,
+            v1_dot_audio_dot_audio__pb2.CreateEnrollmentResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ValidateEnrolledEvent(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/sensory.api.v1.audio.AudioEvents/ValidateEnrolledEvent',
+            v1_dot_audio_dot_audio__pb2.ValidateEnrolledEventRequest.SerializeToString,
+            v1_dot_audio_dot_audio__pb2.ValidateEnrolledEventResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

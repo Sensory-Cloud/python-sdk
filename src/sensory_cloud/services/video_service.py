@@ -38,6 +38,14 @@ class RequestConfig(Enum):
 
 
 class RequestIterator:
+    """
+    The RequestIterator class facilitates the request streams that are sent to the
+    grpc server.  There are three possible video request types and request configurations
+    that are given by the VideoRequest and RequestConfig enums respectively.  The first
+    request sent must be a configuration request and all subsequent requests contain the image
+    content being streamed.
+    """
+
     first_request: bool = True
 
     def __init__(
@@ -46,9 +54,18 @@ class RequestIterator:
         request_config: RequestConfig,
         video_stream_iterator: typing.Iterable[bytes],
     ):
-        self.video_request = video_request
-        self.request_config = request_config
-        self.video_stream_iterator = video_stream_iterator
+        """
+        Constructor method for the RequestIterator class
+
+        Arguments:
+            video_request: VideoRequest enum denoting which type of request is being sent
+            request_config: RequestConfig enum containing the initial request configuration
+            video_stream_iterator: Iterator containing image bytes
+        """
+
+        self._video_request = video_request
+        self._request_config = request_config
+        self._video_stream_iterator = video_stream_iterator
 
     def __iter__(self):
         return self
@@ -56,13 +73,26 @@ class RequestIterator:
     def __next__(self):
         if self.first_request:
             self.first_request = False
-            return self.video_request(config=self.request_config)
+            return self._video_request(config=self._request_config)
         else:
-            return self.video_request(imageContent=next(self.video_stream_iterator))
+            image_content = next(self._video_stream_iterator)
+            return self._video_request(imageContent=image_content)
 
 
 class VideoService:
+    """
+    Class that handles all video requests to Sensory Cloud.
+    """
+    
     def __init__(self, config: Config, token_manager: ITokenManager):
+        """
+        Constructor method for the VideoService class
+
+        Arguments:
+            config: Config object containing the relevant grpc connection information
+            token_manager: ITokenManager object that generates and returns JWT metadata
+        """
+        
         self._config: Config = config
         self._token_manager: ITokenManager = token_manager
         self._video_models_client: VideoModelsStub = VideoModelsStub(config.channel)
@@ -74,10 +104,21 @@ class VideoService:
         )
 
     def get_models(self) -> GetModelsResponse:
+        """ 
+        Method that fetches all the video models supported by your instance of Sensory Cloud.
+
+        Returns:
+            A GetModelsResponse containing information about all video models
+        """
+
         metadata: Metadata = self._token_manager.get_authorization_metadata()
         request: GetModelsRequest = GetModelsRequest()
 
-        return self._video_models_client.GetModels(request=request, metadata=metadata)
+        response: GetModelsResponse = self._video_models_client.GetModels(
+            request=request, metadata=metadata
+        )
+
+        return response
 
     def stream_enrollment(
         self,
@@ -89,6 +130,23 @@ class VideoService:
         video_stream_iterator: typing.Iterable[bytes],
         threshold: RecognitionThreshold = RecognitionThreshold.Value("HIGH"),
     ) -> typing.Iterable[CreateEnrollmentResponse]:
+        """
+        Stream video to Sensory Cloud as a means for user enrollment.
+        Only biometric-typed models are supported by the method.
+
+        Arguments:
+            description: String containing a description of the enrollment
+            user_id: String containing the user id
+            model_name: String containing the model name
+            device_id: String containing the device id
+            is_liveness_enabled: Boolean indicating whether or not liveness is enabled
+            video_stream_iterator: Iterator of image bytes
+            threshold: The liveness threshold (if liveness is enabled)
+                default = RecognitionThreshold = RecognitionThreshold.Value("HIGH")
+
+        Returns:
+            An iterator of CreateEnrollmentResponse objects
+        """
 
         config: CreateEnrollmentConfig = CreateEnrollmentConfig(
             description=description,
@@ -122,6 +180,20 @@ class VideoService:
         video_stream_iterator: typing.Iterable[bytes],
         threshold: RecognitionThreshold = RecognitionThreshold.Value("HIGH"),
     ) -> typing.Iterable[AuthenticateResponse]:
+        """
+        Authenticate against an existing video enrollment in Sensory Cloud.
+        Only biometric-typed models are supported by the method.
+
+        Arguments:
+            enrollment_id: String containing the enrollment id to authenticate on
+            is_liveness_enabled: Boolean indicating whether or not liveness is enabled
+            video_stream_iterator: Iterator of audio bytes
+            threshold: The liveness threshold (if liveness is enabled)
+                default = RecognitionThreshold = RecognitionThreshold.Value("HIGH")
+
+        Returns:
+            An iterator of AuthenticateResponse objects
+        """
 
         config: AuthenticateConfig = AuthenticateConfig(
             enrollmentId=enrollment_id,
@@ -152,6 +224,19 @@ class VideoService:
         video_stream_iterator: typing.Iterable[bytes],
         threshold: RecognitionThreshold = RecognitionThreshold.Value("HIGH"),
     ) -> typing.Iterable[LivenessRecognitionResponse]:
+        """
+        Method that streams images to Sensory Cloud in order to recognize "liveness" of a particular image
+
+        Arguments:
+            user_id: String containing user id
+            model_name: String containing the model name
+            video_stream_iterator: Iterator of audio bytes
+            threshold: The liveness threshold (if liveness is enabled)
+                default = RecognitionThreshold = RecognitionThreshold.Value("HIGH")
+
+        Returns:
+            An iterator containing LivenessRecognitionResponse objects
+        """
 
         config: ValidateRecognitionConfig = ValidateRecognitionConfig(
             userId=user_id, modelName=model_name, threshold=threshold
