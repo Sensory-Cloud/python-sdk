@@ -14,7 +14,7 @@ device_id = os.environ.get("DEVICE_ID")
 fully_qualifiied_domain_name = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
 
 
-def health_service_example():
+def health_service_example() -> ServerHealthResponse:
 
     config: Config = Config(
         fully_qualifiied_domain_name=fully_qualifiied_domain_name, tenant_id=tenant_id

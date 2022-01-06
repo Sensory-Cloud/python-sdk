@@ -1,4 +1,10 @@
-import sys
+"""
+This script shows examples of how all the methods in the sensory_cloud.services.audio_service.AudioService class
+can be implemented.  The pyaudio package is used to interface with the microphone, which is not built into the
+sensory_cloud library, so that must installed in a python environment in addition to sensory_cloud in order to 
+run these examples.
+"""
+
 import typing
 import pyaudio
 import multiprocessing
@@ -9,7 +15,11 @@ from sensory_cloud.config import Config
 from sensory_cloud.token_manager import TokenManager
 from sensory_cloud.services.oauth_service import OauthService
 from sensory_cloud.services.audio_service import AudioService
-from sensory_cloud.generated.v1.audio.audio_pb2 import AudioConfig, TranscribeResponse
+from sensory_cloud.generated.v1.audio.audio_pb2 import (
+    AudioConfig, 
+    GetModelsResponse, 
+    TranscribeResponse
+)
 
 from secure_credential_store_example import SecureCredentialStore
 
@@ -17,7 +27,6 @@ dotenv.load_dotenv(override=True)
 
 is_connection_secure = True
 is_liveness_enabled = False
-model_name = "wakeword-16kHz-open_sesame.ubm"
 device_name = "jhersch-python-sdk-dev"
 enrollment_description = "my enrollment"
 
@@ -26,12 +35,19 @@ tenant_id = os.environ.get("TENANT_ID")
 client_id = os.environ.get("CLIENT_ID")
 client_secret = os.environ.get("CLIENT_SECRET")
 device_id = os.environ.get("DEVICE_ID")
-device_credential = os.environ.get("DEVICE_CREDENTIAL")
 user_id = os.environ.get("USER_ID")
 enrollment_id = os.environ.get("AUDIO_ENROLLMENT_ID")
 
 
 class AudioStreamIterator:
+    """
+    This is a sample audio stream iterator that uses the pyaudio package to interface with
+    the microphone and can be used with all of the methods in the AudioService class except for
+    get_models().  This implementation of an audio stream iterator is just one option, but the user
+    has the freedom to choose whatever implementation they would like, so long as it is an iterator that yields
+    audio bytes.
+    """
+
     _p_output, _p_input = multiprocessing.Pipe()
 
     def __init__(
@@ -71,6 +87,10 @@ class AudioStreamIterator:
 
 
 def get_audio() -> typing.Tuple[AudioService, AudioConfig, AudioStreamIterator]:
+    """
+    Helper function to generate AudioService, AudioConfig, and AudioStreamIterator
+    objects which will be used in the example functions below.
+    """
 
     config = Config(
         fully_qualifiied_domain_name=fully_qualifiied_domain_name,
@@ -104,8 +124,30 @@ def get_audio() -> typing.Tuple[AudioService, AudioConfig, AudioStreamIterator]:
 
     return audio_service, audio_config, audio_stream_iterator
 
+def example_get_models() -> GetModelsResponse:
+    """
+    Example of retrieving all available audio models to the tenant
+
+    Returns:
+        A GetModelsResponse containing information about audio models
+    """
+    
+    audio_service, audio_config, audio_stream_iterator = get_audio()
+    audio_stream_iterator.close()
+    
+    return audio_service.get_models()
+
 
 def example_enroll_with_audio() -> str:
+    """
+    Example of creating a new audio enrollment with the Open Sesame 
+    wake word model
+
+    Returns:
+        A string containing the the enrollment id if successful, otherwise None
+    """
+
+    model_name = "wakeword-16kHz-open_sesame.ubm"
 
     audio_service, audio_config, audio_stream_iterator = get_audio()
 
@@ -121,7 +163,7 @@ def example_enroll_with_audio() -> str:
 
     enrollment_id = None
     try:
-        print("Recording enrollment...")
+        print("Recording enrollment (repeat saying 'Open Sesame' until the enrollment is complete)...")
         percent_complete = 0
         print(f"percent complete = {percent_complete}")
         for response in enrollment_stream:
@@ -143,6 +185,13 @@ def example_enroll_with_audio() -> str:
 
 
 def example_authenticate_with_audio() -> bool:
+    """
+    Example of voice authentication against the Open Sesame wake word model
+    created in the example_enroll_with_audio() above
+
+    Returns:
+        A boolean denoting whether or not the authentication was successful
+    """
 
     audio_service, audio_config, audio_stream_iterator = get_audio()
 
@@ -168,6 +217,10 @@ def example_authenticate_with_audio() -> bool:
         authenticate_stream.cancel()
 
     return authentication_success
+
+
+def example_group_authenticate_with_audio():
+    pass
 
 
 def example_audio_transcription() -> typing.List[str]:
@@ -240,6 +293,17 @@ def example_audio_event():
     return events
 
 
+def example_create_enrolled_event():
+    pass
+
+
+def example_validate_enrolled_event():
+    pass
+
+
+def example_group_validate_enrolled_event():
+    pass
+
+
 if __name__ == "__main__":
-    if example_authenticate_with_audio():
-        transcriptions = example_audio_transcription()
+    models = example_get_models()

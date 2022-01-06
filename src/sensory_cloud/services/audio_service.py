@@ -2,55 +2,26 @@ import typing
 from enum import Enum
 
 from sensory_cloud.config import Config
-from sensory_cloud.generated.v1 import audio
 from sensory_cloud.token_manager import ITokenManager, Metadata
-from sensory_cloud.generated.v1.audio.audio_pb2_grpc import (
-    AudioModelsStub,
-    AudioBiometricsStub,
-    AudioEventsStub,
-    AudioTranscriptionsStub,
-)
-from sensory_cloud.generated.v1.audio.audio_pb2 import (
-    GetModelsRequest,
-    GetModelsResponse,
-    CreateEnrollmentConfig,
-    CreateEnrollmentRequest,
-    CreateEnrollmentResponse,
-    AudioConfig,
-    ThresholdSensitivity,
-    AuthenticateConfig,
-    AuthenticateRequest,
-    AuthenticateResponse,
-    TranscribeConfig,
-    TranscribeRequest,
-    TranscribeResponse,
-    AuthenticateRequest,
-    ValidateEventConfig,
-    ValidateEventRequest,
-    ValidateEventResponse,
-    CreateEnrollmentEventConfig,
-    CreateEnrolledEventRequest,
-    ValidateEnrolledEventResponse,
-    ValidateEnrolledEventConfig,
-    ValidateEnrolledEventRequest,
-)
+import sensory_cloud.generated.v1.audio.audio_pb2_grpc as audio_pb2_grpc
+import sensory_cloud.generated.v1.audio.audio_pb2 as audio_pb2
 
 
 class AudioRequest(Enum):
-    CreateEnrollmentRequest
-    AuthenticateRequest
-    TranscribeRequest
-    ValidateEventRequest
-    CreateEnrolledEventRequest
-    ValidateEnrolledEventRequest
+    audio_pb2.CreateEnrollmentRequest
+    audio_pb2.AuthenticateRequest
+    audio_pb2.TranscribeRequest
+    audio_pb2.ValidateEventRequest
+    audio_pb2.CreateEnrolledEventRequest
+    audio_pb2.ValidateEnrolledEventRequest
 
 
 class RequestConfig(Enum):
-    CreateEnrollmentConfig
-    AuthenticateConfig
-    TranscribeConfig
-    ValidateEventConfig
-    CreateEnrollmentEventConfig
+    audio_pb2.CreateEnrollmentConfig
+    audio_pb2.AuthenticateConfig
+    audio_pb2.TranscribeConfig
+    audio_pb2.ValidateEventConfig
+    audio_pb2.CreateEnrollmentEventConfig
 
 
 class RequestIterator:
@@ -111,16 +82,16 @@ class AudioService:
 
         self._config: Config = config
         self._token_manager: ITokenManager = token_manager
-        self._audio_models_client: AudioModelsStub = AudioModelsStub(config.channel)
-        self._audio_biometrics_client: AudioBiometricsStub = AudioBiometricsStub(
+        self._audio_models_client: audio_pb2_grpc.AudioModelsStub = audio_pb2_grpc.AudioModelsStub(config.channel)
+        self._audio_biometrics_client: audio_pb2_grpc.AudioBiometricsStub = audio_pb2_grpc.AudioBiometricsStub(
             config.channel
         )
-        self._audio_events_client: AudioEventsStub = AudioEventsStub(config.channel)
-        self._audio_transcriptions_client: AudioTranscriptionsStub = (
-            AudioTranscriptionsStub(config.channel)
+        self._audio_events_client: audio_pb2_grpc.AudioEventsStub = audio_pb2_grpc.AudioEventsStub(config.channel)
+        self._audio_transcriptions_client: audio_pb2_grpc.AudioTranscriptionsStub = (
+            audio_pb2_grpc.AudioTranscriptionsStub(config.channel)
         )
 
-    def get_models(self) -> GetModelsResponse:
+    def get_models(self) -> audio_pb2.GetModelsResponse:
         """ 
         Method that fetches all the audio models supported by your instance of Sensory Cloud.
 
@@ -128,11 +99,11 @@ class AudioService:
             A GetModelsResponse containing information about all audio models
         """
 
-        request: GetModelsRequest = GetModelsRequest()
+        request: audio_pb2.GetModelsRequest = audio_pb2.GetModelsRequest()
 
         metadata: Metadata = self._token_manager.get_authorization_metadata()
 
-        models: GetModelsResponse = self._audio_models_client.GetModels(
+        models: audio_pb2.GetModelsResponse = self._audio_models_client.GetModels(
             request=request, metadata=metadata
         )
 
@@ -140,14 +111,14 @@ class AudioService:
 
     def stream_enrollment(
         self,
-        audio_config: AudioConfig,
+        audio_config: audio_pb2.AudioConfig,
         description: str,
         user_id: str,
         device_id: str,
         model_name: str,
         is_liveness_enabled: bool,
         audio_stream_iterator: typing.Iterable[bytes],
-    ) -> typing.Iterable[CreateEnrollmentResponse]:
+    ) -> typing.Iterable[audio_pb2.CreateEnrollmentResponse]:
         """
         Stream audio to Sensory Cloud as a means for user enrollment.
         Only biometric-typed models are supported by the method.
@@ -165,7 +136,7 @@ class AudioService:
             An iterator of CreateEnrollmentResponse objects
         """
 
-        config: CreateEnrollmentConfig = CreateEnrollmentConfig(
+        config: audio_pb2.CreateEnrollmentConfig = audio_pb2.CreateEnrollmentConfig(
             audio=audio_config,
             description=description,
             userId=user_id,
@@ -175,7 +146,7 @@ class AudioService:
         )
 
         request_iterator: RequestIterator = RequestIterator(
-            audio_request=CreateEnrollmentRequest,
+            audio_request=audio_pb2.CreateEnrollmentRequest,
             request_config=config,
             audio_stream_iterator=audio_stream_iterator,
         )
@@ -183,7 +154,7 @@ class AudioService:
         metadata: Metadata = self._token_manager.get_authorization_metadata()
 
         enrollment_stream: typing.Iterable[
-            CreateEnrollmentResponse
+            audio_pb2.CreateEnrollmentResponse
         ] = self._audio_biometrics_client.CreateEnrollment(
             request_iterator=request_iterator, metadata=metadata
         )
@@ -192,15 +163,15 @@ class AudioService:
 
     def stream_authenticate(
         self,
-        audio_config: AudioConfig,
+        audio_config: audio_pb2.AudioConfig,
         enrollment_id: str,
         is_liveness_enabled: bool,
         audio_stream_iterator: typing.Iterable[bytes],
-        sensitivity: ThresholdSensitivity = ThresholdSensitivity.Value("MEDIUM"),
-        security: AuthenticateConfig.ThresholdSecurity = AuthenticateConfig.ThresholdSecurity.Value(
+        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value("MEDIUM"),
+        security: audio_pb2.AuthenticateConfig.ThresholdSecurity = audio_pb2.AuthenticateConfig.ThresholdSecurity.Value(
             "HIGH"
         ),
-    ) -> typing.Iterable[AuthenticateResponse]:
+    ) -> typing.Iterable[audio_pb2.AuthenticateResponse]:
         """
         Authenticate against an existing audio enrollment in Sensory Cloud.
         Only biometric-typed models are supported by the method.
@@ -219,7 +190,7 @@ class AudioService:
             An iterator of AuthenticateResponse objects
         """
 
-        authenticate_config: AuthenticateConfig = AuthenticateConfig(
+        authenticate_config: audio_pb2.AuthenticateConfig = audio_pb2.AuthenticateConfig(
             audio=audio_config,
             enrollmentId=enrollment_id,
             sensitivity=sensitivity,
@@ -228,7 +199,7 @@ class AudioService:
         )
 
         authenticate_stream: typing.Iterable[
-            AuthenticateResponse
+            audio_pb2.AuthenticateResponse
         ] = self._stream_authentication(
             config=authenticate_config, audio_stream_iterator=audio_stream_iterator
         )
@@ -237,15 +208,15 @@ class AudioService:
 
     def stream_group_authenticate(
         self,
-        audio_config: AudioConfig,
+        audio_config: audio_pb2.AudioConfig,
         enrollment_group_id: str,
         is_liveness_enabled: bool,
         audio_stream_iterator: typing.Iterable[bytes],
-        sensitivity: ThresholdSensitivity = ThresholdSensitivity.Value("MEDIUM"),
-        security: AuthenticateConfig.ThresholdSecurity = AuthenticateConfig.ThresholdSecurity.Value(
+        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value("MEDIUM"),
+        security: audio_pb2.AuthenticateConfig.ThresholdSecurity = audio_pb2.AuthenticateConfig.ThresholdSecurity.Value(
             "HIGH"
         ),
-    ) -> typing.Iterable[AuthenticateResponse]:
+    ) -> typing.Iterable[audio_pb2.AuthenticateResponse]:
         """ 
         Authenticate against an existing audio enrollment in Sensory Cloud.
 
@@ -263,7 +234,7 @@ class AudioService:
             An iterator of AuthenticateResponse objects
         """
 
-        authenticate_config: AuthenticateConfig = AuthenticateConfig(
+        authenticate_config: audio_pb2.AuthenticateConfig = audio_pb2.AuthenticateConfig(
             audio=audio_config,
             enrollmentGroupId=enrollment_group_id,
             sensitivity=sensitivity,
@@ -272,7 +243,7 @@ class AudioService:
         )
 
         group_authenticate_stream: typing.Iterable[
-            AuthenticateResponse
+            audio_pb2.AuthenticateResponse
         ] = self._stream_authentication(
             config=authenticate_config, audio_stream_iterator=audio_stream_iterator
         )
@@ -281,12 +252,12 @@ class AudioService:
 
     def stream_event(
         self,
-        audio_config: AudioConfig,
+        audio_config: audio_pb2.AudioConfig,
         user_id: str,
         model_name: str,
         audio_stream_iterator: typing.Iterable[bytes],
-        sensitivity: ThresholdSensitivity = ThresholdSensitivity.Value("MEDIUM"),
-    ) -> typing.Iterable[ValidateEventResponse]:
+        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value("MEDIUM"),
+    ) -> typing.Iterable[audio_pb2.ValidateEventResponse]:
         """ 
         Stream audio to Sensory Cloud in order to recognize a specific phrase or sound
 
@@ -302,7 +273,7 @@ class AudioService:
             An iterator of ValidateEventResponse objects
         """
 
-        config = ValidateEventConfig(
+        config = audio_pb2.ValidateEventConfig(
             audio=audio_config,
             modelName=model_name,
             userId=user_id,
@@ -310,7 +281,7 @@ class AudioService:
         )
 
         request_iterator: RequestIterator = RequestIterator(
-            audio_request=ValidateEventRequest,
+            audio_request=audio_pb2.ValidateEventRequest,
             request_config=config,
             audio_stream_iterator=audio_stream_iterator,
         )
@@ -318,7 +289,7 @@ class AudioService:
         metadata: Metadata = self._token_manager.get_authorization_metadata()
 
         event_stream: typing.Iterable[
-            ValidateEventResponse
+            audio_pb2.ValidateEventResponse
         ] = self._audio_events_client.ValidateEvent(
             request_iterator=request_iterator, metadata=metadata
         )
@@ -327,12 +298,12 @@ class AudioService:
 
     def stream_create_enrolled_event(
         self,
-        audio_config: AudioConfig,
+        audio_config: audio_pb2.AudioConfig,
         description: str,
         user_id: str,
         model_name: str,
         audio_stream_iterator: typing.Iterable[bytes],
-    ) -> typing.Iterable[CreateEnrollmentResponse]:
+    ) -> typing.Iterable[audio_pb2.CreateEnrollmentResponse]:
         """
         Stream audio to Sensory Cloud as a means for audio enrollment.
         This method is similar to StreamEnrollment, but does not have the same
@@ -352,7 +323,7 @@ class AudioService:
             An iterator of CreateEnrollmentResponse objects
         """
 
-        config: CreateEnrollmentEventConfig = CreateEnrollmentEventConfig(
+        config: audio_pb2.CreateEnrollmentEventConfig = audio_pb2.CreateEnrollmentEventConfig(
             audio=audio_config,
             userId=user_id,
             modelName=model_name,
@@ -360,7 +331,7 @@ class AudioService:
         )
 
         request_iterator: RequestIterator = RequestIterator(
-            audio_request=CreateEnrolledEventRequest,
+            audio_request=audio_pb2.CreateEnrolledEventRequest,
             request_config=config,
             audio_stream_iterator=audio_stream_iterator,
         )
@@ -368,7 +339,7 @@ class AudioService:
         metadata: Metadata = self._token_manager.get_authorization_metadata()
 
         enrollment_stream: typing.Iterable[
-            CreateEnrollmentResponse
+            audio_pb2.CreateEnrollmentResponse
         ] = self._audio_events_client.CreateEnrolledEvent(
             request_iterator=request_iterator, metadata=metadata
         )
@@ -377,11 +348,11 @@ class AudioService:
 
     def stream_validate_enrolled_event(
         self,
-        audio_config: AudioConfig,
+        audio_config: audio_pb2.AudioConfig,
         enrollment_id: str,
         audio_stream_iterator: typing.Iterable[bytes],
-        sensitivity: ThresholdSensitivity = ThresholdSensitivity.Value("MEDIUM"),
-    ) -> typing.Iterable[ValidateEnrolledEventResponse]:
+        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value("MEDIUM"),
+    ) -> typing.Iterable[audio_pb2.ValidateEnrolledEventResponse]:
         """
         Validate an existing event enrollment in Sensory Cloud.
         This method is similar to Authenticate, but does not have the same
@@ -402,14 +373,14 @@ class AudioService:
             An iterator of ValidateEnrolledEventResponse objects
         """
 
-        config = ValidateEnrolledEventConfig(
+        config = audio_pb2.ValidateEnrolledEventConfig(
             audio=audio_config,
             enrollmentId=enrollment_id,
             sensitivity=sensitivity,
         )
 
         validate_enrolled_event_stream: typing.Iterable[
-            ValidateEnrolledEventResponse
+            audio_pb2.ValidateEnrolledEventResponse
         ] = self._stream_event_validation(
             config=config, audio_stream_iterator=audio_stream_iterator
         )
@@ -418,11 +389,11 @@ class AudioService:
 
     def stream_group_validate_enrolled_event(
         self,
-        audio_config: AudioConfig,
+        audio_config: audio_pb2.AudioConfig,
         enrollment_group_id: str,
         audio_stream_iterator: typing.Iterable[bytes],
-        sensitivity: ThresholdSensitivity = ThresholdSensitivity.Value("MEDIUM"),
-    ) -> typing.Iterable[ValidateEnrolledEventResponse]:
+        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value("MEDIUM"),
+    ) -> typing.Iterable[audio_pb2.ValidateEnrolledEventResponse]:
         """
         Validate an existing groupd of events in Sensory Cloud.
         This method is similar to GroupAuthenticate, but does not have the same
@@ -443,14 +414,14 @@ class AudioService:
             An iterator of ValidateEnrolledEventResponse objects
         """
 
-        config = ValidateEnrolledEventConfig(
+        config = audio_pb2.ValidateEnrolledEventConfig(
             audio=audio_config,
             enrollmentGroupId=enrollment_group_id,
             sensitivity=sensitivity,
         )
 
         validate_enrolled_event_stream: typing.Iterable[
-            ValidateEnrolledEventResponse
+            audio_pb2.ValidateEnrolledEventResponse
         ] = self._stream_event_validation(
             config=config, audio_stream_iterator=audio_stream_iterator
         )
@@ -459,11 +430,11 @@ class AudioService:
 
     def stream_transcription(
         self,
-        audio_config: AudioConfig,
+        audio_config: audio_pb2.AudioConfig,
         user_id: str,
         model_name: str,
         audio_stream_iterator: typing.Iterable[bytes],
-    ) -> typing.Iterable[TranscribeResponse]:
+    ) -> typing.Iterable[audio_pb2.TranscribeResponse]:
         """
         Stream audio to Sensory Cloud in order to transcribe spoken words
 
@@ -477,12 +448,12 @@ class AudioService:
             An iterator of TranscribeResponse objects
         """
 
-        config: TranscribeConfig = TranscribeConfig(
+        config: audio_pb2.TranscribeConfig = audio_pb2.TranscribeConfig(
             audio=audio_config, modelName=model_name, userId=user_id
         )
 
         request_iterator: RequestIterator = RequestIterator(
-            audio_request=TranscribeRequest,
+            audio_request=audio_pb2.TranscribeRequest,
             request_config=config,
             audio_stream_iterator=audio_stream_iterator,
         )
@@ -490,7 +461,7 @@ class AudioService:
         metadata: Metadata = self._token_manager.get_authorization_metadata()
 
         transcription_stream: typing.Iterable[
-            TranscribeResponse
+            audio_pb2.TranscribeResponse
         ] = self._audio_transcriptions_client.Transcribe(
             request_iterator=request_iterator, metadata=metadata
         )
@@ -499,9 +470,9 @@ class AudioService:
 
     def _stream_authentication(
         self,
-        config: AuthenticateConfig,
+        config: audio_pb2.AuthenticateConfig,
         audio_stream_iterator: typing.Iterable[bytes],
-    ) -> typing.Iterable[AuthenticateResponse]:
+    ) -> typing.Iterable[audio_pb2.AuthenticateResponse]:
         """
         Private method behind the public authentication methods
 
@@ -513,7 +484,7 @@ class AudioService:
         """
 
         request_iterator: RequestIterator = RequestIterator(
-            audio_request=AuthenticateRequest,
+            audio_request=audio_pb2.AuthenticateRequest,
             request_config=config,
             audio_stream_iterator=audio_stream_iterator,
         )
@@ -521,7 +492,7 @@ class AudioService:
         metadata: Metadata = self._token_manager.get_authorization_metadata()
 
         authenticate_stream: typing.Iterable[
-            AuthenticateResponse
+            audio_pb2.AuthenticateResponse
         ] = self._audio_biometrics_client.Authenticate(
             request_iterator=request_iterator, metadata=metadata
         )
@@ -530,9 +501,9 @@ class AudioService:
 
     def _stream_event_validation(
         self,
-        config: ValidateEnrolledEventConfig,
+        config: audio_pb2.ValidateEnrolledEventConfig,
         audio_stream_iterator: typing.Iterable[bytes],
-    ) -> typing.Iterable[ValidateEnrolledEventResponse]:
+    ) -> typing.Iterable[audio_pb2.ValidateEnrolledEventResponse]:
         """
         Private method behind the public event validation methods
 
@@ -544,7 +515,7 @@ class AudioService:
         """
 
         request_iterator: RequestIterator = RequestIterator(
-            audio_request=ValidateEnrolledEventRequest,
+            audio_request=audio_pb2.ValidateEnrolledEventRequest,
             request_config=config,
             audio_stream_iterator=audio_stream_iterator,
         )
@@ -552,7 +523,7 @@ class AudioService:
         metadata: Metadata = self._token_manager.get_authorization_metadata()
 
         validate_enrolled_event_stream: typing.Iterable[
-            ValidateEnrolledEventResponse
+            audio_pb2.ValidateEnrolledEventResponse
         ] = self._audio_events_client.ValidateEnrolledEvent(
             request_iterator=request_iterator, metadata=metadata
         )

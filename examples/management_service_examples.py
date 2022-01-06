@@ -11,7 +11,7 @@ from secure_credential_store_example import SecureCredentialStore
 dotenv.load_dotenv(override=True)
 
 
-def example_management_service():
+def example_management_service() -> ManagementService:
 
     fully_qualifiied_domain_name = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
     tenant_id = os.environ.get("TENANT_ID")

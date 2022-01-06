@@ -3,15 +3,11 @@ import os
 import dotenv
 from io import BytesIO
 from PIL import Image
-import threading
-import time
-
 
 from sensory_cloud.config import Config
 from sensory_cloud.token_manager import TokenManager
 from sensory_cloud.services.oauth_service import OauthService
 from sensory_cloud.services.video_service import VideoService, RequestIterator
-
 
 from sensory_cloud.generated.v1.video.video_pb2 import (
     CreateEnrollmentResponse,
@@ -28,7 +24,6 @@ from sensory_cloud.generated.v1.video.video_pb2 import (
     ValidateRecognitionRequest,
 )
 
-
 from secure_credential_store_example import SecureCredentialStore
 
 
@@ -36,7 +31,6 @@ dotenv.load_dotenv(override=True)
 
 is_connection_secure = True
 is_liveness_enabled = False
-model_name = "face_recognition_mathilde"
 device_name = "jhersch-python-sdk-dev"
 enrollment_description = "jhersch-video-enrollment-cpu"
 
@@ -70,7 +64,13 @@ class VideoStreamIterator:
         self._camera.release()
 
 
-def example_enroll_with_video():
+def example_get_models():
+    pass
+
+
+def example_enroll_with_video() -> str:
+    model_name = "face_recognition_mathilde"
+
     config = Config(
         fully_qualifiied_domain_name=fully_qualifiied_domain_name,
         is_connection_secure=is_connection_secure,
@@ -119,7 +119,7 @@ def example_enroll_with_video():
     return enrollment_id
 
 
-def example_authenticate_with_video():
+def example_authenticate_with_video() -> bool:
     config = Config(
         fully_qualifiied_domain_name=fully_qualifiied_domain_name,
         is_connection_secure=is_connection_secure,
