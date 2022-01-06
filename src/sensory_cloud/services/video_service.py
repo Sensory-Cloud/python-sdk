@@ -1,40 +1,23 @@
-import grpc
 import typing
 from enum import Enum
 
 from sensory_cloud.config import Config
 from sensory_cloud.token_manager import ITokenManager, Metadata
-from sensory_cloud.generated.v1.video.video_pb2_grpc import (
-    VideoModelsStub,
-    VideoBiometricsStub,
-    VideoRecognitionStub,
-)
-from sensory_cloud.generated.v1.video.video_pb2 import (
-    CreateEnrollmentResponse,
-    GetModelsRequest,
-    GetModelsResponse,
-    CreateEnrollmentConfig,
-    CreateEnrollmentRequest,
-    AuthenticateConfig,
-    AuthenticateRequest,
-    AuthenticateResponse,
-    LivenessRecognitionResponse,
-    RecognitionThreshold,
-    ValidateRecognitionConfig,
-    ValidateRecognitionRequest,
-)
+
+import sensory_cloud.generated.v1.video.video_pb2_grpc as video_pb2_grpc
+import sensory_cloud.generated.v1.video.video_pb2 as video_pb2
 
 
 class VideoRequest(Enum):
-    CreateEnrollmentRequest
-    AuthenticateRequest
-    ValidateRecognitionRequest
+    video_pb2.CreateEnrollmentRequest
+    video_pb2.AuthenticateRequest
+    video_pb2.ValidateRecognitionRequest
 
 
 class RequestConfig(Enum):
-    CreateEnrollmentConfig
-    AuthenticateConfig
-    ValidateRecognitionConfig
+    video_pb2.CreateEnrollmentConfig
+    video_pb2.AuthenticateConfig
+    video_pb2.ValidateRecognitionConfig
 
 
 class RequestIterator:
@@ -83,7 +66,7 @@ class VideoService:
     """
     Class that handles all video requests to Sensory Cloud.
     """
-    
+
     def __init__(self, config: Config, token_manager: ITokenManager):
         """
         Constructor method for the VideoService class
@@ -92,19 +75,21 @@ class VideoService:
             config: Config object containing the relevant grpc connection information
             token_manager: ITokenManager object that generates and returns JWT metadata
         """
-        
+
         self._config: Config = config
         self._token_manager: ITokenManager = token_manager
-        self._video_models_client: VideoModelsStub = VideoModelsStub(config.channel)
-        self._video_biometrics_client: VideoBiometricsStub = VideoBiometricsStub(
-            config.channel
+        self._video_models_client: video_pb2_grpc.VideoModelsStub = (
+            video_pb2_grpc.VideoModelsStub(config.channel)
         )
-        self._video_recognition_client: VideoRecognitionStub = VideoRecognitionStub(
-            config.channel
+        self._video_biometrics_client: video_pb2_grpc.VideoBiometricsStub = (
+            video_pb2_grpc.VideoBiometricsStub(config.channel)
+        )
+        self._video_recognition_client: video_pb2_grpc.VideoRecognitionStub = (
+            video_pb2_grpc.VideoRecognitionStub(config.channel)
         )
 
-    def get_models(self) -> GetModelsResponse:
-        """ 
+    def get_models(self) -> video_pb2.GetModelsResponse:
+        """
         Method that fetches all the video models supported by your instance of Sensory Cloud.
 
         Returns:
@@ -112,9 +97,9 @@ class VideoService:
         """
 
         metadata: Metadata = self._token_manager.get_authorization_metadata()
-        request: GetModelsRequest = GetModelsRequest()
+        request: video_pb2.GetModelsRequest = video_pb2.GetModelsRequest()
 
-        response: GetModelsResponse = self._video_models_client.GetModels(
+        response: video_pb2.GetModelsResponse = self._video_models_client.GetModels(
             request=request, metadata=metadata
         )
 
@@ -128,8 +113,10 @@ class VideoService:
         device_id: str,
         is_liveness_enabled: bool,
         video_stream_iterator: typing.Iterable[bytes],
-        threshold: RecognitionThreshold = RecognitionThreshold.Value("HIGH"),
-    ) -> typing.Iterable[CreateEnrollmentResponse]:
+        threshold: video_pb2.RecognitionThreshold = video_pb2.RecognitionThreshold.Value(
+            "HIGH"
+        ),
+    ) -> typing.Iterable[video_pb2.CreateEnrollmentResponse]:
         """
         Stream video to Sensory Cloud as a means for user enrollment.
         Only biometric-typed models are supported by the method.
@@ -148,7 +135,7 @@ class VideoService:
             An iterator of CreateEnrollmentResponse objects
         """
 
-        config: CreateEnrollmentConfig = CreateEnrollmentConfig(
+        config: video_pb2.CreateEnrollmentConfig = video_pb2.CreateEnrollmentConfig(
             description=description,
             userId=user_id,
             deviceId=device_id,
@@ -158,7 +145,7 @@ class VideoService:
         )
 
         request_iterator: RequestIterator = RequestIterator(
-            video_request=CreateEnrollmentRequest,
+            video_request=video_pb2.CreateEnrollmentRequest,
             request_config=config,
             video_stream_iterator=video_stream_iterator,
         )
@@ -166,7 +153,7 @@ class VideoService:
         metadata: Metadata = self._token_manager.get_authorization_metadata()
 
         enrollment_stream: typing.Iterable[
-            CreateEnrollmentResponse
+            video_pb2.CreateEnrollmentResponse
         ] = self._video_biometrics_client.CreateEnrollment(
             request_iterator=request_iterator, metadata=metadata
         )
@@ -178,8 +165,10 @@ class VideoService:
         enrollment_id: str,
         is_liveness_enabled: bool,
         video_stream_iterator: typing.Iterable[bytes],
-        threshold: RecognitionThreshold = RecognitionThreshold.Value("HIGH"),
-    ) -> typing.Iterable[AuthenticateResponse]:
+        threshold: video_pb2.RecognitionThreshold = video_pb2.RecognitionThreshold.Value(
+            "HIGH"
+        ),
+    ) -> typing.Iterable[video_pb2.AuthenticateResponse]:
         """
         Authenticate against an existing video enrollment in Sensory Cloud.
         Only biometric-typed models are supported by the method.
@@ -195,14 +184,14 @@ class VideoService:
             An iterator of AuthenticateResponse objects
         """
 
-        config: AuthenticateConfig = AuthenticateConfig(
+        config: video_pb2.AuthenticateConfig = video_pb2.AuthenticateConfig(
             enrollmentId=enrollment_id,
             isLivenessEnabled=is_liveness_enabled,
             livenessThreshold=threshold,
         )
 
         request_iterator: RequestIterator = RequestIterator(
-            video_request=AuthenticateRequest,
+            video_request=video_pb2.AuthenticateRequest,
             request_config=config,
             video_stream_iterator=video_stream_iterator,
         )
@@ -210,7 +199,7 @@ class VideoService:
         metadata: Metadata = self._token_manager.get_authorization_metadata()
 
         authenticate_stream: typing.Iterable[
-            AuthenticateResponse
+            video_pb2.AuthenticateResponse
         ] = self._video_biometrics_client.Authenticate(
             request_iterator=request_iterator, metadata=metadata
         )
@@ -222,8 +211,10 @@ class VideoService:
         user_id: str,
         model_name: str,
         video_stream_iterator: typing.Iterable[bytes],
-        threshold: RecognitionThreshold = RecognitionThreshold.Value("HIGH"),
-    ) -> typing.Iterable[LivenessRecognitionResponse]:
+        threshold: video_pb2.RecognitionThreshold = video_pb2.RecognitionThreshold.Value(
+            "HIGH"
+        ),
+    ) -> typing.Iterable[video_pb2.LivenessRecognitionResponse]:
         """
         Method that streams images to Sensory Cloud in order to recognize "liveness" of a particular image
 
@@ -238,12 +229,14 @@ class VideoService:
             An iterator containing LivenessRecognitionResponse objects
         """
 
-        config: ValidateRecognitionConfig = ValidateRecognitionConfig(
-            userId=user_id, modelName=model_name, threshold=threshold
+        config: video_pb2.ValidateRecognitionConfig = (
+            video_pb2.ValidateRecognitionConfig(
+                userId=user_id, modelName=model_name, threshold=threshold
+            )
         )
 
         request_iterator: RequestIterator = RequestIterator(
-            video_request=ValidateRecognitionRequest,
+            video_request=video_pb2.ValidateRecognitionRequest,
             request_config=config,
             video_stream_iterator=video_stream_iterator,
         )
@@ -251,7 +244,7 @@ class VideoService:
         metadata: Metadata = self._token_manager.get_authorization_metadata()
 
         recognition_stream: typing.Iterable[
-            LivenessRecognitionResponse
+            video_pb2.LivenessRecognitionResponse
         ] = self._video_recognition_client.ValidateLiveness(
             request_iterator=request_iterator, metadata=metadata
         )

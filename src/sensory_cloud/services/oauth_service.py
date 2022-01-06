@@ -5,21 +5,19 @@ from abc import ABC, abstractmethod
 
 from sensory_cloud.config import Config
 from sensory_cloud.services.crypto_service import CryptoService
-from sensory_cloud.generated.common.common_pb2 import GenericClient
-from sensory_cloud.generated.oauth.oauth_pb2_grpc import OauthServiceStub
-from sensory_cloud.generated.oauth.oauth_pb2 import TokenRequest
-from sensory_cloud.generated.v1.management.device_pb2_grpc import DeviceServiceStub
-from sensory_cloud.generated.v1.management.device_pb2 import (
-    EnrollDeviceRequest,
-    DeviceResponse,
-)
+
+import sensory_cloud.generated.common.common_pb2 as common_pb2
+import sensory_cloud.generated.oauth.oauth_pb2_grpc as oauth_pb2_grpc
+import sensory_cloud.generated.oauth.oauth_pb2 as oauth_pb2
+import sensory_cloud.generated.v1.management.device_pb2_grpc as device_pb2_grpc
+import sensory_cloud.generated.v1.management.device_pb2 as device_pb2
 
 
 class OAuthClient:
     """
     Class that holds OAuth client id and secret
     """
-    
+
     def __init__(
         self,
         client_id: str,
@@ -32,7 +30,7 @@ class OAuthClient:
             client_id: String containing the client id
             client_secret: String containing the client secret
         """
-        
+
         self._client_id = client_id
         self._client_secret = client_secret
 
@@ -44,7 +42,7 @@ class OAuthClient:
         Returns:
             String containing the client id
         """
-        
+
         return self._client_id
 
     @property
@@ -63,17 +61,17 @@ class OAuthToken:
     """
     Class that holds OAuth token and expiration
     """
-    
+
     def __init__(self, token: str, expires: datetime.datetime):
         """
         Constructor method for the OAuthToken class
 
         Arguments:
             token: String containing the oauth token
-            expires: datetime.datetime object containing the token's 
+            expires: datetime.datetime object containing the token's
                 expiration time stamp
         """
-        
+
         self._token = token
         self._expires = expires
 
@@ -85,7 +83,7 @@ class OAuthToken:
         Returns:
             String containing the oauth token
         """
-        
+
         return self._token
 
     @property
@@ -94,10 +92,10 @@ class OAuthToken:
         Get method that returns the expiration date attribute
 
         Returns:
-            A datetime.datetime object containing the token's 
+            A datetime.datetime object containing the token's
                 expiration time stamp
         """
-        
+
         return self._expires
 
 
@@ -105,7 +103,7 @@ class IOauthService(ABC):
     """
     Abstract class that manages OAuth interactions with Sensory Cloud
     """
-    
+
     @abstractmethod
     def generate_credentials(self) -> OAuthClient:
         """Method that generates a client id and a client secret"""
@@ -117,7 +115,7 @@ class IOauthService(ABC):
     @abstractmethod
     def register(
         self, device_id: str, device_name: str, credential: str
-    ) -> DeviceResponse:
+    ) -> device_pb2.DeviceResponse:
         """
         Method that registers credentials provided by the attached SecureCredentialStore to Sensory Cloud.
         This should only be called once per unique credential pair. An error will be thrown if registration fails.
@@ -138,7 +136,7 @@ class OauthService(IOauthService):
     """
     Class that manages OAuth interactions with Sensory Cloud
     """
-    
+
     def __init__(self, config: Config, secure_credential_store: ISecureCredentialStore):
         """
         Constructor method for OauthService
@@ -150,9 +148,11 @@ class OauthService(IOauthService):
         """
 
         self._config: Config = config
-        self._oauth_client: OauthServiceStub = OauthServiceStub(channel=config.channel)
-        self._device_client: DeviceServiceStub = DeviceServiceStub(
-            channel=config.channel
+        self._oauth_client: oauth_pb2_grpc.OauthServiceStub = (
+            oauth_pb2_grpc.OauthServiceStub(channel=config.channel)
+        )
+        self._device_client: device_pb2_grpc.DeviceServiceStub = (
+            device_pb2_grpc.DeviceServiceStub(channel=config.channel)
         )
         self._secure_credential_store: ISecureCredentialStore = secure_credential_store
 
@@ -177,7 +177,9 @@ class OauthService(IOauthService):
             )
 
         now: datetime.datetime = datetime.datetime.utcnow()
-        request: TokenRequest = TokenRequest(clientId=client_id, secret=client_secret)
+        request: oauth_pb2.TokenRequest = oauth_pb2.TokenRequest(
+            clientId=client_id, secret=client_secret
+        )
         response = self._oauth_client.GetToken(request)
 
         return OAuthToken(
@@ -187,7 +189,7 @@ class OauthService(IOauthService):
 
     def register(
         self, device_id: str, device_name: str, credential: str
-    ) -> DeviceResponse:
+    ) -> device_pb2.DeviceResponse:
         client_id = self._secure_credential_store.client_id
         if client_id in [None, ""]:
             raise ValueError(
@@ -200,14 +202,18 @@ class OauthService(IOauthService):
                 "null client_secret was returned from the secure credential store"
             )
 
-        client: GenericClient = GenericClient(clientId=client_id, secret=client_secret)
-        request: EnrollDeviceRequest = EnrollDeviceRequest(
+        client: common_pb2.GenericClient = common_pb2.GenericClient(
+            clientId=client_id, secret=client_secret
+        )
+        request: device_pb2.EnrollDeviceRequest = device_pb2.EnrollDeviceRequest(
             name=device_name,
             deviceId=device_id,
             tenantId=self._config.tenant_id,
             client=client,
             credential=credential,
         )
-        device_response: DeviceResponse = self._device_client.EnrollDevice(request)
+        device_response: device_pb2.DeviceResponse = self._device_client.EnrollDevice(
+            request
+        )
 
         return device_response

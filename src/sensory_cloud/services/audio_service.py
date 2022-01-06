@@ -3,6 +3,7 @@ from enum import Enum
 
 from sensory_cloud.config import Config
 from sensory_cloud.token_manager import ITokenManager, Metadata
+
 import sensory_cloud.generated.v1.audio.audio_pb2_grpc as audio_pb2_grpc
 import sensory_cloud.generated.v1.audio.audio_pb2 as audio_pb2
 
@@ -67,7 +68,7 @@ class RequestIterator:
 
 
 class AudioService:
-    """ 
+    """
     Class that handles all audio requests to Sensory Cloud
     """
 
@@ -82,17 +83,21 @@ class AudioService:
 
         self._config: Config = config
         self._token_manager: ITokenManager = token_manager
-        self._audio_models_client: audio_pb2_grpc.AudioModelsStub = audio_pb2_grpc.AudioModelsStub(config.channel)
-        self._audio_biometrics_client: audio_pb2_grpc.AudioBiometricsStub = audio_pb2_grpc.AudioBiometricsStub(
-            config.channel
+        self._audio_models_client: audio_pb2_grpc.AudioModelsStub = (
+            audio_pb2_grpc.AudioModelsStub(config.channel)
         )
-        self._audio_events_client: audio_pb2_grpc.AudioEventsStub = audio_pb2_grpc.AudioEventsStub(config.channel)
+        self._audio_biometrics_client: audio_pb2_grpc.AudioBiometricsStub = (
+            audio_pb2_grpc.AudioBiometricsStub(config.channel)
+        )
+        self._audio_events_client: audio_pb2_grpc.AudioEventsStub = (
+            audio_pb2_grpc.AudioEventsStub(config.channel)
+        )
         self._audio_transcriptions_client: audio_pb2_grpc.AudioTranscriptionsStub = (
             audio_pb2_grpc.AudioTranscriptionsStub(config.channel)
         )
 
     def get_models(self) -> audio_pb2.GetModelsResponse:
-        """ 
+        """
         Method that fetches all the audio models supported by your instance of Sensory Cloud.
 
         Returns:
@@ -167,7 +172,9 @@ class AudioService:
         enrollment_id: str,
         is_liveness_enabled: bool,
         audio_stream_iterator: typing.Iterable[bytes],
-        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value("MEDIUM"),
+        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value(
+            "MEDIUM"
+        ),
         security: audio_pb2.AuthenticateConfig.ThresholdSecurity = audio_pb2.AuthenticateConfig.ThresholdSecurity.Value(
             "HIGH"
         ),
@@ -190,12 +197,14 @@ class AudioService:
             An iterator of AuthenticateResponse objects
         """
 
-        authenticate_config: audio_pb2.AuthenticateConfig = audio_pb2.AuthenticateConfig(
-            audio=audio_config,
-            enrollmentId=enrollment_id,
-            sensitivity=sensitivity,
-            security=security,
-            isLivenessEnabled=is_liveness_enabled,
+        authenticate_config: audio_pb2.AuthenticateConfig = (
+            audio_pb2.AuthenticateConfig(
+                audio=audio_config,
+                enrollmentId=enrollment_id,
+                sensitivity=sensitivity,
+                security=security,
+                isLivenessEnabled=is_liveness_enabled,
+            )
         )
 
         authenticate_stream: typing.Iterable[
@@ -212,12 +221,14 @@ class AudioService:
         enrollment_group_id: str,
         is_liveness_enabled: bool,
         audio_stream_iterator: typing.Iterable[bytes],
-        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value("MEDIUM"),
+        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value(
+            "MEDIUM"
+        ),
         security: audio_pb2.AuthenticateConfig.ThresholdSecurity = audio_pb2.AuthenticateConfig.ThresholdSecurity.Value(
             "HIGH"
         ),
     ) -> typing.Iterable[audio_pb2.AuthenticateResponse]:
-        """ 
+        """
         Authenticate against an existing audio enrollment in Sensory Cloud.
 
         Arguments:
@@ -234,12 +245,14 @@ class AudioService:
             An iterator of AuthenticateResponse objects
         """
 
-        authenticate_config: audio_pb2.AuthenticateConfig = audio_pb2.AuthenticateConfig(
-            audio=audio_config,
-            enrollmentGroupId=enrollment_group_id,
-            sensitivity=sensitivity,
-            security=security,
-            isLivenessEnabled=is_liveness_enabled,
+        authenticate_config: audio_pb2.AuthenticateConfig = (
+            audio_pb2.AuthenticateConfig(
+                audio=audio_config,
+                enrollmentGroupId=enrollment_group_id,
+                sensitivity=sensitivity,
+                security=security,
+                isLivenessEnabled=is_liveness_enabled,
+            )
         )
 
         group_authenticate_stream: typing.Iterable[
@@ -256,9 +269,11 @@ class AudioService:
         user_id: str,
         model_name: str,
         audio_stream_iterator: typing.Iterable[bytes],
-        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value("MEDIUM"),
+        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value(
+            "MEDIUM"
+        ),
     ) -> typing.Iterable[audio_pb2.ValidateEventResponse]:
-        """ 
+        """
         Stream audio to Sensory Cloud in order to recognize a specific phrase or sound
 
         Arguments:
@@ -313,7 +328,7 @@ class AudioService:
 
         Arguments:
             audio_config: AudioConfig object
-            description: String containing a description of this enrollment. 
+            description: String containing a description of this enrollment.
                 Useful if a user could have multiple enrollments, as it helps differentiate between them.
             user_id: String containing the user id
             model_name: String containing the name of the model to be used
@@ -323,11 +338,13 @@ class AudioService:
             An iterator of CreateEnrollmentResponse objects
         """
 
-        config: audio_pb2.CreateEnrollmentEventConfig = audio_pb2.CreateEnrollmentEventConfig(
-            audio=audio_config,
-            userId=user_id,
-            modelName=model_name,
-            description=description,
+        config: audio_pb2.CreateEnrollmentEventConfig = (
+            audio_pb2.CreateEnrollmentEventConfig(
+                audio=audio_config,
+                userId=user_id,
+                modelName=model_name,
+                description=description,
+            )
         )
 
         request_iterator: RequestIterator = RequestIterator(
@@ -351,7 +368,9 @@ class AudioService:
         audio_config: audio_pb2.AudioConfig,
         enrollment_id: str,
         audio_stream_iterator: typing.Iterable[bytes],
-        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value("MEDIUM"),
+        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value(
+            "MEDIUM"
+        ),
     ) -> typing.Iterable[audio_pb2.ValidateEnrolledEventResponse]:
         """
         Validate an existing event enrollment in Sensory Cloud.
@@ -392,7 +411,9 @@ class AudioService:
         audio_config: audio_pb2.AudioConfig,
         enrollment_group_id: str,
         audio_stream_iterator: typing.Iterable[bytes],
-        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value("MEDIUM"),
+        sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value(
+            "MEDIUM"
+        ),
     ) -> typing.Iterable[audio_pb2.ValidateEnrolledEventResponse]:
         """
         Validate an existing groupd of events in Sensory Cloud.
