@@ -504,7 +504,9 @@ class AudioServiceTest(unittest.TestCase):
             sensitivity=sensitivity,
         )
 
-        mock_request: ValidateEnrolledEventRequest = ValidateEnrolledEventRequest(config=validate_enrolled_event_config)
+        mock_request: ValidateEnrolledEventRequest = ValidateEnrolledEventRequest(
+            config=validate_enrolled_event_config
+        )
         mock_response: ValidateEnrolledEventResponse = ValidateEnrolledEventResponse()
 
         self.audio_events_client.ValidateEnrolledEvent = MagicMock(
@@ -520,7 +522,10 @@ class AudioServiceTest(unittest.TestCase):
             audio_transcriptions_client=self.audio_transcriptions_client,
         )
 
-        validate_enrolled_event_request, validate_enrolled_event_response = audio_service.stream_validate_enrolled_event(
+        (
+            validate_enrolled_event_request,
+            validate_enrolled_event_response,
+        ) = audio_service.stream_validate_enrolled_event(
             audio_config=self.audio_config,
             enrollment_id=enrollment_id,
             audio_stream_iterator=None,
@@ -539,7 +544,9 @@ class AudioServiceTest(unittest.TestCase):
             "Audio config should match what was passed in",
         )
         self.assertEqual(
-            config_message.enrollmentId, enrollment_id, "Enrollment ID should match what was passed in"
+            config_message.enrollmentId,
+            enrollment_id,
+            "Enrollment ID should match what was passed in",
         )
         self.assertEqual(
             config_message.sensitivity,
@@ -561,7 +568,9 @@ class AudioServiceTest(unittest.TestCase):
             sensitivity=sensitivity,
         )
 
-        mock_request: ValidateEnrolledEventRequest = ValidateEnrolledEventRequest(config=validate_enrolled_event_config)
+        mock_request: ValidateEnrolledEventRequest = ValidateEnrolledEventRequest(
+            config=validate_enrolled_event_config
+        )
         mock_response: ValidateEnrolledEventResponse = ValidateEnrolledEventResponse()
 
         self.audio_events_client.ValidateEnrolledEvent = MagicMock(
@@ -577,7 +586,10 @@ class AudioServiceTest(unittest.TestCase):
             audio_transcriptions_client=self.audio_transcriptions_client,
         )
 
-        validate_enrolled_event_request, validate_enrolled_event_response = audio_service.stream_group_validate_enrolled_event(
+        (
+            validate_enrolled_event_request,
+            validate_enrolled_event_response,
+        ) = audio_service.stream_group_validate_enrolled_event(
             audio_config=self.audio_config,
             enrollment_group_id=enrollment_group_id,
             audio_stream_iterator=None,
@@ -596,7 +608,9 @@ class AudioServiceTest(unittest.TestCase):
             "Audio config should match what was passed in",
         )
         self.assertEqual(
-            config_message.enrollmentGroupId, enrollment_group_id, "Enrollment Group ID should match what was passed in"
+            config_message.enrollmentGroupId,
+            enrollment_group_id,
+            "Enrollment Group ID should match what was passed in",
         )
         self.assertEqual(
             config_message.sensitivity,

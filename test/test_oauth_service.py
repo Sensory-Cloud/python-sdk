@@ -1,15 +1,20 @@
+import datetime
 import re
 import unittest
 from unittest.mock import MagicMock
 
 from sensory_cloud.config import Config
-from sensory_cloud.generated.common.common_pb2 import TokenResponse
-from sensory_cloud.generated.v1.management.device_pb2 import DeviceResponse
 from sensory_cloud.services.oauth_service import (
+    IOauthService,
     ISecureCredentialStore,
     OAuthToken,
     OauthService,
 )
+
+import sensory_cloud.generated.common.common_pb2 as common_pb2
+import sensory_cloud.generated.v1.management.device_pb2 as device_pb2
+import sensory_cloud.generated.v1.management.device_pb2_grpc as device_pb2_grpc
+import sensory_cloud.generated.oauth.oauth_pb2_grpc as oauth_pb2_grpc
 
 
 def is_valid_guuid(str):
@@ -48,18 +53,46 @@ class MockCredentialStore(ISecureCredentialStore):
         return self._client_secret
 
 
+class MockOAuthService(OauthService):
+    def __init__(
+        self,
+        config: Config,
+        secure_credential_store: ISecureCredentialStore,
+        oauth_client: oauth_pb2_grpc.OauthServiceStub,
+        device_client: device_pb2_grpc.DeviceServiceStub,
+    ):
+
+        self._config: Config = config
+        self._oauth_client: oauth_pb2_grpc.OauthServiceStub = oauth_client
+        self._device_client: device_pb2_grpc.DeviceServiceStub = device_client
+        self._secure_credential_store: ISecureCredentialStore = secure_credential_store
+
+
 class OauthServiceTest(unittest.TestCase):
+    config: Config = Config(
+        fully_qualifiied_domain_name="domain.name", tenant_id="tenant-id"
+    )
+    config.connect()
+
+    oauth_client: oauth_pb2_grpc.OauthServiceStub = oauth_pb2_grpc.OauthServiceStub(
+        config.channel
+    )
+    device_client: device_pb2_grpc.DeviceServiceStub = (
+        device_pb2_grpc.DeviceServiceStub(config.channel)
+    )
+
     def test_generate_credentials(self):
+        self.config.connect()
+
         credential_store: MockCredentialStore = MockCredentialStore(
             client_id="client-id", client_secret="client-secret"
         )
-        config: Config = Config(
-            fully_qualifiied_domain_name="domain.name", tenant_id="tenant-id"
-        )
-        config.connect()
 
-        oauth_service: OauthService = OauthService(
-            config=config, secure_credential_store=credential_store
+        oauth_service: MockOAuthService = MockOAuthService(
+            config=self.config,
+            secure_credential_store=credential_store,
+            oauth_client=self.oauth_client,
+            device_client=self.device_client,
         )
 
         credentials = oauth_service.generate_credentials()
@@ -74,19 +107,51 @@ class OauthServiceTest(unittest.TestCase):
             "The generated secret should be exactly 24 characters",
         )
 
-        config.channel.close()
+        self.config.channel.close()
+
+    def test_get_who_am_i(self):
+        self.config.connect()
+
+        credential_store: MockCredentialStore = MockCredentialStore(
+            client_id="client-id", client_secret="client-secret"
+        )
+
+        mock_token_response: common_pb2.TokenResponse = common_pb2.TokenResponse(
+            accessToken="my-token", expiresIn=0
+        )
+        self.oauth_client.GetToken = MagicMock(return_value=mock_token_response)
+
+        mock_device_response: device_pb2.DeviceResponse = device_pb2.DeviceResponse(
+            name="my-device-name", deviceId="my-device-id"
+        )
+        self.device_client.GetWhoAmI = MagicMock(return_value=mock_device_response)
+
+        oauth_service: MockOAuthService = MockOAuthService(
+            config=self.config,
+            secure_credential_store=credential_store,
+            oauth_client=self.oauth_client,
+            device_client=self.device_client,
+        )
+
+        device_response: device_pb2.DeviceResponse = oauth_service.get_who_am_i()
+
+        self.assertEqual(
+            device_response,
+            mock_device_response,
+            "the who am I response should be correct",
+        )
+
+        self.config.channel.close()
 
     def test_get_token_null_credentials(self):
+        self.config.connect()
+
         null_id_credential_store: MockCredentialStore = MockCredentialStore(
             client_id=None, client_secret="client-secret"
         )
-        config: Config = Config(
-            fully_qualifiied_domain_name="domain.name", tenant_id="tenant-id"
-        )
-        config.connect()
 
         oauth_service: OauthService = OauthService(
-            config=config, secure_credential_store=null_id_credential_store
+            config=self.config, secure_credential_store=null_id_credential_store
         )
 
         self.assertRaises(ValueError, oauth_service.get_token)
@@ -95,35 +160,34 @@ class OauthServiceTest(unittest.TestCase):
             client_id="client-id", client_secret=""
         )
         oauth_service: OauthService = OauthService(
-            config=config, secure_credential_store=null_secret_credential_store
+            config=self.config, secure_credential_store=null_secret_credential_store
         )
 
         self.assertRaises(ValueError, oauth_service.get_token)
 
-        config.channel.close()
+        self.config.channel.close()
 
     def test_get_token(self):
+        self.config.connect()
+
         credential_store: MockCredentialStore = MockCredentialStore(
             client_id="client-id", client_secret="client-secret"
         )
-        config: Config = Config(
-            fully_qualifiied_domain_name="domain.name", tenant_id="tenant-id"
-        )
-        config.connect()
 
-        oauth_service: OauthService = OauthService(
-            config=config, secure_credential_store=credential_store
-        )
-
-        token_response: TokenResponse = TokenResponse(
+        token_response: common_pb2.TokenResponse = common_pb2.TokenResponse(
             accessToken="fake-token", expiresIn=0
         )
-
-        oauth_service.get_token = MagicMock(
-            return_value=OAuthToken(
-                token=token_response.accessToken, expires=token_response.expiresIn
-            )
+        self.oauth_client.GetToken = self.oauth_client.GetToken = MagicMock(
+            return_value=token_response
         )
+
+        oauth_service: MockOAuthService = MockOAuthService(
+            config=self.config,
+            secure_credential_store=credential_store,
+            oauth_client=self.oauth_client,
+            device_client=self.device_client,
+        )
+
         oauth_token: OAuthToken = oauth_service.get_token()
 
         self.assertEqual(
@@ -132,27 +196,24 @@ class OauthServiceTest(unittest.TestCase):
             "Returned access token should be the same",
         )
         self.assertTrue(
-            oauth_token.expires <= 0,
+            oauth_token.expires <= datetime.datetime.utcnow(),
             "Token expiration should be earlier than or equal to now",
         )
 
-        config.channel.close()
+        self.config.channel.close()
 
     def test_register_null_credentials(self):
+        self.config.connect()
+
         device_name = "device-name"
         device_id = "device-id"
         credential = "credential"
-
-        config: Config = Config(
-            fully_qualifiied_domain_name="domain.name", tenant_id="tenant-id"
-        )
-        config.connect()
 
         null_id_credential_store: MockCredentialStore = MockCredentialStore(
             client_id=None, client_secret="client-secret"
         )
         oauth_service: OauthService = OauthService(
-            config=config, secure_credential_store=null_id_credential_store
+            config=self.config, secure_credential_store=null_id_credential_store
         )
         self.assertRaises(
             ValueError, oauth_service.register, device_id, device_name, credential
@@ -162,35 +223,40 @@ class OauthServiceTest(unittest.TestCase):
             client_id="client-id", client_secret=""
         )
         oauth_service: OauthService = OauthService(
-            config=config, secure_credential_store=null_secret_credential_store
+            config=self.config, secure_credential_store=null_secret_credential_store
         )
         self.assertRaises(
             ValueError, oauth_service.register, device_id, device_name, credential
         )
 
-        config.channel.close()
+        self.config.channel.close()
 
     def test_register(self):
-        device_name = "device-name"
-        device_id = "device-id"
+        self.config.connect()
 
-        config: Config = Config(
-            fully_qualifiied_domain_name="domain.name", tenant_id="tenant-id"
-        )
-        config.connect()
+        device_name: str = "device-name"
+        device_id: str = "device-id"
+        credential: str = "my-credential"
 
         credential_store: MockCredentialStore = MockCredentialStore(
             client_id="client-id", client_secret="client-secret"
         )
 
-        response: DeviceResponse = DeviceResponse(name=device_name, deviceId=device_id)
-
-        oauth_service: OauthService = OauthService(
-            config=config, secure_credential_store=credential_store
+        response: device_pb2.DeviceResponse = device_pb2.DeviceResponse(
+            name=device_name, deviceId=device_id
         )
-        oauth_service.register = MagicMock(return_value=response)
+        self.device_client.EnrollDevice = MagicMock(return_value=response)
 
-        device_response = oauth_service.register()
+        oauth_service: MockOAuthService = MockOAuthService(
+            config=self.config,
+            secure_credential_store=credential_store,
+            oauth_client=self.oauth_client,
+            device_client=self.device_client,
+        )
+
+        device_response: device_pb2.DeviceResponse = oauth_service.register(
+            device_id=device_id, device_name=device_name, credential=credential
+        )
 
         self.assertEqual(
             response.name,
@@ -202,6 +268,8 @@ class OauthServiceTest(unittest.TestCase):
             device_response.deviceId,
             "Returned device id should be the same",
         )
+
+        self.config.channel.close()
 
 
 if __name__ == "__main__":

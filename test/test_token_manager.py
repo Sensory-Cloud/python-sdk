@@ -1,15 +1,10 @@
 import unittest
 import datetime
 
-from sensory_cloud.config import Config
-from sensory_cloud.generated.oauth.oauth_pb2_grpc import (
-    OauthServiceServicer,
-    OauthServiceStub,
-)
-from sensory_cloud.generated.v1.management.device_pb2 import DeviceResponse
-from sensory_cloud.generated.v1.management.device_pb2_grpc import DeviceServiceStub
 from sensory_cloud.token_manager import TokenManager, OAuthToken
 from sensory_cloud.services.oauth_service import OAuthClient, IOauthService
+
+import sensory_cloud.generated.v1.management.device_pb2 as device_pb2
 
 
 class TestOauthService(IOauthService):
@@ -38,7 +33,7 @@ class TestOauthService(IOauthService):
 
     def register(
         self, device_id: str, device_name: str, credential: str
-    ) -> DeviceResponse:
+    ) -> device_pb2.DeviceResponse:
         raise NotImplementedError
 
 
@@ -104,6 +99,22 @@ class TokenManagerTest(unittest.TestCase):
             oauth_service.get_token_was_called,
             3,
             "OAuth service should be called if token is expired",
+        )
+
+    def test_get_authorization_metadata(self):
+        oauth_token: OAuthToken = OAuthToken(
+            token="my-token", expires=datetime.datetime.utcnow()
+        )
+        oauth_service: TestOauthService = TestOauthService(oauth_token=oauth_token)
+
+        token_manager: TokenManager = TokenManager(oauth_service=oauth_service)
+
+        token_manager.get_authorization_metadata()
+
+        self.assertEqual(
+            oauth_service.get_token_was_called,
+            1,
+            "OAuth service should be called if no token is populated",
         )
 
 

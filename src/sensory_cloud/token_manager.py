@@ -18,7 +18,7 @@ class ITokenManager(ABC):
     def get_token(self) -> str:
         """
         Method that gets a valid oath token
-        
+
         Returns:
             A JWT as a string
         """
@@ -27,7 +27,7 @@ class ITokenManager(ABC):
     def get_authorization_metadata(self) -> Metadata:
         """
         Method that gets a token wrapped in grpc metadata
-        
+
         Returns:
             A JWT wrapped in grpc metadata
         """
@@ -47,7 +47,7 @@ class TokenManager(ITokenManager):
         self.oauth_service: IOauthService = oauth_service
 
     def get_token(self) -> str:
-        
+
         self._token_mutex.acquire()
 
         if (

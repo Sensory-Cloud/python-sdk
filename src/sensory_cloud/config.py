@@ -5,7 +5,7 @@ class Config:
     """
     Configuration class used to establish a channel with the sensory cloud server
     """
-    
+
     def __init__(
         self,
         fully_qualifiied_domain_name: str,
@@ -33,7 +33,7 @@ class Config:
         Public method to setup the grpc channel using the parameters that are set in the
         constructor
         """
-        
+
         if self.is_connection_secure:
             self._channel = grpc.secure_channel(
                 target=self.fully_qualifiied_domain_name,
@@ -52,7 +52,7 @@ class Config:
         Returns:
             The grpc channel object set by the parameters specified in the constructor
         """
-        
+
         if self._channel is None:
             raise ValueError(
                 "no connection has been established with Sensory Cloud. did you forget to call connect()?"

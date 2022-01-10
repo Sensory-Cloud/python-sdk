@@ -14,12 +14,12 @@ from sensory_cloud.generated.v1.video.video_pb2 import (
     VideoModel,
     AuthenticateConfig,
     AuthenticateRequest,
-    AuthenticateResponse
+    AuthenticateResponse,
 )
 from sensory_cloud.generated.v1.video.video_pb2_grpc import (
-    VideoBiometricsStub, 
-    VideoModelsStub, 
-    VideoRecognitionStub
+    VideoBiometricsStub,
+    VideoModelsStub,
+    VideoRecognitionStub,
 )
 from sensory_cloud.token_manager import ITokenManager, TokenManager
 from sensory_cloud.services.oauth_service import ISecureCredentialStore, OauthService
@@ -73,7 +73,9 @@ class VideoServiceTest(unittest.TestCase):
 
     video_models_client: VideoModelsStub = VideoModelsStub(config.channel)
     video_biometrics_client: VideoBiometricsStub = VideoBiometricsStub(config.channel)
-    video_recognition_client: VideoRecognitionStub = VideoRecognitionStub(config.channel)
+    video_recognition_client: VideoRecognitionStub = VideoRecognitionStub(
+        config.channel
+    )
 
     def test_get_models(self):
         self.config.connect()
@@ -89,7 +91,7 @@ class VideoServiceTest(unittest.TestCase):
             token_manager=self.token_manager,
             video_models_client=self.video_models_client,
             video_biometrics_client=self.video_biometrics_client,
-            video_recognition_client=self.video_recognition_client
+            video_recognition_client=self.video_recognition_client,
         )
 
         models_response: GetModelsResponse = video_service.get_models()
@@ -131,17 +133,20 @@ class VideoServiceTest(unittest.TestCase):
             token_manager=self.token_manager,
             video_models_client=self.video_models_client,
             video_biometrics_client=self.video_biometrics_client,
-            video_recognition_client=self.video_recognition_client
+            video_recognition_client=self.video_recognition_client,
         )
 
-        enrollment_stream_request, enrollment_stream_response = video_service.stream_enrollment(
+        (
+            enrollment_stream_request,
+            enrollment_stream_response,
+        ) = video_service.stream_enrollment(
             description=description,
             user_id=user_id,
             model_name=model_name,
             device_id=device_id,
             is_liveness_enabled=is_liveness_enabled,
             video_stream_iterator=None,
-            threshold=threshold
+            threshold=threshold,
         )
 
         self.assertIsNotNone(enrollment_stream_response)
@@ -168,7 +173,9 @@ class VideoServiceTest(unittest.TestCase):
             livenessThreshold=threshold,
         )
 
-        mock_request: AuthenticateRequest = AuthenticateRequest(config=authenticate_config)
+        mock_request: AuthenticateRequest = AuthenticateRequest(
+            config=authenticate_config
+        )
         mock_response: AuthenticateResponse = AuthenticateResponse()
 
         self.video_biometrics_client.Authenticate = MagicMock(
@@ -180,10 +187,13 @@ class VideoServiceTest(unittest.TestCase):
             token_manager=self.token_manager,
             video_models_client=self.video_models_client,
             video_biometrics_client=self.video_biometrics_client,
-            video_recognition_client=self.video_recognition_client
+            video_recognition_client=self.video_recognition_client,
         )
 
-        authenticate_stream_request, authenticate_stream_response = video_service.stream_authentication(
+        (
+            authenticate_stream_request,
+            authenticate_stream_response,
+        ) = video_service.stream_authentication(
             enrollment_id=enrollment_id,
             is_liveness_enabled=is_liveness_enabled,
             video_stream_iterator=None,
@@ -215,7 +225,7 @@ class VideoServiceTest(unittest.TestCase):
             config=recognition_config
         )
         mock_response: LivenessRecognitionResponse = LivenessRecognitionResponse()
-        
+
         self.video_recognition_client.ValidateLiveness = MagicMock(
             return_value=(mock_request, mock_response)
         )
@@ -225,10 +235,13 @@ class VideoServiceTest(unittest.TestCase):
             token_manager=self.token_manager,
             video_models_client=self.video_models_client,
             video_biometrics_client=self.video_biometrics_client,
-            video_recognition_client=self.video_recognition_client
+            video_recognition_client=self.video_recognition_client,
         )
 
-        liveness_recognition_request, liveness_recognition_response = video_service.stream_liveness_recognition(
+        (
+            liveness_recognition_request,
+            liveness_recognition_response,
+        ) = video_service.stream_liveness_recognition(
             user_id=user_id,
             model_name=model_name,
             video_stream_iterator=None,
@@ -244,5 +257,3 @@ class VideoServiceTest(unittest.TestCase):
         self.assertEqual(config_message.modelName, model_name)
 
         self.config.channel.close()
-
-    

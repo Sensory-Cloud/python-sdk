@@ -1,6 +1,6 @@
-import grpc
 import uuid
 import datetime
+import typing
 from abc import ABC, abstractmethod
 
 from sensory_cloud.config import Config
@@ -157,20 +157,50 @@ class OauthService(IOauthService):
         self._secure_credential_store: ISecureCredentialStore = secure_credential_store
 
     def generate_credentials(self) -> OAuthClient:
-        client = OAuthClient(
+        """
+        Can be called to generate secure and guaranteed unique credentials.
+        Should be used the first time the SDK registers and OAuth token with the cloud.
+        
+        Returns:
+            An OAuthClient
+        """
+        
+        client: OAuthClient = OAuthClient(
             client_id=str(uuid.uuid4()),
             client_secret=CryptoService().get_secure_random_string(length=24),
         )
         return client
 
+    def get_who_am_i(self) -> device_pb2.DeviceResponse:
+        """
+        Get information about the current registered device as inferred by the OAuth credentials supplied by the credential manager.
+        A new token is request every time this call is made, so use sparingly.
+
+        Returns:
+            Information about the current device
+        """
+        
+        oauth_token: OAuthToken = self.get_token()
+        metadata: typing.Tuple[typing.Tuple] = (("authorization", f"Bearer {oauth_token.token}"),)
+
+        return self._device_client.GetWhoAmI(request=device_pb2.DeviceGetWhoAmIRequest(), metadata=metadata)
+
+
     def get_token(self) -> OAuthToken:
-        client_id = self._secure_credential_store.client_id
+        """
+        Obtains an Oauth JWT from Sensory Cloud
+
+        Returns:
+            An OAuth JWT and expiration
+        """
+        
+        client_id: str = self._secure_credential_store.client_id
         if client_id in [None, ""]:
             raise ValueError(
                 "null client_id was returned from the secure credential store"
             )
 
-        client_secret = self._secure_credential_store.client_secret
+        client_secret: str = self._secure_credential_store.client_secret
         if client_secret in [None, ""]:
             raise ValueError(
                 "null client_secret was returned from the secure credential store"
@@ -180,7 +210,7 @@ class OauthService(IOauthService):
         request: oauth_pb2.TokenRequest = oauth_pb2.TokenRequest(
             clientId=client_id, secret=client_secret
         )
-        response = self._oauth_client.GetToken(request)
+        response: common_pb2.TokenResponse = self._oauth_client.GetToken(request)
 
         return OAuthToken(
             token=response.accessToken,
@@ -190,13 +220,27 @@ class OauthService(IOauthService):
     def register(
         self, device_id: str, device_name: str, credential: str
     ) -> device_pb2.DeviceResponse:
-        client_id = self._secure_credential_store.client_id
+        """
+        Register credentials provided by the attached SecureCredentialStore to Sensory Cloud. 
+        This function should only be called once per unique credential pair. An error will be 
+        thrown if registration fails.
+
+        Arguments:
+            device_id: String containing the uuid device id
+            device_name: The friendly name of the registering device
+            credential: The credential configured on the Sensory Cloud server
+
+        Returns:
+            A DeviceResponse indicating the device was successfully registered
+        """
+
+        client_id: str = self._secure_credential_store.client_id
         if client_id in [None, ""]:
             raise ValueError(
                 "null client_id was returned from the secure credential store"
             )
 
-        client_secret = self._secure_credential_store.client_secret
+        client_secret: str = self._secure_credential_store.client_secret
         if client_secret in [None, ""]:
             raise ValueError(
                 "null client_secret was returned from the secure credential store"
