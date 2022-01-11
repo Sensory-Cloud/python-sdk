@@ -7,7 +7,7 @@ with open("requirements.txt", "r") as requirements_txt:
 
 setup(
    name="sensory_cloud",
-   version="0.0.1",
+   version="0.6.0",
    description="Python SDK for Sensory Cloud",
    author="Jonathan Hersch",
    author_email="jhersch@sensoryinc.com",
