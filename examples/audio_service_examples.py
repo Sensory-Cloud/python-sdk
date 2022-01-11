@@ -16,9 +16,9 @@ from sensory_cloud.token_manager import TokenManager
 from sensory_cloud.services.oauth_service import OauthService
 from sensory_cloud.services.audio_service import AudioService
 from sensory_cloud.generated.v1.audio.audio_pb2 import (
-    AudioConfig, 
-    GetModelsResponse, 
-    TranscribeResponse
+    AudioConfig,
+    GetModelsResponse,
+    TranscribeResponse,
 )
 
 from secure_credential_store_example import SecureCredentialStore
@@ -37,6 +37,8 @@ client_secret = os.environ.get("CLIENT_SECRET")
 device_id = os.environ.get("DEVICE_ID")
 user_id = os.environ.get("USER_ID")
 enrollment_id = os.environ.get("AUDIO_ENROLLMENT_ID")
+enrollment_group_id = "audio-enrollment-group-id"
+event_enrollment_id = "audio-event-enrollment-group-id"
 
 
 class AudioStreamIterator:
@@ -124,6 +126,7 @@ def get_audio() -> typing.Tuple[AudioService, AudioConfig, AudioStreamIterator]:
 
     return audio_service, audio_config, audio_stream_iterator
 
+
 def example_get_models() -> GetModelsResponse:
     """
     Example of retrieving all available audio models to the tenant
@@ -131,16 +134,16 @@ def example_get_models() -> GetModelsResponse:
     Returns:
         A GetModelsResponse containing information about audio models
     """
-    
+
     audio_service, audio_config, audio_stream_iterator = get_audio()
     audio_stream_iterator.close()
-    
+
     return audio_service.get_models()
 
 
 def example_enroll_with_audio() -> str:
     """
-    Example of creating a new audio enrollment with the Open Sesame 
+    Example of creating a new audio enrollment with the Open Sesame
     wake word model
 
     Returns:
@@ -163,7 +166,9 @@ def example_enroll_with_audio() -> str:
 
     enrollment_id = None
     try:
-        print("Recording enrollment (repeat saying 'Open Sesame' until the enrollment is complete)...")
+        print(
+            "Recording enrollment (repeat saying 'Open Sesame' until the enrollment is complete)..."
+        )
         percent_complete = 0
         print(f"percent complete = {percent_complete}")
         for response in enrollment_stream:
@@ -219,11 +224,49 @@ def example_authenticate_with_audio() -> bool:
     return authentication_success
 
 
-def example_group_authenticate_with_audio():
-    pass
+def example_group_authenticate_with_audio() -> bool:
+    """
+    Example of voice authentication against the Open Sesame wake word model
+    from an enrollment group
+
+    Returns:
+        A boolean denoting whether or not the authentication was successful
+    """
+
+    audio_service, audio_config, audio_stream_iterator = get_audio()
+
+    authenticate_stream = audio_service.stream_group_authenticate(
+        audio_config=audio_config,
+        enrollment_group_id=enrollment_group_id,
+        is_liveness_enabled=is_liveness_enabled,
+        audio_stream_iterator=audio_stream_iterator,
+    )
+
+    authentication_success = False
+    try:
+        print("Authenticating for pass phrase 'Open Sesame'...")
+        for response in authenticate_stream:
+            if response.success:
+                authentication_success = True
+                break
+        print("Authentication successful!\n")
+    except Exception as e:
+        print(f"Authentication failed with error: {str(e)}\n")
+    finally:
+        audio_stream_iterator.close()
+        authenticate_stream.cancel()
+
+    return authentication_success
 
 
-def example_audio_transcription() -> typing.List[str]:
+def example_audio_transcription() -> str:
+    """
+    Example of an audio transcription using the 'vad-lvscr-lights-2.snsr' model
+
+    Returns:
+        A string containing a complete transcription
+    """
+
     transcription_model = "vad-lvscr-lights-2.snsr"
     audio_service, audio_config, audio_stream_iterator = get_audio()
 
@@ -236,29 +279,31 @@ def example_audio_transcription() -> typing.List[str]:
         audio_stream_iterator=audio_stream_iterator,
     )
 
-    transcriptions: typing.List[str] = []
+    transcription = None
     try:
         print("LVCSR lights session begin\n")
         for response in transcribe_stream:
-            if response.transcript == "help":
-                cmd = "'Help' is the exit command for this demo, so ending session..."
-                print(f"{cmd}\n")
-                transcriptions.append(response.transcript)
-                break
             if not response.isPartialResult:
                 print(response.transcript)
-                transcriptions.append(response.transcript)
-        print("Session end")
+                transcription = response.transcript
+        print("Complete transcription detected, ending session")
     except Exception as e:
         print(f"Transcription failed with error: {str(e)}\n")
     finally:
         audio_stream_iterator.close()
         transcribe_stream.cancel()
 
-    return transcriptions
+    return transcription
 
 
-def example_audio_event():
+def example_stream_event() -> str:
+    """
+    Example of an audio event detected by the 'sound-16kHz-combined-all.trg' model
+
+    Returns:
+        A string containing the type of event detected
+    """
+
     event_model = "sound-16kHz-combined-all.trg"
     audio_service, audio_config, audio_stream_iterator = get_audio()
 
@@ -269,41 +314,129 @@ def example_audio_event():
         audio_stream_iterator=audio_stream_iterator,
     )
 
-    events = []
+    event = None
     try:
         print("Listening for events...")
         for response in event_stream:
             if response.success:
-
-                events.append(response)
-                print(response.resultId, response.score)
-
-                if response.resultId == "Door Knock":
-                    print(
-                        "A door knock detection is the exit signal for this demo, so ending session..."
-                    )
-                    break
-        print("Session end")
+                print(response.resultId)
+                event = response.resultId
+        print(f"Detected {event}, ending session")
     except Exception as e:
         print(f"Event detection failed with error: {str(e)}\n")
     finally:
         audio_stream_iterator.close()
         event_stream.cancel()
 
-    return events
+    return event
 
 
-def example_create_enrolled_event():
-    pass
+def example_create_enrolled_event() -> str:
+    """
+    Example of creating an enrollment using an enrolled event
+
+    Returns:
+        A string containing the new enrollment id
+    """
+
+    model_name = "sound-dependent-16kHz.ubm"
+    description = "enrolled-event-example"
+
+    audio_service, audio_config, audio_stream_iterator = get_audio()
+
+    enrolled_event_stream = audio_service.stream_create_enrolled_event(
+        audio_config=audio_config,
+        description=description,
+        user_id=user_id,
+        model_name=model_name,
+        audio_stream_iterator=audio_stream_iterator,
+    )
+
+    enrollment_id = None
+    try:
+        print("Enrolling...")
+        percent_complete = 0
+        print(f"percent complete = {percent_complete}")
+        for response in enrolled_event_stream:
+            if response.percentComplete != percent_complete:
+                percent_complete = response.percentComplete
+                print(f"percent complete = {percent_complete}")
+            if response.percentComplete >= 100:
+                break
+            enrollment_id = response.enrollmentId
+        print("Enrollment complete!")
+        print(f"Enrollment Id = {enrollment_id}")
+    except Exception as e:
+        print(f"Enrolled event failed with error: {str(e)}")
+    finally:
+        audio_stream_iterator.close()
+        enrolled_event_stream.cancel()
+
+    return enrollment_id
 
 
-def example_validate_enrolled_event():
-    pass
+def example_validate_enrolled_event() -> bool:
+    """
+    Example validating against the enrollment created in example_create_enrolled_event()
+
+    Returns:
+        A boolean denoting whether or not the validation was successful
+    """
+
+    audio_service, audio_config, audio_stream_iterator = get_audio()
+
+    validate_enrolled_event_stream = audio_service.stream_validate_enrolled_event(
+        audio_config=audio_config,
+        enrollment_id=event_enrollment_id,
+        audio_stream_iterator=audio_stream_iterator,
+    )
+
+    authentication_success = True
+    try:
+        print("Authenticating enrolled event...")
+        for response in validate_enrolled_event_stream:
+            if response.success:
+                authentication_success = True
+                break
+        print("Authentication successful!\n")
+    except Exception as e:
+        print(f"Enrolled event validation failed with error: {str(e)}")
+    finally:
+        audio_stream_iterator.close()
+        validate_enrolled_event_stream.cancel()
+
+    return authentication_success
 
 
 def example_group_validate_enrolled_event():
-    pass
+    """
+    Example validating against the enrollment group containing the event enrollment created in
+    example_create_enrolled_event()
 
+    Returns:
+        A boolean denoting whether or not the validation was successful
+    """
 
-if __name__ == "__main__":
-    models = example_get_models()
+    audio_service, audio_config, audio_stream_iterator = get_audio()
+
+    validate_enrolled_event_stream = audio_service.stream_group_validate_enrolled_event(
+        audio_config=audio_config,
+        enrollment_group_id=enrollment_group_id,
+        audio_stream_iterator=audio_stream_iterator,
+    )
+
+    authentication_success = True
+    try:
+        print("Authenticating enrolled event...")
+        for response in validate_enrolled_event_stream:
+            if response.success:
+                authentication_success = True
+                break
+        print("Authentication successful!\n")
+    except Exception as e:
+        print(f"Enrolled event validation failed with error: {str(e)}")
+    finally:
+        audio_stream_iterator.close()
+        validate_enrolled_event_stream.cancel()
+
+    return authentication_success

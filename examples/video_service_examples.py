@@ -7,22 +7,7 @@ from PIL import Image
 from sensory_cloud.config import Config
 from sensory_cloud.token_manager import TokenManager
 from sensory_cloud.services.oauth_service import OauthService
-from sensory_cloud.services.video_service import VideoService, RequestIterator
-
-from sensory_cloud.generated.v1.video.video_pb2 import (
-    CreateEnrollmentResponse,
-    GetModelsRequest,
-    GetModelsResponse,
-    CreateEnrollmentConfig,
-    CreateEnrollmentRequest,
-    AuthenticateConfig,
-    AuthenticateRequest,
-    AuthenticateResponse,
-    LivenessRecognitionResponse,
-    RecognitionThreshold,
-    ValidateRecognitionConfig,
-    ValidateRecognitionRequest,
-)
+from sensory_cloud.services.video_service import VideoService
 
 from secure_credential_store_example import SecureCredentialStore
 
@@ -45,7 +30,8 @@ enrollment_id = os.environ.get("VIDEO_ENROLLMENT_ID")
 
 
 class VideoStreamIterator:
-    _camera = cv2.VideoCapture(0)
+    def __init__(self):
+        self._camera = cv2.VideoCapture(0)
 
     def __iter__(self):
         return self
@@ -65,7 +51,21 @@ class VideoStreamIterator:
 
 
 def example_get_models():
-    pass
+    config = Config(
+        fully_qualifiied_domain_name=fully_qualifiied_domain_name,
+        is_connection_secure=is_connection_secure,
+        tenant_id=tenant_id,
+    )
+    config.connect()
+
+    cred_store = SecureCredentialStore(client_id, client_secret)
+    oauth_service = OauthService(config=config, secure_credential_store=cred_store)
+
+    token_manager = TokenManager(oauth_service=oauth_service)
+
+    video_service = VideoService(config=config, token_manager=token_manager)
+
+    return video_service.get_models()
 
 
 def example_enroll_with_video() -> str:
@@ -134,8 +134,6 @@ def example_authenticate_with_video() -> bool:
 
     video_service = VideoService(config=config, token_manager=token_manager)
 
-    models = video_service.get_models()
-
     video_stream_iterator = VideoStreamIterator()
 
     authenticate_stream = video_service.stream_authentication(
@@ -162,5 +160,48 @@ def example_authenticate_with_video() -> bool:
     return success
 
 
+def example_stream_liveness_recognition():
+    model_name: str = "face_recognition_mathilde"
+
+    config = Config(
+        fully_qualifiied_domain_name=fully_qualifiied_domain_name,
+        is_connection_secure=is_connection_secure,
+        tenant_id=tenant_id,
+    )
+    config.connect()
+
+    cred_store = SecureCredentialStore(client_id, client_secret)
+    oauth_service = OauthService(config=config, secure_credential_store=cred_store)
+
+    token_manager = TokenManager(oauth_service=oauth_service)
+
+    video_service = VideoService(config=config, token_manager=token_manager)
+
+    video_stream_iterator = VideoStreamIterator()
+
+    recognition_stream = video_service.stream_liveness_recognition(
+        user_id=user_id,
+        model_name=model_name,
+        video_stream_iterator=video_stream_iterator,
+    )
+
+    alive = False
+    try:
+        print("Running liveness recognition...")
+        for response in recognition_stream:
+            print(response.isAlive)
+            if response.isAlive:
+                alive = True
+                break
+        print("You're alive!")
+    except Exception as e:
+        print(f"Liveness recognition failed with error {str(e)}")
+    finally:
+        video_stream_iterator.close()
+        recognition_stream.cancel()
+
+    return alive
+
+
 if __name__ == "__main__":
-    success = example_authenticate_with_video()
+    alive = example_stream_liveness_recognition()
