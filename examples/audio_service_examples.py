@@ -363,7 +363,7 @@ def example_create_enrolled_event() -> str:
                 print(f"percent complete = {percent_complete}")
             if response.percentComplete >= 100:
                 break
-            enrollment_id = response.enrollmentId
+        enrollment_id = response.enrollmentId
         print("Enrollment complete!")
         print(f"Enrollment Id = {enrollment_id}")
     except Exception as e:
