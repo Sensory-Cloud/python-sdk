@@ -8,6 +8,7 @@ from secure_credential_store_example import SecureCredentialStore
 
 
 def example_token_manager():
+    # The environment variables retrieved below should be set prior to running this example
     fully_qualifiied_domain_name: str = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
     tenant_id: str = os.environ.get("TENANT_ID")
     client_id: str = os.environ.get("CLIENT_ID")

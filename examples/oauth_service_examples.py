@@ -12,8 +12,13 @@ dotenv.load_dotenv(override=True)
 
 def example_device_register() -> None:
 
+    # The device_id and device_name should be set by the user here and then stored
+    # as environment variables called DEVICE_ID and DEVICE_NAME respectively for
+    # use in later examples
     device_id: str = "my-new-device-id"
     device_name: str = "my-new-device-name"
+
+    # The environment variables retrieved below should be set prior to running this example
     fully_qualifiied_domain_name: str = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
     tenant_id: str = os.environ.get("TENANT_ID")
     client_id: str = os.environ.get("CLIENT_ID")

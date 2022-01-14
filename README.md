@@ -3,24 +3,57 @@ Sensory Cloud is built using python 3.8, but it is compatible with python 3.6 an
 
 ## General Information
 Before getting started, you must spin up a Sensory Cloud inference server or have Sensory spin one up for you. You must also have the following pieces of information:
-- Your inference server URL
+- Your inference server URL (fully_qualified_domain_name)
 - Your Sensory Tenant ID (UUID)
-- Your configured secret key used to register OAuth clients
+- Your configured secret key (device_credential) used to register OAuth clients and devices
 
 ## Checking Server Health
 It's important to check the health of your Sensory Inference server. You can do so by following the example [here](examples/health_service_examples.py).
 
-
 ## Secure Credential Store
-ISecureCredential is an interface that store and serves your OAuth credentials (clientId and clientSecret).
-ISecureCredential must be implemented by you and the credentials should be persisted in a secure manner, such as in an encrypted database.
-OAuth credentials should be generated one time per unique machine.
+ISecureCredential is an interface that store and serves your OAuth credentials (client_id and client_secret).
+The `client_id` must be a uuid and the `client_secret` can be generated using the CryptoService as shown below.
+
+```
+import uuid
+from sensory_cloud.services.crypto_service import CryptoService
+
+client_id = str(uuid.uuid4())
+client_secret = CryptoService().get_secure_random_string(length=24) # This will yield a client secret with 24 characters
+```
+
+You will want to store your client credentials in a safe place.  The examples used throughout this README store credentials in a `.env` file in
+the examples subdirectory and are retrieved using the [`python-dotenv`](https://pypi.org/project/python-dotenv/) package which is not a dependency
+of the `sensory-cloud` library so these examples must be run in a python environment with both packages installed if you want to run the example code
+directly.
+
+ISecureCredential must be implemented by you and follow the patterns of the abstract ISecureCredential class defined in the
+in the [oauth_service.py](src/sensory_cloud/services/oauth_service.py) file.
+The credentials should be persisted in a secure manner, such as in an encrypted database.
+OAuth device credentials should be generated one time per unique machine.
 A crude example of ISecureCredential can be seen [here](examples/secure_credential_store_example.py).
 
 ## Registering OAuth Credentials
-OAuth credentials should be registered once per unique machine. Registration is very simple, and provided as part of the SDK.
+OAuth credentials should be registered once per unique machine and is the first step that must be taken in order to create enrollments. 
+Registration is very simple, and provided as part of the SDK.
 The source code for the OAuthService can be found in the [oauth_service.py](src/sensory_cloud/services/oauth_service.py) file and
-the example file [here](examples/oauth_service_examples.py) shows how to create an OAuthService and register a client for the first time.
+the example file [here](examples/oauth_service_examples.py) shows how to create an OAuthService and register a device for the first time.
+Similar to the `client_id` and `client_secret`, the `device_id` and `device_name` (which are strings set by the user) 
+should be safely stored and easily retrievable.  As mentioned,
+the examples store this information in a `.env` file located in the examples subdirectory.  To follow the examples directly, you should have a 
+the following environment variables set in a `.env` file or in your `.bash_profile` if using MacOS or your `.bashrc` if using Linux.
+
+```
+export FULLY_QUALIFIED_DOMAIN_NAME="my.inference.server.url.com"
+export TENANT_ID="my-uuid-tenant-id"
+export DEVICE_CREDENTIAL="my-configured-secret-key"
+
+export CLIENT_ID="my-uuid-client-id"
+export CLIENT_SECRET="my-client-secret"
+
+export DEVICE_ID="my-new-device-id"
+export DEVICE_NAME-"my-new-device-name"
+```
 
 
 ## Creating a Token Manager
@@ -86,6 +119,9 @@ In order to enroll with audio, you must first ensure you have an enrollable mode
 Enrolling with audio uses an audio stream iterator that yields audio bytes. A sample audio stream iterator is shown below and passed into the audio enrollmnent class method. 
 It is important to save the enrollmentId in order to perform authentication against it in the future.
 
+NOTE: The snippet below and the audio service [examples](examples/audio_service_examples.py) file use the [`pyaudio`](https://pypi.org/project/PyAudio/)
+package to create the AudioStreamIterator.  The `pyaudio` package is not a dependancy of the `sensory-cloud` library so it must be installed seperately 
+if you want to follow the example code directly.
 ```
 class AudioStreamIterator:
     """
@@ -132,6 +168,10 @@ class AudioStreamIterator:
         self._stream.stop_stream()
         self._stream.close()
         self._py_audio.terminate()
+
+description = "my enrollment description"
+user_id = "my-user-id"
+device_id = os.environ.get("DEVICE_ID")
 
 audio_service: AudioService = get_audio_service()
 
@@ -184,11 +224,16 @@ finally:
     enrollment_stream.cancel()
 ```
 
+The `enrollment_id` generated by the code snippet above or from running the example_enroll_with_audio() in the [audio_service_examples.py](examples/audio_service_examples.py) file
+should be stored as an environment variable called `AUDIO_ENROLLMENT_ID` to be used in the example_authenticate_with_audio() which is discussed next.
+
 ### Authenticating with Audio
 Authenticating with audio is similar to enrollment, except now you have an enrollment_id to pass into the function.  The AudioStreamIterator
 class shown in the enrollment example above will be used again here.
 
 ```
+is_liveness_enabled = False
+
 audio_service: AudioService = get_audio_service()
 
 audio_config = AudioConfig(
@@ -209,7 +254,7 @@ audio_stream_iterator = AudioStreamIterator(
 
 authenticate_stream = audio_service.stream_authenticate(
     audio_config=audio_config,
-    enrollment_id="my-enrollment-id",
+    enrollment_id=os.environ.get("AUDIO_ENROLLMENT_ID"),
     is_liveness_enabled=is_liveness_enabled,
     audio_stream_iterator=audio_stream_iterator,
 )
@@ -235,6 +280,8 @@ Audio events are used to recognize specific words, phrases, or sounds.
 The below example waits for a single event to be recognized and ends the stream.
 
 ```
+event_model = "my-audio-event-model"
+
 audio_service: AudioService = get_audio_service()
 
 audio_config = AudioConfig(
@@ -251,6 +298,13 @@ audio_stream_iterator = AudioStreamIterator(
     channels=audio_config.audioChannelCount,
     rate=audio_config.sampleRateHertz,
     frames_per_buffer=frames_per_buffer,
+)
+
+event_stream = audio_service.stream_event(
+    audio_config=audio_config,
+    user_id=user_id,
+    model_name=event_model,
+    audio_stream_iterator=audio_stream_iterator,
 )
 
 event = None
@@ -273,7 +327,7 @@ You can enroll your own event into the Sensory cloud system. The process is simi
 play a sound or speak a particular phrase 4 or more times. This is usefull for recognizing sounds that are not offered by Sensory Cloud.
 
 ```
-model_name = "sound-dependent-16kHz.ubm"
+model_name = "my-enrolled-event-model"
 description = "enrolled-event-example"
 
 audio_service: AudioService = get_audio_service()
@@ -363,7 +417,7 @@ finally:
 Transcription is used to convert audio into text.
 
 ```
-transcription_model = "vad-lvscr-lights-2.snsr"
+transcription_model = "my-transcription-model"
 
 audio_service: AudioService = get_audio_service()
 
@@ -462,6 +516,10 @@ Video models contain the following properties:
 In order to enroll with video, you must first ensure you have an enrollable model enabled for your Sensory Cloud instance. This can be obtained via the GetModels() request.
 Enrolling with video uses a call and response streaming pattern to allow immediate feedback to the user during enrollment.  Enrolling with video uses a video stream iterator that yields image bytes. A sample video stream iterator is shown below and passed into the video enrollmnent class method. It is important to save the enrollmentId in order to perform authentication against it in the future.
 
+NOTE:  The snippet below and the video service [examples](examples/video_service_examples.py) use the [`opencv-python`](https://pypi.org/project/opencv-python/)
+package to interface with the device camera in the VideoStreamIterator class defined below.  The `opencv-python` package is not a dependency of the `sensory-cloud`
+library and must be installed seperately to follow the example code directly.
+
 ```
 class VideoStreamIterator:
     def __init__(self):
@@ -524,6 +582,9 @@ finally:
     enrollment_stream.cancel()
 ```
 
+The `enrollment_id` generated by the code snippet above or from running the example_enroll_with_video() in the [video_service_examples.py](examples/video_service_examples.py) file
+should be stored as an environment variable called `VIDEO_ENROLLMENT_ID` to be used in the example_authenticate_with_audio() which is discussed next.
+
 ### Authenticating with Video
 Authenticating with video is similar to enrollment, except now you have an enrollmentId to pass into the function.
 
@@ -560,7 +621,7 @@ finally:
 Video Liveness allows one to send images to Sensory Cloud in order to determine if the subject is a live individual rather than a spoof, such as a paper mask or picture.
 
 ```
-model_name: str = "face_recognition_mathilde"
+model_name: str = "my-recognition-model"
 user_id: str = os.environ.get("USER_ID")
 
 video_service: VideoService = get_video_service()
@@ -591,5 +652,5 @@ finally:
 
 ### Creating a Management Service
 The ManagementService is used to manage typical CRUD operations with Sensory Cloud, such as deleting enrollments or creating enrollment groups.
-For more information on the specific functions of the ManagementService, please refer to the [management_service.py](src/sensory_cloud/services/management_service.py) file.
+For more information on the specific methods of the ManagementService, please refer to the [management_service.py](src/sensory_cloud/services/management_service.py) file.
 The example file [here](examples/management_service_examples.py) shows how to create a ManagementService object.
