@@ -52,7 +52,7 @@ export CLIENT_ID="my-uuid-client-id"
 export CLIENT_SECRET="my-client-secret"
 
 export DEVICE_ID="my-new-device-id"
-export DEVICE_NAME-"my-new-device-name"
+export DEVICE_NAME="my-new-device-name"
 ```
 
 
