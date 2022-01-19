@@ -337,5 +337,35 @@ def example_create_video_enrollment_group() -> enrollment_pb2.EnrollmentGroupRes
 
 
 if __name__ == "__main__":
-    enrollments = example_get_enrollments()
-    enrollment_groups = example_get_group_enrollments()
+
+    """
+    The enrollment/create enrollment group function calls below are deliberately
+    commented out because it is recommended that they are only run once.  Running
+    these functions multiple times will create redundant enrollments and enrollment groups.
+    It will also cause errors if the create enrollment group functions are called before
+    the enrollment functions.  For example, the example_create_audio_enrollment_group()
+    will put the enrollment created by example_enroll_with_audio() into an enrollment group,
+    but that cannot happen if the audio enrollment does not exist.  It is recommended that
+    the commented function calls be run just once (assuming they execute successfully) in
+    the order they are shown, and then commented again upon completion.
+    """
+
+    # audio_enrollment_id: str = example_enroll_with_audio()
+    # audio_enrollment_group_id: str = example_create_audio_enrollment_group()
+
+    # audio_event_enrollment_id: str = example_create_enrolled_event()
+    # audio_event_enrollment_group_id: str = example_create_audio_event_enrollment_group()
+
+    # video_enrollment_id: str = example_enroll_with_video()
+
+    """
+    The example_get_enrollments() and example_get_group_enrollments() can be called 
+    as many times as you'd like and a good experiment is to run them before and after
+    the creation of the enrollments/enrollment groups to confirm everything is working
+    as expected.
+    """
+
+    enrollments: enrollment_pb2.GetEnrollmentsResponse = example_get_enrollments()
+    enrollment_groups: enrollment_pb2.GetEnrollmentGroupsResponse = (
+        example_get_group_enrollments()
+    )
