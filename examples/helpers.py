@@ -26,6 +26,14 @@ with open(config_path, "r") as config_file:
 
 
 def get_oauth_service() -> OauthService:
+    """
+    Function the creates an OauthService object using the credentials set in 
+    config.json
+
+    Returns:
+        An OauthService object
+    """
+
     config: Config = Config(
         fully_qualified_domain_name=environment_config["fully_qualified_domain_name"],
         tenant_id=environment_config["tenant_id"],
@@ -45,6 +53,14 @@ def get_oauth_service() -> OauthService:
 
 
 def get_token_manager() -> TokenManager:
+    """
+    Function that creates a TokenManager object using the credentials set in
+    config.json
+
+    Returns:
+        A TokenManager object
+    """
+
     oauth_service: OauthService = get_oauth_service()
 
     token_manager: TokenManager = TokenManager(oauth_service=oauth_service)
@@ -100,6 +116,11 @@ class AudioStreamIterator:
 
 
 class VideoStreamIterator:
+    """
+    Sample iterator class that uses opencv to interface with the device camera
+    and return a stream of image bytes from the video recording
+    """
+
     def __init__(self):
         self._camera = cv2.VideoCapture(0)
 
@@ -121,6 +142,14 @@ class VideoStreamIterator:
 
 
 def get_audio_service() -> AudioService:
+    """
+    Function that creates an AudioService object using the credentials set
+    in config.json
+
+    Returns:
+        An AudioService object
+    """
+    
     token_manager: TokenManager = get_token_manager()
 
     audio_service: AudioService = AudioService(
@@ -131,6 +160,15 @@ def get_audio_service() -> AudioService:
 
 
 def get_audio_config() -> audio_pb2.AudioConfig:
+    """
+    Function that creates an audio_pb2.AudioConfig object with
+    Linear 16 encoding, one audio channel, 16 KHz sample rate, and
+    uses US english
+
+    Returns:
+        An audio_pb2.AudioConfig object
+    """
+    
     audio_config: audio_pb2.AudioConfig = audio_pb2.AudioConfig(
         encoding=audio_pb2.AudioConfig.AudioEncoding.Value("LINEAR16"),
         audioChannelCount=1,
@@ -144,6 +182,13 @@ def get_audio_config() -> audio_pb2.AudioConfig:
 def get_audio_stream_iterator(
     audio_config: audio_pb2.AudioConfig,
 ) -> AudioStreamIterator:
+    """
+    Function that creates an AudioStreamIterator object with an 
+    upload interval of 100 ms
+
+    Returns:
+        An AudioStreamIterator object
+    """
 
     upload_interval: int = 100  # (ms)
     frames_per_buffer: int = int(
@@ -160,6 +205,14 @@ def get_audio_stream_iterator(
 
 
 def get_video_service() -> VideoService:
+    """
+    Function that creates a VideoService object using the 
+    credentials set in config.json
+
+    Returns:
+        A VideoService object
+    """
+
     token_manager: TokenManager = get_token_manager()
 
     video_service: VideoService = VideoService(
@@ -170,6 +223,14 @@ def get_video_service() -> VideoService:
 
 
 def get_management_service() -> ManagementService:
+    """
+    Function that creates a ManagementService object using the 
+    credentials set in config.json
+
+    Returns:
+        A ManagementService object
+    """
+
     token_manager: TokenManager = get_token_manager()
 
     management_service: ManagementService = ManagementService(
