@@ -8,7 +8,7 @@ Before getting started, you must spin up a Sensory Cloud inference server or hav
 - Your configured secret key (device_credential) used to register OAuth clients and devices
 
 ## Code Examples
-The [examples](examples/README.md) section of this repository shows the user how to do the following:
+The [examples](https://github.com/Sensory-Cloud/python-sdk/tree/main/examples) section of this repository shows the user how to do the following:
 - Set client credentials and register devices
 - Create enrollments and enrollment groups for the audio and video services
 - Authenticate against enrollments and enrollment groups
