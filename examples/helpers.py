@@ -1,3 +1,4 @@
+import os
 import json
 import pyaudio
 import cv2
@@ -17,7 +18,9 @@ import sensory_cloud.generated.v1.audio.audio_pb2 as audio_pb2
 from secure_credential_store_example import SecureCredentialStore
 
 
-with open("config.json", "r") as config_file:
+config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
+
+with open(config_path, "r") as config_file:
     environment_config: dict = json.load(config_file)
 
 
@@ -71,7 +74,7 @@ class AudioStreamIterator:
 def get_audio_service() -> AudioService:
 
     config: Config = Config(
-        fully_qualifiied_domain_name=environment_config["fully_qualified_domain_name"],
+        fully_qualified_domain_name=environment_config["fully_qualified_domain_name"],
         tenant_id=environment_config["tenant_id"],
     )
     config.connect()
@@ -148,7 +151,7 @@ class VideoStreamIterator:
 def get_video_service() -> VideoService:
 
     config: Config = Config(
-        fully_qualifiied_domain_name=environment_config["fully_qualified_domain_name"],
+        fully_qualified_domain_name=environment_config["fully_qualified_domain_name"],
         tenant_id=environment_config["tenant_id"],
     )
     config.connect()
@@ -174,7 +177,7 @@ def get_video_service() -> VideoService:
 def get_management_service() -> ManagementService:
 
     config: Config = Config(
-        fully_qualifiied_domain_name=environment_config["fully_qualified_domain_name"],
+        fully_qualified_domain_name=environment_config["fully_qualified_domain_name"],
         tenant_id=environment_config["tenant_id"],
     )
     config.connect()

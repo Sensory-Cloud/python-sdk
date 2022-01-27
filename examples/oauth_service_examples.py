@@ -19,14 +19,14 @@ def example_device_register() -> None:
     device_name: str = "my-new-device-name"
 
     # The environment variables retrieved below should be set prior to running this example
-    fully_qualifiied_domain_name: str = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
+    fully_qualified_domain_name: str = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
     tenant_id: str = os.environ.get("TENANT_ID")
     client_id: str = os.environ.get("CLIENT_ID")
     client_secret: str = os.environ.get("CLIENT_SECRET")
     device_credential: str = os.environ.get("DEVICE_CREDENTIAL")
 
     config: Config = Config(
-        fully_qualifiied_domain_name=fully_qualifiied_domain_name, tenant_id=tenant_id
+        fully_qualified_domain_name=fully_qualified_domain_name, tenant_id=tenant_id
     )
     config.connect()
 

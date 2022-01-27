@@ -19,7 +19,7 @@ class MockHealthService(HealthService):
 class TestHealthService(unittest.TestCase):
     def test_get_health(self):
         config: Config = Config(
-            fully_qualifiied_domain_name="domain.name", tenant_id="tenant-id"
+            fully_qualified_domain_name="domain.name", tenant_id="tenant-id"
         )
         config.connect()
 

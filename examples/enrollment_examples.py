@@ -1,7 +1,7 @@
 """
 NOTE: Other than the example_get_enrollments() and example_get_group_enrollments() functions,
 it is recommended that the functions defined in this file be run only once in the order 
-they are defined in to avoid creating redundant enrollments.
+they are defined to avoid creating redundant enrollments.
 """
 
 import json
@@ -116,7 +116,7 @@ def example_enroll_with_audio() -> str:
     if enrollment_id is not None:
         helpers.environment_config["audio_enrollment_id"] = enrollment_id
 
-        with open("config.json", "w") as config_file:
+        with open(helpers.config_path, "w") as config_file:
             json.dump(helpers.environment_config, config_file, indent=4)
 
     return enrollment_id
@@ -212,7 +212,7 @@ def example_create_enrolled_event() -> str:
     if enrollment_id is not None:
         helpers.environment_config["audio_event_enrollment_id"] = enrollment_id
 
-        with open("config.json", "w") as config_file:
+        with open(helpers.config_path, "w") as config_file:
             json.dump(helpers.environment_config, config_file, indent=4)
 
     return enrollment_id
@@ -305,7 +305,7 @@ def example_enroll_with_video() -> str:
     if enrollment_id is not None:
         helpers.environment_config["video_enrollment_id"] = enrollment_id
 
-        with open("config.json", "w") as config_file:
+        with open(helpers.config_path, "w") as config_file:
             json.dump(helpers.environment_config, config_file, indent=4)
 
     return enrollment_id

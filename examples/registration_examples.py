@@ -1,6 +1,8 @@
 import json
 import uuid
 
+import helpers
+
 import sensory_cloud.generated.v1.management.device_pb2 as device_pb2
 
 from sensory_cloud.config import Config
@@ -9,23 +11,6 @@ from sensory_cloud.services.oauth_service import OauthService
 
 from secure_credential_store_example import SecureCredentialStore
 
-
-def load_environment_config() -> dict:
-    """
-    The first step is to read the config.json file for existing configuration parameters.
-    At this point, the only parameters that should be set are the fully_qualified_domain_name,
-    tenant_id, tenant_secret, device_id, and device_name. The fully_qualified_domain_name,
-    tenant_id, tenant_secret are obtained from Sensory upon registration and the device_id and device_name
-    should be set by the user before starting this example.
-
-    Returns:
-        A dictionary containing configuration parameters
-    """
-
-    with open("config.json", "r") as config_file:
-        environment_config: dict = json.load(config_file)
-
-    return environment_config
 
 
 def set_client_credentials(environment_config: dict) -> None:
@@ -62,7 +47,7 @@ def register_device(environment_config: dict) -> device_pb2.DeviceResponse:
     """
 
     config: Config = Config(
-        fully_qualifiied_domain_name=environment_config["fully_qualified_domain_name"],
+        fully_qualified_domain_name=environment_config["fully_qualified_domain_name"],
         tenant_id=environment_config["tenant_id"],
     )
     config.connect()
@@ -95,7 +80,7 @@ def save_environment_config(environment_config: dict) -> None:
         environment_config: Dictionary containing configuration arguments
     """
 
-    with open("config.json", "w") as config_file:
+    with open(helpers.config_path, "w") as config_file:
         json.dump(environment_config, config_file, indent=4)
 
 
@@ -109,10 +94,9 @@ def run_registration() -> device_pb2.DeviceResponse:
         A DeviceResponse object indicating whether or not the device registration was successful
     """
 
-    environment_config = load_environment_config()
-    set_client_credentials(environment_config)
-    device_response: device_pb2.DeviceResponse = register_device(environment_config)
-    save_environment_config(environment_config)
+    set_client_credentials(helpers.environment_config)
+    device_response: device_pb2.DeviceResponse = register_device(helpers.environment_config)
+    save_environment_config(helpers.environment_config)
 
     return device_response
 
