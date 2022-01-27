@@ -34,11 +34,11 @@ def example_audio_transcription() -> str:
     try:
         print("Transcription session begin (say exit to stop recording)...\n")
         for response in transcribe_stream:
-            print(response.transcript)
             if "exit" in response.transcript:
-                transcription = response.transcript
+                transcription = response.transcript.replace("exit", "")
+                print(f"Transcription = {transcription}\n")
                 break
-        print("Complete transcription detected, ending session")
+        print("Transcription complete, ending session")
     except Exception as e:
         print(f"Transcription failed with error: {str(e)}\n")
     finally:

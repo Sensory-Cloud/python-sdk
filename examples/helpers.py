@@ -24,6 +24,34 @@ with open(config_path, "r") as config_file:
     environment_config: dict = json.load(config_file)
 
 
+
+def get_oauth_service() -> OauthService:
+    config: Config = Config(
+        fully_qualified_domain_name=environment_config["fully_qualified_domain_name"],
+        tenant_id=environment_config["tenant_id"],
+    )
+    config.connect()
+
+    credential_store: SecureCredentialStore = SecureCredentialStore(
+        client_id=environment_config["client_id"],
+        client_secret=environment_config["client_secret"],
+    )
+
+    oauth_service: OauthService = OauthService(
+        config=config, secure_credential_store=credential_store
+    )
+
+    return oauth_service
+
+
+def get_token_manager() -> TokenManager:
+    oauth_service: OauthService = get_oauth_service()
+
+    token_manager: TokenManager = TokenManager(oauth_service=oauth_service)
+
+    return token_manager
+
+
 class AudioStreamIterator:
     """
     This is a sample audio stream iterator that uses the pyaudio package to interface with
@@ -71,34 +99,38 @@ class AudioStreamIterator:
         self._py_audio.terminate()
 
 
+class VideoStreamIterator:
+    def __init__(self):
+        self._camera = cv2.VideoCapture(0)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        success, frame = self._camera.read()
+        if success:
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            buffer = BytesIO()
+            Image.fromarray(frame).save(buffer, format="JPEG", quality=95)
+            return buffer.getvalue()
+        else:
+            raise StopIteration
+
+    def close(self):
+        self._camera.release()
+
+
 def get_audio_service() -> AudioService:
-
-    config: Config = Config(
-        fully_qualified_domain_name=environment_config["fully_qualified_domain_name"],
-        tenant_id=environment_config["tenant_id"],
-    )
-    config.connect()
-
-    credential_store: SecureCredentialStore = SecureCredentialStore(
-        client_id=environment_config["client_id"],
-        client_secret=environment_config["client_secret"],
-    )
-
-    oauth_service: OauthService = OauthService(
-        config=config, secure_credential_store=credential_store
-    )
-
-    token_manager: TokenManager = TokenManager(oauth_service=oauth_service)
+    token_manager: TokenManager = get_token_manager()
 
     audio_service: AudioService = AudioService(
-        config=config, token_manager=token_manager
+        config=token_manager.oauth_service._config, token_manager=token_manager
     )
 
     return audio_service
 
 
 def get_audio_config() -> audio_pb2.AudioConfig:
-
     audio_config: audio_pb2.AudioConfig = audio_pb2.AudioConfig(
         encoding=audio_pb2.AudioConfig.AudioEncoding.Value("LINEAR16"),
         audioChannelCount=1,
@@ -127,74 +159,21 @@ def get_audio_stream_iterator(
     return audio_stream_iterator
 
 
-class VideoStreamIterator:
-    def __init__(self):
-        self._camera = cv2.VideoCapture(0)
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        success, frame = self._camera.read()
-        if success:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            buffer = BytesIO()
-            Image.fromarray(frame).save(buffer, format="JPEG", quality=95)
-            return buffer.getvalue()
-        else:
-            raise StopIteration
-
-    def close(self):
-        self._camera.release()
-
-
 def get_video_service() -> VideoService:
-
-    config: Config = Config(
-        fully_qualified_domain_name=environment_config["fully_qualified_domain_name"],
-        tenant_id=environment_config["tenant_id"],
-    )
-    config.connect()
-
-    credential_store: SecureCredentialStore = SecureCredentialStore(
-        client_id=environment_config["client_id"],
-        client_secret=environment_config["client_secret"],
-    )
-
-    oauth_service: OauthService = OauthService(
-        config=config, secure_credential_store=credential_store
-    )
-
-    token_manager: TokenManager = TokenManager(oauth_service=oauth_service)
+    token_manager: TokenManager = get_token_manager()
 
     video_service: VideoService = VideoService(
-        config=config, token_manager=token_manager
+        config=token_manager.oauth_service._config, token_manager=token_manager
     )
 
     return video_service
 
 
 def get_management_service() -> ManagementService:
-
-    config: Config = Config(
-        fully_qualified_domain_name=environment_config["fully_qualified_domain_name"],
-        tenant_id=environment_config["tenant_id"],
-    )
-    config.connect()
-
-    credential_store: SecureCredentialStore = SecureCredentialStore(
-        client_id=environment_config["client_id"],
-        client_secret=environment_config["client_secret"],
-    )
-
-    oauth_service: OauthService = OauthService(
-        config=config, secure_credential_store=credential_store
-    )
-
-    token_manager: TokenManager = TokenManager(oauth_service=oauth_service)
+    token_manager: TokenManager = get_token_manager()
 
     management_service: ManagementService = ManagementService(
-        config=config, token_manager=token_manager
+        config=token_manager.oauth_service._config, token_manager=token_manager
     )
 
     return management_service
