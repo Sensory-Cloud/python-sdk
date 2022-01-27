@@ -101,3 +101,6 @@ file shows a sample implementation of one of Sensory's speech to text models.
 Video liveness models return a boolean denoting whether or not a live person is detected in a set of images or a video recording.  For example,
 a picture of someone's face on a mobile device would not pass the liveness check.  A sample implementation is shown in the [video_liveness_examples.py](video_liveness_examples.py)
 file.  
+
+## Health Service
+It's important to check the health of your Sensory Inference server. You can do so by following the example [here](health_service_examples.py).
