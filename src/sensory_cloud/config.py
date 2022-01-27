@@ -8,7 +8,7 @@ class Config:
 
     def __init__(
         self,
-        fully_qualifiied_domain_name: str,
+        fully_qualified_domain_name: str,
         tenant_id: str,
         is_connection_secure: bool = True,
     ):
@@ -22,7 +22,7 @@ class Config:
                 grpc connection
         """
 
-        self.fully_qualifiied_domain_name = fully_qualifiied_domain_name
+        self.fully_qualified_domain_name = fully_qualified_domain_name
         self.is_connection_secure = is_connection_secure
         self.tenant_id = tenant_id
 
@@ -36,12 +36,12 @@ class Config:
 
         if self.is_connection_secure:
             self._channel = grpc.secure_channel(
-                target=self.fully_qualifiied_domain_name,
+                target=self.fully_qualified_domain_name,
                 credentials=grpc.ssl_channel_credentials(),
             )
         else:
             self._channel = grpc.insecure_channel(
-                target=self.fully_qualifiied_domain_name,
+                target=self.fully_qualified_domain_name,
             )
 
     @property

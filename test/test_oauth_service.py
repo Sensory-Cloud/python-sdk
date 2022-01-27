@@ -70,7 +70,7 @@ class MockOAuthService(OauthService):
 
 class OauthServiceTest(unittest.TestCase):
     config: Config = Config(
-        fully_qualifiied_domain_name="domain.name", tenant_id="tenant-id"
+        fully_qualified_domain_name="domain.name", tenant_id="tenant-id"
     )
     config.connect()
 

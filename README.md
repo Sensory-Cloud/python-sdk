@@ -52,7 +52,7 @@ export CLIENT_ID="my-uuid-client-id"
 export CLIENT_SECRET="my-client-secret"
 
 export DEVICE_ID="my-new-device-id"
-export DEVICE_NAME-"my-new-device-name"
+export DEVICE_NAME="my-new-device-name"
 ```
 
 
@@ -74,13 +74,13 @@ multiple Sensory Cloud servers.
 ```
 def get_audio_service() -> AudioService:
     is_connection_secure: bool = True
-    fully_qualifiied_domain_name: str = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
+    fully_qualified_domain_name: str = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
     tenant_id: str = os.environ.get("TENANT_ID")
     client_id = os.environ.get("CLIENT_ID")
     client_secret = os.environ.get("CLIENT_SECRET")
 
     config: Config = Config(
-        fully_qualifiied_domain_name=fully_qualifiied_domain_name,
+        fully_qualified_domain_name=fully_qualified_domain_name,
         is_connection_secure=is_connection_secure,
         tenant_id=tenant_id,
     )
@@ -473,13 +473,13 @@ The snippets below give a brief summary of the implementation of the VideoServic
 ```
 def get_video_service() -> VideoService:
     is_connection_secure = True
-    fully_qualifiied_domain_name = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
+    fully_qualified_domain_name = os.environ.get("FULLY_QUALIFIED_DOMAIN_NAME")
     tenant_id = os.environ.get("TENANT_ID")
     client_id = os.environ.get("CLIENT_ID")
     client_secret = os.environ.get("CLIENT_SECRET")
 
     config = Config(
-        fully_qualifiied_domain_name=fully_qualifiied_domain_name,
+        fully_qualified_domain_name=fully_qualified_domain_name,
         is_connection_secure=is_connection_secure,
         tenant_id=tenant_id,
     )
