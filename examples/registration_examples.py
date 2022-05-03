@@ -9,7 +9,6 @@ from sensory_cloud.services.crypto_service import CryptoService
 from sensory_cloud.services.oauth_service import OauthService
 
 
-
 def set_client_credentials() -> None:
     """
     Once the configuration parameters have been read from the config.json file into the
@@ -18,12 +17,15 @@ def set_client_credentials() -> None:
     string with 24 characters using the Sensory Cloud CryptoService.
     """
 
-    if helpers.environment_config["client_id"] == "" and helpers.environment_config["client_secret"] == "":
+    if (
+        helpers.environment_config["client_id"] == ""
+        and helpers.environment_config["client_secret"] == ""
+    ):
         print("Creating new client credentials..")
         helpers.environment_config["client_id"] = str(uuid.uuid4())
-        helpers.environment_config["client_secret"] = CryptoService().get_secure_random_string(
-            length=24
-        )
+        helpers.environment_config[
+            "client_secret"
+        ] = CryptoService().get_secure_random_string(length=24)
     else:
         print("Client credentials already exist in config.json.")
         print("Clear client credentials from config.json to generate new ones.")
@@ -45,10 +47,12 @@ def check_device_is_registered() -> bool:
 
     try:
         device_response: device_pb2.DeviceResponse = oauth_service.get_who_am_i()
-        registered: bool = helpers.environment_config["device_id"] == device_response.deviceId
+        registered: bool = (
+            helpers.environment_config["device_id"] == device_response.deviceId
+        )
     except Exception as e:
         registered: bool = False
-    
+
     return registered
 
 
@@ -71,7 +75,7 @@ def register_device() -> device_pb2.DeviceResponse:
     Once the register method is called, a DeviceResponse object will be returned.
 
     NOTE: This function will check if the device id set in config.json has already been registered.
-    If it has, then the DeviceResponse for the existing registered device will be returned.  
+    If it has, then the DeviceResponse for the existing registered device will be returned.
     Otherwise, the registration will proceed and the DeviceResponse for the new registration will
     be returned.
 
@@ -82,7 +86,9 @@ def register_device() -> device_pb2.DeviceResponse:
     oauth_service: OauthService = helpers.get_oauth_service()
 
     if check_device_is_registered():
-        print(f"Registration already exists for device_id = {helpers.environment_config['device_id']}")
+        print(
+            f"Registration already exists for device_id = {helpers.environment_config['device_id']}"
+        )
         device_response: device_pb2.DeviceResponse = oauth_service.get_who_am_i()
     else:
         print(f"Registering device_id = {helpers.environment_config['device_id']}")

@@ -45,6 +45,21 @@ class EnrollmentServiceStub(object):
                 request_serializer=v1_dot_management_dot_enrollment__pb2.DeleteEnrollmentGroupRequest.SerializeToString,
                 response_deserializer=v1_dot_management_dot_enrollment__pb2.EnrollmentGroupResponse.FromString,
                 )
+        self.UpdateEnrollment = channel.unary_unary(
+                '/sensory.api.v1.management.EnrollmentService/UpdateEnrollment',
+                request_serializer=v1_dot_management_dot_enrollment__pb2.UpdateEnrollmentRequest.SerializeToString,
+                response_deserializer=v1_dot_management_dot_enrollment__pb2.EnrollmentResponse.FromString,
+                )
+        self.UpdateEnrollmentGroup = channel.unary_unary(
+                '/sensory.api.v1.management.EnrollmentService/UpdateEnrollmentGroup',
+                request_serializer=v1_dot_management_dot_enrollment__pb2.UpdateEnrollmentGroupRequest.SerializeToString,
+                response_deserializer=v1_dot_management_dot_enrollment__pb2.EnrollmentGroupResponse.FromString,
+                )
+        self.RemoveEnrollmentsFromGroup = channel.unary_unary(
+                '/sensory.api.v1.management.EnrollmentService/RemoveEnrollmentsFromGroup',
+                request_serializer=v1_dot_management_dot_enrollment__pb2.RemoveEnrollmentsRequest.SerializeToString,
+                response_deserializer=v1_dot_management_dot_enrollment__pb2.EnrollmentGroupResponse.FromString,
+                )
 
 
 class EnrollmentServiceServicer(object):
@@ -101,6 +116,30 @@ class EnrollmentServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def UpdateEnrollment(self, request, context):
+        """Updates the name of an enrollment
+        Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateEnrollmentGroup(self, request, context):
+        """Updates the name of an enrollment group
+        Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RemoveEnrollmentsFromGroup(self, request, context):
+        """Removes a list of enrollments from an enrollment group
+        Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_EnrollmentServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -132,6 +171,21 @@ def add_EnrollmentServiceServicer_to_server(servicer, server):
             'DeleteEnrollmentGroup': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteEnrollmentGroup,
                     request_deserializer=v1_dot_management_dot_enrollment__pb2.DeleteEnrollmentGroupRequest.FromString,
+                    response_serializer=v1_dot_management_dot_enrollment__pb2.EnrollmentGroupResponse.SerializeToString,
+            ),
+            'UpdateEnrollment': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateEnrollment,
+                    request_deserializer=v1_dot_management_dot_enrollment__pb2.UpdateEnrollmentRequest.FromString,
+                    response_serializer=v1_dot_management_dot_enrollment__pb2.EnrollmentResponse.SerializeToString,
+            ),
+            'UpdateEnrollmentGroup': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateEnrollmentGroup,
+                    request_deserializer=v1_dot_management_dot_enrollment__pb2.UpdateEnrollmentGroupRequest.FromString,
+                    response_serializer=v1_dot_management_dot_enrollment__pb2.EnrollmentGroupResponse.SerializeToString,
+            ),
+            'RemoveEnrollmentsFromGroup': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveEnrollmentsFromGroup,
+                    request_deserializer=v1_dot_management_dot_enrollment__pb2.RemoveEnrollmentsRequest.FromString,
                     response_serializer=v1_dot_management_dot_enrollment__pb2.EnrollmentGroupResponse.SerializeToString,
             ),
     }
@@ -243,6 +297,57 @@ class EnrollmentService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.management.EnrollmentService/DeleteEnrollmentGroup',
             v1_dot_management_dot_enrollment__pb2.DeleteEnrollmentGroupRequest.SerializeToString,
+            v1_dot_management_dot_enrollment__pb2.EnrollmentGroupResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateEnrollment(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.management.EnrollmentService/UpdateEnrollment',
+            v1_dot_management_dot_enrollment__pb2.UpdateEnrollmentRequest.SerializeToString,
+            v1_dot_management_dot_enrollment__pb2.EnrollmentResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateEnrollmentGroup(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.management.EnrollmentService/UpdateEnrollmentGroup',
+            v1_dot_management_dot_enrollment__pb2.UpdateEnrollmentGroupRequest.SerializeToString,
+            v1_dot_management_dot_enrollment__pb2.EnrollmentGroupResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RemoveEnrollmentsFromGroup(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.management.EnrollmentService/RemoveEnrollmentsFromGroup',
+            v1_dot_management_dot_enrollment__pb2.RemoveEnrollmentsRequest.SerializeToString,
             v1_dot_management_dot_enrollment__pb2.EnrollmentGroupResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

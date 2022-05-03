@@ -271,6 +271,42 @@ class OauthServiceTest(unittest.TestCase):
 
         self.config.channel.close()
 
+    def test_renew_device_credential(self):
+        self.config.connect()
+
+        device_id: str = "device-id"
+        credential: str = "my-credential"
+
+        credential_store: MockCredentialStore = MockCredentialStore(
+            client_id="client-id", client_secret="client-secret"
+        )
+
+        mock_token_response: common_pb2.TokenResponse = common_pb2.TokenResponse(
+            accessToken="my-token", expiresIn=0
+        )
+        self.oauth_client.GetToken = MagicMock(return_value=mock_token_response)
+
+        mock_device_response: device_pb2.DeviceResponse = device_pb2.DeviceResponse(
+            name="my-device-name", deviceId=device_id
+        )
+        self.device_client.RenewDeviceCredential = MagicMock(return_value=mock_device_response)
+
+        oauth_service: MockOAuthService = MockOAuthService(
+            config=self.config,
+            secure_credential_store=credential_store,
+            oauth_client=self.oauth_client,
+            device_client=self.device_client,
+        )
+
+        device_response: device_pb2.DeviceResponse = oauth_service.renew_device_credential(device_id=device_id, credential=credential)
+
+        self.assertEqual(
+            device_response,
+            mock_device_response,
+            "the who am I response should be correct",
+        )
+
+        self.config.channel.close()
 
 if __name__ == "__main__":
     unittest.main()

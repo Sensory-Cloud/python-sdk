@@ -210,6 +210,56 @@ class VideoServiceTest(unittest.TestCase):
 
         self.config.channel.close()
 
+    def test_stream_group_authentication(self):
+        self.config.connect()
+
+        enrollment_group_id: str = "enrollment-group-id"
+        is_liveness_enabled: bool = False
+        threshold: RecognitionThreshold = RecognitionThreshold.Value("HIGH")
+
+        authenticate_config: AuthenticateConfig = AuthenticateConfig(
+            enrollmentGroupId=enrollment_group_id,
+            isLivenessEnabled=is_liveness_enabled,
+            livenessThreshold=threshold,
+        )
+
+        mock_request: AuthenticateRequest = AuthenticateRequest(
+            config=authenticate_config
+        )
+        mock_response: AuthenticateResponse = AuthenticateResponse()
+
+        self.video_biometrics_client.Authenticate = MagicMock(
+            return_value=(mock_request, mock_response)
+        )
+
+        video_service: MockVidoService = MockVidoService(
+            config=self.config,
+            token_manager=self.token_manager,
+            video_models_client=self.video_models_client,
+            video_biometrics_client=self.video_biometrics_client,
+            video_recognition_client=self.video_recognition_client,
+        )
+
+        (
+            authenticate_stream_request,
+            authenticate_stream_response,
+        ) = video_service.stream_group_authentication(
+            enrollment_group_id=enrollment_group_id,
+            is_liveness_enabled=is_liveness_enabled,
+            video_stream_iterator=None,
+            threshold=threshold,
+        )
+
+        self.assertIsNotNone(authenticate_stream_response)
+
+        config_message = authenticate_stream_request.config
+
+        self.assertEqual(config_message.enrollmentGroupId, enrollment_group_id)
+        self.assertEqual(config_message.livenessThreshold, threshold)
+        self.assertEqual(config_message.isLivenessEnabled, is_liveness_enabled)
+
+        self.config.channel.close()
+
     def test_stream_recognition(self):
         self.config.connect()
 

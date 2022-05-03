@@ -20,9 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='v1/video/video.proto',
   package='sensory.api.v1.video',
   syntax='proto3',
-  serialized_options=b'\n\027io.sensory.api.v1.videoB\026SensoryApiV1VideoProtoP\001Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/video',
+  serialized_options=b'\n\034ai.sensorycloud.api.v1.videoB\026SensoryApiV1VideoProtoP\001Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/video',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14v1/video/video.proto\x12\x14sensory.api.v1.video\x1a\x17validate/validate.proto\x1a\x13\x63ommon/common.proto\"\xde\x01\n\nVideoModel\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0cisEnrollable\x18\x02 \x01(\x08\x12\x30\n\tmodelType\x18\x03 \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x13\n\x0b\x66ixedObject\x18\x04 \x01(\t\x12\x10\n\x08versions\x18\x05 \x03(\t\x12\x36\n\ntechnology\x18\x06 \x01(\x0e\x32\".sensory.api.common.TechnologyType\x12\x1b\n\x13isLivenessSupported\x18\x07 \x01(\x08\"\x12\n\x10GetModelsRequest\"E\n\x11GetModelsResponse\x12\x30\n\x06models\x18\x01 \x03(\x0b\x32 .sensory.api.v1.video.VideoModel\"\x8a\x01\n\x17\x43reateEnrollmentRequest\x12>\n\x06\x63onfig\x18\x01 \x01(\x0b\x32,.sensory.api.v1.video.CreateEnrollmentConfigH\x00\x12\x16\n\x0cimageContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x82\x01\n\x13\x41uthenticateRequest\x12:\n\x06\x63onfig\x18\x01 \x01(\x0b\x32(.sensory.api.v1.video.AuthenticateConfigH\x00\x12\x16\n\x0cimageContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x90\x01\n\x1aValidateRecognitionRequest\x12\x41\n\x06\x63onfig\x18\x01 \x01(\x0b\x32/.sensory.api.v1.video.ValidateRecognitionConfigH\x00\x12\x16\n\x0cimageContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x92\x01\n\x18\x43reateEnrollmentResponse\x12\x17\n\x0fpercentComplete\x18\x01 \x01(\x03\x12\x0f\n\x07isAlive\x18\x02 \x01(\x08\x12\x14\n\x0c\x65nrollmentId\x18\x03 \x01(\t\x12\x11\n\tmodelName\x18\x04 \x01(\t\x12\x14\n\x0cmodelVersion\x18\x05 \x01(\t\x12\r\n\x05score\x18\x06 \x01(\x02\"y\n\x14\x41uthenticateResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\r\n\x05score\x18\x02 \x01(\x02\x12\x0f\n\x07isAlive\x18\x03 \x01(\x08\x12\x30\n\x05token\x18\x04 \x01(\x0b\x32!.sensory.api.common.TokenResponse\"=\n\x1bLivenessRecognitionResponse\x12\x0f\n\x07isAlive\x18\x01 \x01(\x08\x12\r\n\x05score\x18\x02 \x01(\x02\"\xdb\x02\n\x16\x43reateEnrollmentConfig\x12\x19\n\x06userId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1b\n\x08\x64\x65viceId\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1d\n\tmodelName\x18\x03 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x1d\n\x0b\x64\x65scription\x18\x04 \x01(\tB\x08\xfa\x42\x05r\x03\x18\xff\x07\x12\x19\n\x11isLivenessEnabled\x18\x05 \x01(\x08\x12O\n\x11livenessThreshold\x18\x06 \x01(\x0e\x32*.sensory.api.v1.video.RecognitionThresholdB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x41\n\x0b\x63ompression\x18\x07 \x01(\x0b\x32,.sensory.api.common.CompressionConfiguration\x12\x1c\n\x0breferenceId\x18\x08 \x01(\tB\x07\xfa\x42\x04r\x02\x18\x7f\"\xa9\x02\n\x12\x41uthenticateConfig\x12 \n\x0c\x65nrollmentId\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01H\x00\x12\x1b\n\x11\x65nrollmentGroupId\x18\x02 \x01(\tH\x00\x12\x19\n\x11isLivenessEnabled\x18\x03 \x01(\x08\x12O\n\x11livenessThreshold\x18\x04 \x01(\x0e\x32*.sensory.api.v1.video.RecognitionThresholdB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x41\n\x0b\x63ompression\x18\x05 \x01(\x0b\x32,.sensory.api.common.CompressionConfiguration\x12\x16\n\x0e\x64oIncludeToken\x18\x06 \x01(\x08\x42\r\n\x06\x61uthId\x12\x03\xf8\x42\x01\"\x9e\x01\n\x19ValidateRecognitionConfig\x12\x1d\n\tmodelName\x18\x01 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x19\n\x06userId\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12G\n\tthreshold\x18\x03 \x01(\x0e\x32*.sensory.api.v1.video.RecognitionThresholdB\x08\xfa\x42\x05\x82\x01\x02\x10\x01*B\n\x14RecognitionThreshold\x12\x07\n\x03LOW\x10\x00\x12\n\n\x06MEDIUM\x10\x01\x12\x08\n\x04HIGH\x10\x02\x12\x0b\n\x07HIGHEST\x10\x03\x32m\n\x0bVideoModels\x12^\n\tGetModels\x12&.sensory.api.v1.video.GetModelsRequest\x1a\'.sensory.api.v1.video.GetModelsResponse\"\x00\x32\xf7\x01\n\x0fVideoBiometrics\x12w\n\x10\x43reateEnrollment\x12-.sensory.api.v1.video.CreateEnrollmentRequest\x1a..sensory.api.v1.video.CreateEnrollmentResponse\"\x00(\x01\x30\x01\x12k\n\x0c\x41uthenticate\x12).sensory.api.v1.video.AuthenticateRequest\x1a*.sensory.api.v1.video.AuthenticateResponse\"\x00(\x01\x30\x01\x32\x91\x01\n\x10VideoRecognition\x12}\n\x10ValidateLiveness\x12\x30.sensory.api.v1.video.ValidateRecognitionRequest\x1a\x31.sensory.api.v1.video.LivenessRecognitionResponse\"\x00(\x01\x30\x01\x42o\n\x17io.sensory.api.v1.videoB\x16SensoryApiV1VideoProtoP\x01Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/videob\x06proto3'
+  serialized_pb=b'\n\x14v1/video/video.proto\x12\x14sensory.api.v1.video\x1a\x17validate/validate.proto\x1a\x13\x63ommon/common.proto\"\xde\x01\n\nVideoModel\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0cisEnrollable\x18\x02 \x01(\x08\x12\x30\n\tmodelType\x18\x03 \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x13\n\x0b\x66ixedObject\x18\x04 \x01(\t\x12\x10\n\x08versions\x18\x05 \x03(\t\x12\x36\n\ntechnology\x18\x06 \x01(\x0e\x32\".sensory.api.common.TechnologyType\x12\x1b\n\x13isLivenessSupported\x18\x07 \x01(\x08\"\x12\n\x10GetModelsRequest\"E\n\x11GetModelsResponse\x12\x30\n\x06models\x18\x01 \x03(\x0b\x32 .sensory.api.v1.video.VideoModel\"\x8a\x01\n\x17\x43reateEnrollmentRequest\x12>\n\x06\x63onfig\x18\x01 \x01(\x0b\x32,.sensory.api.v1.video.CreateEnrollmentConfigH\x00\x12\x16\n\x0cimageContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x82\x01\n\x13\x41uthenticateRequest\x12:\n\x06\x63onfig\x18\x01 \x01(\x0b\x32(.sensory.api.v1.video.AuthenticateConfigH\x00\x12\x16\n\x0cimageContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x90\x01\n\x1aValidateRecognitionRequest\x12\x41\n\x06\x63onfig\x18\x01 \x01(\x0b\x32/.sensory.api.v1.video.ValidateRecognitionConfigH\x00\x12\x16\n\x0cimageContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x92\x01\n\x18\x43reateEnrollmentResponse\x12\x17\n\x0fpercentComplete\x18\x01 \x01(\x03\x12\x0f\n\x07isAlive\x18\x02 \x01(\x08\x12\x14\n\x0c\x65nrollmentId\x18\x03 \x01(\t\x12\x11\n\tmodelName\x18\x04 \x01(\t\x12\x14\n\x0cmodelVersion\x18\x05 \x01(\t\x12\r\n\x05score\x18\x06 \x01(\x02\"\x9f\x01\n\x14\x41uthenticateResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\r\n\x05score\x18\x02 \x01(\x02\x12\x0f\n\x07isAlive\x18\x03 \x01(\x08\x12\x30\n\x05token\x18\x04 \x01(\x0b\x32!.sensory.api.common.TokenResponse\x12\x0e\n\x06userId\x18\x05 \x01(\t\x12\x14\n\x0c\x65nrollmentId\x18\x06 \x01(\t\"=\n\x1bLivenessRecognitionResponse\x12\x0f\n\x07isAlive\x18\x01 \x01(\x08\x12\r\n\x05score\x18\x02 \x01(\x02\"\xfe\x02\n\x16\x43reateEnrollmentConfig\x12\x19\n\x06userId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1b\n\x08\x64\x65viceId\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1d\n\tmodelName\x18\x03 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x1d\n\x0b\x64\x65scription\x18\x04 \x01(\tB\x08\xfa\x42\x05r\x03\x18\xff\x07\x12\x19\n\x11isLivenessEnabled\x18\x05 \x01(\x08\x12O\n\x11livenessThreshold\x18\x06 \x01(\x0e\x32*.sensory.api.v1.video.RecognitionThresholdB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x41\n\x0b\x63ompression\x18\x07 \x01(\x0b\x32,.sensory.api.common.CompressionConfiguration\x12\x1c\n\x0breferenceId\x18\x08 \x01(\tB\x07\xfa\x42\x04r\x02\x18\x7f\x12!\n\x19numLivenessFramesRequired\x18\t \x01(\x05\"\xa9\x02\n\x12\x41uthenticateConfig\x12 \n\x0c\x65nrollmentId\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01H\x00\x12\x1b\n\x11\x65nrollmentGroupId\x18\x02 \x01(\tH\x00\x12\x19\n\x11isLivenessEnabled\x18\x03 \x01(\x08\x12O\n\x11livenessThreshold\x18\x04 \x01(\x0e\x32*.sensory.api.v1.video.RecognitionThresholdB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x41\n\x0b\x63ompression\x18\x05 \x01(\x0b\x32,.sensory.api.common.CompressionConfiguration\x12\x16\n\x0e\x64oIncludeToken\x18\x06 \x01(\x08\x42\r\n\x06\x61uthId\x12\x03\xf8\x42\x01\"\x9e\x01\n\x19ValidateRecognitionConfig\x12\x1d\n\tmodelName\x18\x01 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x19\n\x06userId\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12G\n\tthreshold\x18\x03 \x01(\x0e\x32*.sensory.api.v1.video.RecognitionThresholdB\x08\xfa\x42\x05\x82\x01\x02\x10\x01*B\n\x14RecognitionThreshold\x12\x07\n\x03LOW\x10\x00\x12\n\n\x06MEDIUM\x10\x01\x12\x08\n\x04HIGH\x10\x02\x12\x0b\n\x07HIGHEST\x10\x03\x32m\n\x0bVideoModels\x12^\n\tGetModels\x12&.sensory.api.v1.video.GetModelsRequest\x1a\'.sensory.api.v1.video.GetModelsResponse\"\x00\x32\xf7\x01\n\x0fVideoBiometrics\x12w\n\x10\x43reateEnrollment\x12-.sensory.api.v1.video.CreateEnrollmentRequest\x1a..sensory.api.v1.video.CreateEnrollmentResponse\"\x00(\x01\x30\x01\x12k\n\x0c\x41uthenticate\x12).sensory.api.v1.video.AuthenticateRequest\x1a*.sensory.api.v1.video.AuthenticateResponse\"\x00(\x01\x30\x01\x32\x91\x01\n\x10VideoRecognition\x12}\n\x10ValidateLiveness\x12\x30.sensory.api.v1.video.ValidateRecognitionRequest\x1a\x31.sensory.api.v1.video.LivenessRecognitionResponse\"\x00(\x01\x30\x01\x42t\n\x1c\x61i.sensorycloud.api.v1.videoB\x16SensoryApiV1VideoProtoP\x01Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/videob\x06proto3'
   ,
   dependencies=[validate_dot_validate__pb2.DESCRIPTOR,common_dot_common__pb2.DESCRIPTOR,])
 
@@ -56,8 +56,8 @@ _RECOGNITIONTHRESHOLD = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1975,
-  serialized_end=2041,
+  serialized_start=2049,
+  serialized_end=2115,
 )
 _sym_db.RegisterEnumDescriptor(_RECOGNITIONTHRESHOLD)
 
@@ -435,6 +435,20 @@ _AUTHENTICATERESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='userId', full_name='sensory.api.v1.video.AuthenticateResponse.userId', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='enrollmentId', full_name='sensory.api.v1.video.AuthenticateResponse.enrollmentId', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -447,8 +461,8 @@ _AUTHENTICATERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=978,
-  serialized_end=1099,
+  serialized_start=979,
+  serialized_end=1138,
 )
 
 
@@ -486,8 +500,8 @@ _LIVENESSRECOGNITIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1101,
-  serialized_end=1162,
+  serialized_start=1140,
+  serialized_end=1201,
 )
 
 
@@ -555,6 +569,13 @@ _CREATEENROLLMENTCONFIG = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=b'\372B\004r\002\030\177', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='numLivenessFramesRequired', full_name='sensory.api.v1.video.CreateEnrollmentConfig.numLivenessFramesRequired', index=8,
+      number=9, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -567,8 +588,8 @@ _CREATEENROLLMENTCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1165,
-  serialized_end=1512,
+  serialized_start=1204,
+  serialized_end=1586,
 )
 
 
@@ -639,8 +660,8 @@ _AUTHENTICATECONFIG = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[], serialized_options=b'\370B\001'),
   ],
-  serialized_start=1515,
-  serialized_end=1812,
+  serialized_start=1589,
+  serialized_end=1886,
 )
 
 
@@ -685,8 +706,8 @@ _VALIDATERECOGNITIONCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1815,
-  serialized_end=1973,
+  serialized_start=1889,
+  serialized_end=2047,
 )
 
 _VIDEOMODEL.fields_by_name['modelType'].enum_type = common_dot_common__pb2._MODELTYPE
@@ -849,8 +870,8 @@ _VIDEOMODELS = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=2043,
-  serialized_end=2152,
+  serialized_start=2117,
+  serialized_end=2226,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetModels',
@@ -875,8 +896,8 @@ _VIDEOBIOMETRICS = _descriptor.ServiceDescriptor(
   index=1,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=2155,
-  serialized_end=2402,
+  serialized_start=2229,
+  serialized_end=2476,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateEnrollment',
@@ -911,8 +932,8 @@ _VIDEORECOGNITION = _descriptor.ServiceDescriptor(
   index=2,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=2405,
-  serialized_end=2550,
+  serialized_start=2479,
+  serialized_end=2624,
   methods=[
   _descriptor.MethodDescriptor(
     name='ValidateLiveness',

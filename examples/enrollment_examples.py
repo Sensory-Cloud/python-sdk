@@ -266,7 +266,7 @@ def example_enroll_with_video() -> str:
         A string containing the the enrollment id if successful, otherwise None
     """
 
-    model_name: str = "face_recognition_mathilde"
+    model_name: str = "face_biometric_hektor"
     description: str = "my video enrollment"
 
     video_service: VideoService = helpers.get_video_service()
@@ -313,10 +313,18 @@ def example_enroll_with_video() -> str:
 
 def example_create_video_enrollment_group() -> enrollment_pb2.EnrollmentGroupResponse:
     """
-    UNDER CONSTRUCTION
+    Example creating a video event enrollment group that contains the video enrollment that
+    was generated in the example_enroll_with_video() function.  All enrollments in an
+    enrollment group must use the same model, so we are using the 'face_biometric_hektor'.
+    The enrollment group name and description are set below in this function and the
+    enrollment group_id is set by the user in the 'video_enrollment_group_id' field of
+    the config.json file.
+
+    Returns:
+        An enrollment_pb2.EnrollmentGroupResponse for the new audio enrollment group created
     """
 
-    model_name: str = "face_recognition_mathilde"
+    model_name: str = "face_biometric_hektor"
     group_name: str = "my-video-enrollment-group"
     description: str = "my video enrollment group"
 
@@ -357,6 +365,8 @@ if __name__ == "__main__":
     # audio_event_enrollment_group_id: str = example_create_audio_event_enrollment_group()
 
     # video_enrollment_id: str = example_enroll_with_video()
+
+    # enrollment_group_response = example_create_video_enrollment_group()
 
     """
     The example_get_enrollments() and example_get_group_enrollments() can be called 

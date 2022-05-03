@@ -8,8 +8,10 @@ from sensory_cloud.services.health_service import HealthService
 def health_service_example() -> ServerHealthResponse:
 
     config: Config = Config(
-        fully_qualified_domain_name=helpers.environment_config["fully_qualified_domain_name"], 
-        tenant_id=helpers.environment_config["tenant_id"]
+        fully_qualified_domain_name=helpers.environment_config[
+            "fully_qualified_domain_name"
+        ],
+        tenant_id=helpers.environment_config["tenant_id"],
     )
     config.connect()
 

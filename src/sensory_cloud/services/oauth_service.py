@@ -160,11 +160,11 @@ class OauthService(IOauthService):
         """
         Can be called to generate secure and guaranteed unique credentials.
         Should be used the first time the SDK registers and OAuth token with the cloud.
-        
+
         Returns:
             An OAuthClient
         """
-        
+
         client: OAuthClient = OAuthClient(
             client_id=str(uuid.uuid4()),
             client_secret=CryptoService().get_secure_random_string(length=24),
@@ -179,12 +179,15 @@ class OauthService(IOauthService):
         Returns:
             Information about the current device
         """
-        
+
         oauth_token: OAuthToken = self.get_token()
-        metadata: typing.Tuple[typing.Tuple] = (("authorization", f"Bearer {oauth_token.token}"),)
+        metadata: typing.Tuple[typing.Tuple] = (
+            ("authorization", f"Bearer {oauth_token.token}"),
+        )
 
-        return self._device_client.GetWhoAmI(request=device_pb2.DeviceGetWhoAmIRequest(), metadata=metadata)
-
+        return self._device_client.GetWhoAmI(
+            request=device_pb2.DeviceGetWhoAmIRequest(), metadata=metadata
+        )
 
     def get_token(self) -> OAuthToken:
         """
@@ -193,7 +196,7 @@ class OauthService(IOauthService):
         Returns:
             An OAuth JWT and expiration
         """
-        
+
         client_id: str = self._secure_credential_store.client_id
         if client_id in [None, ""]:
             raise ValueError(
@@ -221,8 +224,8 @@ class OauthService(IOauthService):
         self, device_id: str, device_name: str, credential: str
     ) -> device_pb2.DeviceResponse:
         """
-        Register credentials provided by the attached SecureCredentialStore to Sensory Cloud. 
-        This function should only be called once per unique credential pair. An error will be 
+        Register credentials provided by the attached SecureCredentialStore to Sensory Cloud.
+        This function should only be called once per unique credential pair. An error will be
         thrown if registration fails.
 
         Arguments:
@@ -231,7 +234,7 @@ class OauthService(IOauthService):
             credential: The credential configured on the Sensory Cloud server
 
         Returns:
-            A DeviceResponse indicating the device was successfully registered
+            A DeviceResponse indicating if the device was successfully registered
         """
 
         client_id: str = self._secure_credential_store.client_id
@@ -258,6 +261,41 @@ class OauthService(IOauthService):
         )
         device_response: device_pb2.DeviceResponse = self._device_client.EnrollDevice(
             request
+        )
+
+        return device_response
+
+    def renew_device_credential(
+        self, device_id: str, credential: str
+    ) -> device_pb2.DeviceResponse:
+        """
+        Renew the credential associated with the given device
+
+        Arguments:
+            device_id: String containing the uuid device id
+            credential: The credential configured on the Sensory Cloud server
+
+        Returns:
+            A DeviceResponse indicating if the device credential was changed
+        """
+
+        client_id: str = self._secure_credential_store.client_id
+        if client_id in [None, ""]:
+            raise ValueError(
+                "null client_id was returned from the secure credential store"
+            )
+
+        request: device_pb2.RenewDeviceCredentialRequest = (
+            device_pb2.RenewDeviceCredentialRequest(
+                deviceId=device_id,
+                clientId=client_id,
+                tenantId=self._config.tenant_id,
+                credential=credential,
+            )
+        )
+
+        device_response: device_pb2.DeviceResponse = (
+            self._device_client.RenewDeviceCredential(request=request)
         )
 
         return device_response
