@@ -1,6 +1,7 @@
 import os
 import json
 import pyaudio
+import time
 import cv2
 import multiprocessing
 from io import BytesIO
@@ -20,14 +21,35 @@ from secure_credential_store_example import SecureCredentialStore
 
 config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
 
+expected_environment_config_fields = {
+    "audio_enrollment_group_id",
+    "audio_enrollment_id",
+    "audio_event_enrollment_group_id",
+    "audio_event_enrollment_id",
+    "client_id",
+    "client_secret",
+    "device_id",
+    "device_name",
+    "fully_qualified_domain_name",
+    "tenant_id",
+    "tenant_secret",
+    "user_id",
+    "video_enrollment_group_id",
+    "video_enrollment_id",
+}
+
 with open(config_path, "r") as config_file:
     environment_config: dict = json.load(config_file)
 
+if expected_environment_config_fields != set(environment_config.keys()):
+    raise ValueError(
+        "The fields set in config.json do not match the expected fields.  Any missing fields must be set to an empty string in config.json"
+    )
 
 
 def get_oauth_service() -> OauthService:
     """
-    Function the creates an OauthService object using the credentials set in 
+    Function the creates an OauthService object using the credentials set in
     config.json
 
     Returns:
@@ -121,8 +143,12 @@ class VideoStreamIterator:
     and return a stream of image bytes from the video recording
     """
 
-    def __init__(self):
+    def __init__(self, frame_rate: int = 1):
         self._camera = cv2.VideoCapture(0)
+        if frame_rate is not None:
+            self._delay = 1 / frame_rate
+        else:
+            self._delay = 0
 
     def __iter__(self):
         return self
@@ -130,6 +156,7 @@ class VideoStreamIterator:
     def __next__(self):
         success, frame = self._camera.read()
         if success:
+            time.sleep(self._delay)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             buffer = BytesIO()
             Image.fromarray(frame).save(buffer, format="JPEG", quality=95)
@@ -149,7 +176,7 @@ def get_audio_service() -> AudioService:
     Returns:
         An AudioService object
     """
-    
+
     token_manager: TokenManager = get_token_manager()
 
     audio_service: AudioService = AudioService(
@@ -168,7 +195,7 @@ def get_audio_config() -> audio_pb2.AudioConfig:
     Returns:
         An audio_pb2.AudioConfig object
     """
-    
+
     audio_config: audio_pb2.AudioConfig = audio_pb2.AudioConfig(
         encoding=audio_pb2.AudioConfig.AudioEncoding.Value("LINEAR16"),
         audioChannelCount=1,
@@ -183,7 +210,7 @@ def get_audio_stream_iterator(
     audio_config: audio_pb2.AudioConfig,
 ) -> AudioStreamIterator:
     """
-    Function that creates an AudioStreamIterator object with an 
+    Function that creates an AudioStreamIterator object with an
     upload interval of 100 ms
 
     Returns:
@@ -206,7 +233,7 @@ def get_audio_stream_iterator(
 
 def get_video_service() -> VideoService:
     """
-    Function that creates a VideoService object using the 
+    Function that creates a VideoService object using the
     credentials set in config.json
 
     Returns:
@@ -224,7 +251,7 @@ def get_video_service() -> VideoService:
 
 def get_management_service() -> ManagementService:
     """
-    Function that creates a ManagementService object using the 
+    Function that creates a ManagementService object using the
     credentials set in config.json
 
     Returns:

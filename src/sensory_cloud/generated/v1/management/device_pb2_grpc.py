@@ -20,9 +20,29 @@ class DeviceServiceStub(object):
                 request_serializer=v1_dot_management_dot_device__pb2.EnrollDeviceRequest.SerializeToString,
                 response_deserializer=v1_dot_management_dot_device__pb2.DeviceResponse.FromString,
                 )
+        self.RenewDeviceCredential = channel.unary_unary(
+                '/sensory.api.v1.management.DeviceService/RenewDeviceCredential',
+                request_serializer=v1_dot_management_dot_device__pb2.RenewDeviceCredentialRequest.SerializeToString,
+                response_deserializer=v1_dot_management_dot_device__pb2.DeviceResponse.FromString,
+                )
         self.GetWhoAmI = channel.unary_unary(
                 '/sensory.api.v1.management.DeviceService/GetWhoAmI',
                 request_serializer=v1_dot_management_dot_device__pb2.DeviceGetWhoAmIRequest.SerializeToString,
+                response_deserializer=v1_dot_management_dot_device__pb2.DeviceResponse.FromString,
+                )
+        self.GetDevices = channel.unary_unary(
+                '/sensory.api.v1.management.DeviceService/GetDevices',
+                request_serializer=v1_dot_management_dot_device__pb2.GetDevicesRequest.SerializeToString,
+                response_deserializer=v1_dot_management_dot_device__pb2.DeviceListResponse.FromString,
+                )
+        self.UpdateDevice = channel.unary_unary(
+                '/sensory.api.v1.management.DeviceService/UpdateDevice',
+                request_serializer=v1_dot_management_dot_device__pb2.UpdateDeviceRequest.SerializeToString,
+                response_deserializer=v1_dot_management_dot_device__pb2.DeviceResponse.FromString,
+                )
+        self.DeleteDevice = channel.unary_unary(
+                '/sensory.api.v1.management.DeviceService/DeleteDevice',
+                request_serializer=v1_dot_management_dot_device__pb2.DeleteDeviceRequest.SerializeToString,
                 response_deserializer=v1_dot_management_dot_device__pb2.DeviceResponse.FromString,
                 )
 
@@ -38,9 +58,38 @@ class DeviceServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def RenewDeviceCredential(self, request, context):
+        """Renew a device's credential, which links the device to a key in the database.
+        This endpoint can be used to assign a new credential to a device if the old credential has expired.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def GetWhoAmI(self, request, context):
         """Allows a device to fetch information about itself
         Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetDevices(self, request, context):
+        """Returns a list of devices associated with the given userId
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateDevice(self, request, context):
+        """Allows the name of a device to be updated
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DeleteDevice(self, request, context):
+        """Allows a device to be deleted
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -54,9 +103,29 @@ def add_DeviceServiceServicer_to_server(servicer, server):
                     request_deserializer=v1_dot_management_dot_device__pb2.EnrollDeviceRequest.FromString,
                     response_serializer=v1_dot_management_dot_device__pb2.DeviceResponse.SerializeToString,
             ),
+            'RenewDeviceCredential': grpc.unary_unary_rpc_method_handler(
+                    servicer.RenewDeviceCredential,
+                    request_deserializer=v1_dot_management_dot_device__pb2.RenewDeviceCredentialRequest.FromString,
+                    response_serializer=v1_dot_management_dot_device__pb2.DeviceResponse.SerializeToString,
+            ),
             'GetWhoAmI': grpc.unary_unary_rpc_method_handler(
                     servicer.GetWhoAmI,
                     request_deserializer=v1_dot_management_dot_device__pb2.DeviceGetWhoAmIRequest.FromString,
+                    response_serializer=v1_dot_management_dot_device__pb2.DeviceResponse.SerializeToString,
+            ),
+            'GetDevices': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetDevices,
+                    request_deserializer=v1_dot_management_dot_device__pb2.GetDevicesRequest.FromString,
+                    response_serializer=v1_dot_management_dot_device__pb2.DeviceListResponse.SerializeToString,
+            ),
+            'UpdateDevice': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateDevice,
+                    request_deserializer=v1_dot_management_dot_device__pb2.UpdateDeviceRequest.FromString,
+                    response_serializer=v1_dot_management_dot_device__pb2.DeviceResponse.SerializeToString,
+            ),
+            'DeleteDevice': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteDevice,
+                    request_deserializer=v1_dot_management_dot_device__pb2.DeleteDeviceRequest.FromString,
                     response_serializer=v1_dot_management_dot_device__pb2.DeviceResponse.SerializeToString,
             ),
     }
@@ -88,6 +157,23 @@ class DeviceService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def RenewDeviceCredential(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.management.DeviceService/RenewDeviceCredential',
+            v1_dot_management_dot_device__pb2.RenewDeviceCredentialRequest.SerializeToString,
+            v1_dot_management_dot_device__pb2.DeviceResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def GetWhoAmI(request,
             target,
             options=(),
@@ -100,6 +186,57 @@ class DeviceService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.management.DeviceService/GetWhoAmI',
             v1_dot_management_dot_device__pb2.DeviceGetWhoAmIRequest.SerializeToString,
+            v1_dot_management_dot_device__pb2.DeviceResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetDevices(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.management.DeviceService/GetDevices',
+            v1_dot_management_dot_device__pb2.GetDevicesRequest.SerializeToString,
+            v1_dot_management_dot_device__pb2.DeviceListResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateDevice(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.management.DeviceService/UpdateDevice',
+            v1_dot_management_dot_device__pb2.UpdateDeviceRequest.SerializeToString,
+            v1_dot_management_dot_device__pb2.DeviceResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DeleteDevice(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.management.DeviceService/DeleteDevice',
+            v1_dot_management_dot_device__pb2.DeleteDeviceRequest.SerializeToString,
             v1_dot_management_dot_device__pb2.DeviceResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

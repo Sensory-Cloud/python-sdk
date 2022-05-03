@@ -116,6 +116,7 @@ class VideoService:
         threshold: video_pb2.RecognitionThreshold = video_pb2.RecognitionThreshold.Value(
             "HIGH"
         ),
+        num_liveness_frames_required: int = 0,
     ) -> typing.Iterable[video_pb2.CreateEnrollmentResponse]:
         """
         Stream video to Sensory Cloud as a means for user enrollment.
@@ -130,6 +131,8 @@ class VideoService:
             video_stream_iterator: Iterator of image bytes
             threshold: The liveness threshold (if liveness is enabled)
                 default = RecognitionThreshold = RecognitionThreshold.Value("HIGH")
+            num_liveness_frames_required: Integer indicating the number of live frames are required for a successful enrollment
+                default = 0, which requires all frames to be live
 
         Returns:
             An iterator of CreateEnrollmentResponse objects
@@ -142,6 +145,7 @@ class VideoService:
             modelName=model_name,
             isLivenessEnabled=is_liveness_enabled,
             livenessThreshold=threshold,
+            numLivenessFramesRequired=num_liveness_frames_required,
         )
 
         request_iterator: RequestIterator = RequestIterator(
@@ -186,6 +190,52 @@ class VideoService:
 
         config: video_pb2.AuthenticateConfig = video_pb2.AuthenticateConfig(
             enrollmentId=enrollment_id,
+            isLivenessEnabled=is_liveness_enabled,
+            livenessThreshold=threshold,
+        )
+
+        request_iterator: RequestIterator = RequestIterator(
+            video_request=video_pb2.AuthenticateRequest,
+            request_config=config,
+            video_stream_iterator=video_stream_iterator,
+        )
+
+        metadata: Metadata = self._token_manager.get_authorization_metadata()
+
+        authenticate_stream: typing.Iterable[
+            video_pb2.AuthenticateResponse
+        ] = self._video_biometrics_client.Authenticate(
+            request_iterator=request_iterator, metadata=metadata
+        )
+
+        return authenticate_stream
+
+    def stream_group_authentication(
+        self,
+        enrollment_group_id: str,
+        is_liveness_enabled: bool,
+        video_stream_iterator: typing.Iterable[bytes],
+        threshold: video_pb2.RecognitionThreshold = video_pb2.RecognitionThreshold.Value(
+            "HIGH"
+        ),
+    ) -> typing.Iterable[video_pb2.AuthenticateResponse]:
+        """
+        Authenticate against an existing video enrollment group in Sensory Cloud.
+        Only biometric-typed models are supported by the method.
+
+        Arguments:
+            enrollment_group_id: String containing the enrollment group id to authenticate on
+            is_liveness_enabled: Boolean indicating whether or not liveness is enabled
+            video_stream_iterator: Iterator of audio bytes
+            threshold: The liveness threshold (if liveness is enabled)
+                default = RecognitionThreshold = RecognitionThreshold.Value("HIGH")
+
+        Returns:
+            An iterator of AuthenticateResponse objects
+        """
+
+        config: video_pb2.AuthenticateConfig = video_pb2.AuthenticateConfig(
+            enrollmentGroupId=enrollment_group_id,
             isLivenessEnabled=is_liveness_enabled,
             livenessThreshold=threshold,
         )
