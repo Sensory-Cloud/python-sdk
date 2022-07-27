@@ -21,7 +21,7 @@ def example_stream_liveness_recognition() -> bool:
     video_stream_iterator: helpers.VideoStreamIterator = helpers.VideoStreamIterator()
 
     recognition_stream = video_service.stream_liveness_recognition(
-        user_id=helpers.environment_config["user_id"],
+        user_id=helpers.environment_config.get("examples-configuration", "userId"),
         model_name=model_name,
         video_stream_iterator=video_stream_iterator,
     )
@@ -44,4 +44,4 @@ def example_stream_liveness_recognition() -> bool:
 
 
 if __name__ == "__main__":
-    alive = example_stream_liveness_recognition()
+    alive: bool = example_stream_liveness_recognition()

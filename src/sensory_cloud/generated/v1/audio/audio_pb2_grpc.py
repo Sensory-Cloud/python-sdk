@@ -378,3 +378,69 @@ class AudioTranscriptions(object):
             v1_dot_audio_dot_audio__pb2.TranscribeResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+
+class AudioSynthesisStub(object):
+    """Handles synthesizing audio from text
+    """
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.SynthesizeSpeech = channel.unary_stream(
+                '/sensory.api.v1.audio.AudioSynthesis/SynthesizeSpeech',
+                request_serializer=v1_dot_audio_dot_audio__pb2.SynthesizeSpeechRequest.SerializeToString,
+                response_deserializer=v1_dot_audio_dot_audio__pb2.SynthesizeSpeechResponse.FromString,
+                )
+
+
+class AudioSynthesisServicer(object):
+    """Handles synthesizing audio from text
+    """
+
+    def SynthesizeSpeech(self, request, context):
+        """Synthesizes speech from text
+        Authorization metadata is required {"authorization": "Bearer <TOKNE>"}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_AudioSynthesisServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'SynthesizeSpeech': grpc.unary_stream_rpc_method_handler(
+                    servicer.SynthesizeSpeech,
+                    request_deserializer=v1_dot_audio_dot_audio__pb2.SynthesizeSpeechRequest.FromString,
+                    response_serializer=v1_dot_audio_dot_audio__pb2.SynthesizeSpeechResponse.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'sensory.api.v1.audio.AudioSynthesis', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class AudioSynthesis(object):
+    """Handles synthesizing audio from text
+    """
+
+    @staticmethod
+    def SynthesizeSpeech(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/sensory.api.v1.audio.AudioSynthesis/SynthesizeSpeech',
+            v1_dot_audio_dot_audio__pb2.SynthesizeSpeechRequest.SerializeToString,
+            v1_dot_audio_dot_audio__pb2.SynthesizeSpeechResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

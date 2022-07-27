@@ -2,7 +2,7 @@ import unittest
 import datetime
 
 from sensory_cloud.token_manager import TokenManager, OAuthToken
-from sensory_cloud.services.oauth_service import OAuthClient, IOauthService
+from sensory_cloud.services.oauth_service import OauthClient, IOauthService
 
 import sensory_cloud.generated.v1.management.device_pb2 as device_pb2
 
@@ -24,7 +24,7 @@ class TestOauthService(IOauthService):
     def oauth_token(self, value: OAuthToken):
         self._oauth_token = value
 
-    def generate_credentials(self) -> OAuthClient:
+    def generate_credentials(self) -> OauthClient:
         raise NotImplementedError()
 
     def get_token(self) -> OAuthToken:

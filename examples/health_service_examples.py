@@ -1,17 +1,23 @@
 import helpers
 
-from sensory_cloud.config import Config
+from sensory_cloud.config import Config, CloudHost
 from sensory_cloud.generated.common.common_pb2 import ServerHealthResponse
 from sensory_cloud.services.health_service import HealthService
 
 
 def health_service_example() -> ServerHealthResponse:
 
+    cloud_host: CloudHost = CloudHost(
+        host=helpers.environment_config.get(
+            "SDK-configuration", "fullyQualifiedDomainName"
+        ),
+        is_connection_secure=helpers.environment_config.getboolean(
+            "SDK-configuration", "isSecure"
+        ),
+    )
     config: Config = Config(
-        fully_qualified_domain_name=helpers.environment_config[
-            "fully_qualified_domain_name"
-        ],
-        tenant_id=helpers.environment_config["tenant_id"],
+        cloud_host=cloud_host,
+        tenant_id=helpers.environment_config.get("SDK-configuration", "tenantId"),
     )
     config.connect()
 
@@ -25,4 +31,4 @@ def health_service_example() -> ServerHealthResponse:
 
 
 if __name__ == "__main__":
-    server_health = health_service_example()
+    server_health: ServerHealthResponse = health_service_example()

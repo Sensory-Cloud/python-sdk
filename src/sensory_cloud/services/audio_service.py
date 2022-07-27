@@ -67,6 +67,57 @@ class RequestIterator:
             return self._audio_request(audioContent=audio_content)
 
 
+class TranscriptAggregator:
+    """
+    A class that aggregates and stores transcription responses
+    """
+
+    def __init__(self):
+        """
+        Constructor method for the TranscriptAggregator class
+        """
+
+        self._word_list: typing.List[str] = []
+
+    @property
+    def word_list(self) -> typing.List[str]:
+        """
+        Get method that returns the word list attribute
+        """
+        return self._word_list
+
+    def process_response(self, response: audio_pb2.TranscribeResponse) -> None:
+        """
+        Method that processes a single sliding-window response from the server
+        """
+
+        if len(response.wordList.words) == 0:
+            return
+        word_count: int = response.wordList.lastWordIndex + 1
+        self._word_list += [""] * (word_count - len(self._word_list))
+        for item in response.wordList.words:
+            self._word_list[item.wordIndex] = item.word
+
+    def get_transcript(self, delimiter=" ") -> str:
+        """
+        Method that concatenates the self._word_list attribute using the specified
+        delimiter
+
+        Arguments:
+            delimiter (str): string used for delimiting the concatenation of the
+                self._word_list attribute
+
+        Returns:
+            A concatenated string of the most current full transcript
+        """
+
+        if len(self._word_list) == 0:
+            return ""
+        transcript: str = delimiter.join(self._word_list).strip()
+
+        return transcript
+
+
 class AudioService:
     """
     Class that handles all audio requests to Sensory Cloud
@@ -94,6 +145,9 @@ class AudioService:
         )
         self._audio_transcriptions_client: audio_pb2_grpc.AudioTranscriptionsStub = (
             audio_pb2_grpc.AudioTranscriptionsStub(config.channel)
+        )
+        self._audio_synthesis_client: audio_pb2_grpc.AudioSynthesisStub = (
+            audio_pb2_grpc.AudioSynthesisStub(config.channel)
         )
 
     def get_models(self) -> audio_pb2.GetModelsResponse:
@@ -488,6 +542,46 @@ class AudioService:
         )
 
         return transcription_stream
+
+    def synthesize_speech(
+        self,
+        audio_config: audio_pb2.AudioConfig,
+        phrase: str,
+        voice_name: str,
+    ) -> typing.Iterable[audio_pb2.SynthesizeSpeechResponse]:
+        """
+        Sends a request to Sensory Cloud to synthesize speech
+
+        Arguments:
+            audio_config (AudioConfig): Configuration for how the synthesized audio should be formatted
+            phrase (str): The text phrase to synthesize a voice saying
+            voice_name (str): The name of the voice to use during speech synthesis
+
+        Returns:
+            An iterator containing audio bytes of the synthesized phrase
+        """
+
+        voice_synthesis_config: audio_pb2.VoiceSynthesisConfig = (
+            audio_pb2.VoiceSynthesisConfig(
+                audio=audio_config,
+                voice=voice_name,
+            )
+        )
+
+        request: audio_pb2.SynthesizeSpeechRequest = audio_pb2.SynthesizeSpeechRequest(
+            phrase=phrase,
+            config=voice_synthesis_config,
+        )
+
+        metadata: Metadata = self._token_manager.get_authorization_metadata()
+
+        synthesis_stream: typing.Iterable[
+            audio_pb2.SynthesizeSpeechResponse
+        ] = self._audio_synthesis_client.SynthesizeSpeech(
+            request=request, metadata=metadata
+        )
+
+        return synthesis_stream
 
     def _stream_authentication(
         self,

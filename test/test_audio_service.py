@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from sensory_cloud.config import Config
+from sensory_cloud.config import Config, CloudHost
 from sensory_cloud.token_manager import ITokenManager, TokenManager
 from sensory_cloud.services.oauth_service import ISecureCredentialStore, OauthService
 from sensory_cloud.services.audio_service import AudioService
@@ -71,8 +71,9 @@ class MockAudioService(AudioService):
 
 
 class AudioServiceTest(unittest.TestCase):
+    cloud_host: CloudHost = CloudHost(host="domain.name")
     config: Config = Config(
-        fully_qualified_domain_name="domain.name", tenant_id="tenant-id"
+        cloud_host=cloud_host, tenant_id="tenant-id"
     )
     config.connect()
 

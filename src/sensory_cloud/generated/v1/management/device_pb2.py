@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n!ai.sensorycloud.api.v1.managementB!SensoryApiV1ManagementDeviceProtoP\001Z?gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/management',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x1av1/management/device.proto\x12\x19sensory.api.v1.management\x1a\x13\x63ommon/common.proto\x1a\x17validate/validate.proto\"\xb8\x01\n\x13\x45nrollDeviceRequest\x12\x17\n\x04name\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1b\n\x08\x64\x65viceId\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1a\n\x08tenantId\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12;\n\x06\x63lient\x18\x04 \x01(\x0b\x32!.sensory.api.common.GenericClientB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x12\n\ncredential\x18\x05 \x01(\t\"\x93\x01\n\x1cRenewDeviceCredentialRequest\x12\x1b\n\x08\x64\x65viceId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1a\n\x08\x63lientId\x18\x02 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1a\n\x08tenantId\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1e\n\ncredential\x18\x04 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\"\x18\n\x16\x44\x65viceGetWhoAmIRequest\"{\n\x11GetDevicesRequest\x12\x10\n\x08tenantId\x18\x01 \x01(\t\x12\x39\n\npagination\x18\x02 \x01(\x0b\x32%.sensory.api.common.PaginationOptions\x12\x19\n\x06userId\x18\x03 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"K\n\x13UpdateDeviceRequest\x12\x1b\n\x08\x64\x65viceId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x17\n\x04name\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"2\n\x13\x44\x65leteDeviceRequest\x12\x1b\n\x08\x64\x65viceId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"0\n\x0e\x44\x65viceResponse\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x64\x65viceId\x18\x02 \x01(\t\"\x8c\x01\n\x12\x44\x65viceListResponse\x12:\n\x07\x64\x65vices\x18\x01 \x03(\x0b\x32).sensory.api.v1.management.DeviceResponse\x12:\n\npagination\x18\x02 \x01(\x0b\x32&.sensory.api.common.PaginationResponse2\xaf\x05\n\rDeviceService\x12k\n\x0c\x45nrollDevice\x12..sensory.api.v1.management.EnrollDeviceRequest\x1a).sensory.api.v1.management.DeviceResponse\"\x00\x12}\n\x15RenewDeviceCredential\x12\x37.sensory.api.v1.management.RenewDeviceCredentialRequest\x1a).sensory.api.v1.management.DeviceResponse\"\x00\x12k\n\tGetWhoAmI\x12\x31.sensory.api.v1.management.DeviceGetWhoAmIRequest\x1a).sensory.api.v1.management.DeviceResponse\"\x00\x12k\n\nGetDevices\x12,.sensory.api.v1.management.GetDevicesRequest\x1a-.sensory.api.v1.management.DeviceListResponse\"\x00\x12k\n\x0cUpdateDevice\x12..sensory.api.v1.management.UpdateDeviceRequest\x1a).sensory.api.v1.management.DeviceResponse\"\x00\x12k\n\x0c\x44\x65leteDevice\x12..sensory.api.v1.management.DeleteDeviceRequest\x1a).sensory.api.v1.management.DeviceResponse\"\x00\x42\x89\x01\n!ai.sensorycloud.api.v1.managementB!SensoryApiV1ManagementDeviceProtoP\x01Z?gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/managementb\x06proto3'
+  serialized_pb=b'\n\x1av1/management/device.proto\x12\x19sensory.api.v1.management\x1a\x13\x63ommon/common.proto\x1a\x17validate/validate.proto\"\xb8\x01\n\x13\x45nrollDeviceRequest\x12\x17\n\x04name\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1b\n\x08\x64\x65viceId\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1a\n\x08tenantId\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12;\n\x06\x63lient\x18\x04 \x01(\x0b\x32!.sensory.api.common.GenericClientB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x12\n\ncredential\x18\x05 \x01(\t\"\x93\x01\n\x1cRenewDeviceCredentialRequest\x12\x1b\n\x08\x64\x65viceId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1a\n\x08\x63lientId\x18\x02 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1a\n\x08tenantId\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1e\n\ncredential\x18\x04 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\"\x18\n\x16\x44\x65viceGetWhoAmIRequest\",\n\rDeviceRequest\x12\x1b\n\x08\x64\x65viceId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"y\n\x11GetDevicesRequest\x12\x10\n\x08tenantId\x18\x01 \x01(\t\x12\x39\n\npagination\x18\x02 \x01(\x0b\x32%.sensory.api.common.PaginationOptions\x12\x17\n\x06userId\x18\x03 \x01(\tB\x07\xfa\x42\x04r\x02\x18\x7f\"K\n\x13UpdateDeviceRequest\x12\x1b\n\x08\x64\x65viceId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x17\n\x04name\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"0\n\x0e\x44\x65viceResponse\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x64\x65viceId\x18\x02 \x01(\t\"F\n\x11GetDeviceResponse\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x64\x65viceId\x18\x02 \x01(\t\x12\x11\n\tuserCount\x18\x03 \x01(\x03\"\x8c\x01\n\x12\x44\x65viceListResponse\x12:\n\x07\x64\x65vices\x18\x01 \x03(\x0b\x32).sensory.api.v1.management.DeviceResponse\x12:\n\npagination\x18\x02 \x01(\x0b\x32&.sensory.api.common.PaginationResponse2\x90\x06\n\rDeviceService\x12k\n\x0c\x45nrollDevice\x12..sensory.api.v1.management.EnrollDeviceRequest\x1a).sensory.api.v1.management.DeviceResponse\"\x00\x12}\n\x15RenewDeviceCredential\x12\x37.sensory.api.v1.management.RenewDeviceCredentialRequest\x1a).sensory.api.v1.management.DeviceResponse\"\x00\x12k\n\tGetWhoAmI\x12\x31.sensory.api.v1.management.DeviceGetWhoAmIRequest\x1a).sensory.api.v1.management.DeviceResponse\"\x00\x12\x65\n\tGetDevice\x12(.sensory.api.v1.management.DeviceRequest\x1a,.sensory.api.v1.management.GetDeviceResponse\"\x00\x12k\n\nGetDevices\x12,.sensory.api.v1.management.GetDevicesRequest\x1a-.sensory.api.v1.management.DeviceListResponse\"\x00\x12k\n\x0cUpdateDevice\x12..sensory.api.v1.management.UpdateDeviceRequest\x1a).sensory.api.v1.management.DeviceResponse\"\x00\x12\x65\n\x0c\x44\x65leteDevice\x12(.sensory.api.v1.management.DeviceRequest\x1a).sensory.api.v1.management.DeviceResponse\"\x00\x42\x89\x01\n!ai.sensorycloud.api.v1.managementB!SensoryApiV1ManagementDeviceProtoP\x01Z?gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/managementb\x06proto3'
   ,
   dependencies=[common_dot_common__pb2.DESCRIPTOR,validate_dot_validate__pb2.DESCRIPTOR,])
 
@@ -166,6 +166,38 @@ _DEVICEGETWHOAMIREQUEST = _descriptor.Descriptor(
 )
 
 
+_DEVICEREQUEST = _descriptor.Descriptor(
+  name='DeviceRequest',
+  full_name='sensory.api.v1.management.DeviceRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='deviceId', full_name='sensory.api.v1.management.DeviceRequest.deviceId', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\006r\004\020\001\030\177', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=466,
+  serialized_end=510,
+)
+
+
 _GETDEVICESREQUEST = _descriptor.Descriptor(
   name='GetDevicesRequest',
   full_name='sensory.api.v1.management.GetDevicesRequest',
@@ -194,7 +226,7 @@ _GETDEVICESREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      serialized_options=b'\372B\006r\004\020\001\030\177', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+      serialized_options=b'\372B\004r\002\030\177', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -207,8 +239,8 @@ _GETDEVICESREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=466,
-  serialized_end=589,
+  serialized_start=512,
+  serialized_end=633,
 )
 
 
@@ -246,40 +278,8 @@ _UPDATEDEVICEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=591,
-  serialized_end=666,
-)
-
-
-_DELETEDEVICEREQUEST = _descriptor.Descriptor(
-  name='DeleteDeviceRequest',
-  full_name='sensory.api.v1.management.DeleteDeviceRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='deviceId', full_name='sensory.api.v1.management.DeleteDeviceRequest.deviceId', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=b'\372B\006r\004\020\001\030\177', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=668,
-  serialized_end=718,
+  serialized_start=635,
+  serialized_end=710,
 )
 
 
@@ -317,8 +317,54 @@ _DEVICERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=720,
-  serialized_end=768,
+  serialized_start=712,
+  serialized_end=760,
+)
+
+
+_GETDEVICERESPONSE = _descriptor.Descriptor(
+  name='GetDeviceResponse',
+  full_name='sensory.api.v1.management.GetDeviceResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='sensory.api.v1.management.GetDeviceResponse.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='deviceId', full_name='sensory.api.v1.management.GetDeviceResponse.deviceId', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='userCount', full_name='sensory.api.v1.management.GetDeviceResponse.userCount', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=762,
+  serialized_end=832,
 )
 
 
@@ -356,8 +402,8 @@ _DEVICELISTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=771,
-  serialized_end=911,
+  serialized_start=835,
+  serialized_end=975,
 )
 
 _ENROLLDEVICEREQUEST.fields_by_name['client'].message_type = common_dot_common__pb2._GENERICCLIENT
@@ -367,10 +413,11 @@ _DEVICELISTRESPONSE.fields_by_name['pagination'].message_type = common_dot_commo
 DESCRIPTOR.message_types_by_name['EnrollDeviceRequest'] = _ENROLLDEVICEREQUEST
 DESCRIPTOR.message_types_by_name['RenewDeviceCredentialRequest'] = _RENEWDEVICECREDENTIALREQUEST
 DESCRIPTOR.message_types_by_name['DeviceGetWhoAmIRequest'] = _DEVICEGETWHOAMIREQUEST
+DESCRIPTOR.message_types_by_name['DeviceRequest'] = _DEVICEREQUEST
 DESCRIPTOR.message_types_by_name['GetDevicesRequest'] = _GETDEVICESREQUEST
 DESCRIPTOR.message_types_by_name['UpdateDeviceRequest'] = _UPDATEDEVICEREQUEST
-DESCRIPTOR.message_types_by_name['DeleteDeviceRequest'] = _DELETEDEVICEREQUEST
 DESCRIPTOR.message_types_by_name['DeviceResponse'] = _DEVICERESPONSE
+DESCRIPTOR.message_types_by_name['GetDeviceResponse'] = _GETDEVICERESPONSE
 DESCRIPTOR.message_types_by_name['DeviceListResponse'] = _DEVICELISTRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -395,6 +442,13 @@ DeviceGetWhoAmIRequest = _reflection.GeneratedProtocolMessageType('DeviceGetWhoA
   })
 _sym_db.RegisterMessage(DeviceGetWhoAmIRequest)
 
+DeviceRequest = _reflection.GeneratedProtocolMessageType('DeviceRequest', (_message.Message,), {
+  'DESCRIPTOR' : _DEVICEREQUEST,
+  '__module__' : 'v1.management.device_pb2'
+  # @@protoc_insertion_point(class_scope:sensory.api.v1.management.DeviceRequest)
+  })
+_sym_db.RegisterMessage(DeviceRequest)
+
 GetDevicesRequest = _reflection.GeneratedProtocolMessageType('GetDevicesRequest', (_message.Message,), {
   'DESCRIPTOR' : _GETDEVICESREQUEST,
   '__module__' : 'v1.management.device_pb2'
@@ -409,19 +463,19 @@ UpdateDeviceRequest = _reflection.GeneratedProtocolMessageType('UpdateDeviceRequ
   })
 _sym_db.RegisterMessage(UpdateDeviceRequest)
 
-DeleteDeviceRequest = _reflection.GeneratedProtocolMessageType('DeleteDeviceRequest', (_message.Message,), {
-  'DESCRIPTOR' : _DELETEDEVICEREQUEST,
-  '__module__' : 'v1.management.device_pb2'
-  # @@protoc_insertion_point(class_scope:sensory.api.v1.management.DeleteDeviceRequest)
-  })
-_sym_db.RegisterMessage(DeleteDeviceRequest)
-
 DeviceResponse = _reflection.GeneratedProtocolMessageType('DeviceResponse', (_message.Message,), {
   'DESCRIPTOR' : _DEVICERESPONSE,
   '__module__' : 'v1.management.device_pb2'
   # @@protoc_insertion_point(class_scope:sensory.api.v1.management.DeviceResponse)
   })
 _sym_db.RegisterMessage(DeviceResponse)
+
+GetDeviceResponse = _reflection.GeneratedProtocolMessageType('GetDeviceResponse', (_message.Message,), {
+  'DESCRIPTOR' : _GETDEVICERESPONSE,
+  '__module__' : 'v1.management.device_pb2'
+  # @@protoc_insertion_point(class_scope:sensory.api.v1.management.GetDeviceResponse)
+  })
+_sym_db.RegisterMessage(GetDeviceResponse)
 
 DeviceListResponse = _reflection.GeneratedProtocolMessageType('DeviceListResponse', (_message.Message,), {
   'DESCRIPTOR' : _DEVICELISTRESPONSE,
@@ -440,10 +494,10 @@ _RENEWDEVICECREDENTIALREQUEST.fields_by_name['deviceId']._options = None
 _RENEWDEVICECREDENTIALREQUEST.fields_by_name['clientId']._options = None
 _RENEWDEVICECREDENTIALREQUEST.fields_by_name['tenantId']._options = None
 _RENEWDEVICECREDENTIALREQUEST.fields_by_name['credential']._options = None
+_DEVICEREQUEST.fields_by_name['deviceId']._options = None
 _GETDEVICESREQUEST.fields_by_name['userId']._options = None
 _UPDATEDEVICEREQUEST.fields_by_name['deviceId']._options = None
 _UPDATEDEVICEREQUEST.fields_by_name['name']._options = None
-_DELETEDEVICEREQUEST.fields_by_name['deviceId']._options = None
 
 _DEVICESERVICE = _descriptor.ServiceDescriptor(
   name='DeviceService',
@@ -452,8 +506,8 @@ _DEVICESERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=914,
-  serialized_end=1601,
+  serialized_start=978,
+  serialized_end=1762,
   methods=[
   _descriptor.MethodDescriptor(
     name='EnrollDevice',
@@ -486,9 +540,19 @@ _DEVICESERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
+    name='GetDevice',
+    full_name='sensory.api.v1.management.DeviceService.GetDevice',
+    index=3,
+    containing_service=None,
+    input_type=_DEVICEREQUEST,
+    output_type=_GETDEVICERESPONSE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
     name='GetDevices',
     full_name='sensory.api.v1.management.DeviceService.GetDevices',
-    index=3,
+    index=4,
     containing_service=None,
     input_type=_GETDEVICESREQUEST,
     output_type=_DEVICELISTRESPONSE,
@@ -498,7 +562,7 @@ _DEVICESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='UpdateDevice',
     full_name='sensory.api.v1.management.DeviceService.UpdateDevice',
-    index=4,
+    index=5,
     containing_service=None,
     input_type=_UPDATEDEVICEREQUEST,
     output_type=_DEVICERESPONSE,
@@ -508,9 +572,9 @@ _DEVICESERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='DeleteDevice',
     full_name='sensory.api.v1.management.DeviceService.DeleteDevice',
-    index=5,
+    index=6,
     containing_service=None,
-    input_type=_DELETEDEVICEREQUEST,
+    input_type=_DEVICEREQUEST,
     output_type=_DEVICERESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,

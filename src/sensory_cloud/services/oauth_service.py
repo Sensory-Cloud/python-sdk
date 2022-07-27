@@ -13,7 +13,7 @@ import sensory_cloud.generated.v1.management.device_pb2_grpc as device_pb2_grpc
 import sensory_cloud.generated.v1.management.device_pb2 as device_pb2
 
 
-class OAuthClient:
+class OauthClient:
     """
     Class that holds OAuth client id and secret
     """
@@ -24,7 +24,7 @@ class OAuthClient:
         client_secret: str,
     ):
         """
-        Constructor method for the OAuthClient class
+        Constructor method for the OauthClient class
 
         Arguments:
             client_id: String containing the client id
@@ -105,7 +105,7 @@ class IOauthService(ABC):
     """
 
     @abstractmethod
-    def generate_credentials(self) -> OAuthClient:
+    def generate_credentials(self) -> OauthClient:
         """Method that generates a client id and a client secret"""
 
     @abstractmethod
@@ -156,16 +156,17 @@ class OauthService(IOauthService):
         )
         self._secure_credential_store: ISecureCredentialStore = secure_credential_store
 
-    def generate_credentials(self) -> OAuthClient:
+    @staticmethod
+    def generate_credentials() -> OauthClient:
         """
         Can be called to generate secure and guaranteed unique credentials.
         Should be used the first time the SDK registers and OAuth token with the cloud.
 
         Returns:
-            An OAuthClient
+            An OauthClient
         """
 
-        client: OAuthClient = OAuthClient(
+        client: OauthClient = OauthClient(
             client_id=str(uuid.uuid4()),
             client_secret=CryptoService().get_secure_random_string(length=24),
         )
@@ -299,3 +300,17 @@ class OauthService(IOauthService):
         )
 
         return device_response
+
+
+class GenericCredentialStore(ISecureCredentialStore):
+    def __init__(self, client_id: str, client_secret: str):
+        self._client_id = client_id
+        self._client_secret = client_secret
+
+    @property
+    def client_id(self):
+        return self._client_id
+
+    @property
+    def client_secret(self):
+        return self._client_secret
