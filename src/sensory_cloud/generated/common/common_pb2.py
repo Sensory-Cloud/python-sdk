@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\032ai.sensorycloud.api.commonB\025SensoryApiCommonProtoP\001Z8gitlab.com/sensory-cloud/server/titan.git/pkg/api/common',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x13\x63ommon/common.proto\x12\x12sensory.api.common\x1a\x17validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"U\n\x18\x43ompressionConfiguration\x12\x39\n\x0c\x63ompressions\x18\x01 \x03(\x0e\x32#.sensory.api.common.CompressionType\"Y\n\rTokenResponse\x12\x13\n\x0b\x61\x63\x63\x65ssToken\x18\x01 \x01(\t\x12\x11\n\texpiresIn\x18\x02 \x01(\x05\x12\r\n\x05keyId\x18\x03 \x01(\t\x12\x11\n\ttokenType\x18\x04 \x01(\t\"A\n\rServiceHealth\x12\x11\n\tisHealthy\x18\x01 \x01(\x08\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\"\xb5\x01\n\x14ServerHealthResponse\x12\x11\n\tisHealthy\x18\x01 \x01(\x08\x12\x15\n\rserverVersion\x18\x02 \x01(\t\x12\n\n\x02id\x18\x03 \x01(\t\x12\x33\n\x08services\x18\x04 \x03(\x0b\x32!.sensory.api.common.ServiceHealth\x12\x32\n\nserverType\x18\x05 \x01(\x0e\x32\x1e.sensory.api.common.ServerType\"\x83\x01\n\rSystemSummary\x12\x35\n\x03\x63pu\x18\x01 \x01(\x0b\x32\x1e.sensory.api.common.CpuSummaryB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12;\n\x06memory\x18\x02 \x01(\x0b\x32!.sensory.api.common.MemorySummaryB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\"\xa5\x01\n\nCpuSummary\x12\x0c\n\x04user\x18\x01 \x01(\x04\x12\x0c\n\x04nice\x18\x02 \x01(\x04\x12\x0e\n\x06system\x18\x03 \x01(\x04\x12\x0c\n\x04idle\x18\x04 \x01(\x04\x12\x0e\n\x06ioWait\x18\x05 \x01(\x04\x12\x0b\n\x03irq\x18\x06 \x01(\x04\x12\x0f\n\x07softIrq\x18\x07 \x01(\x04\x12\r\n\x05steal\x18\x08 \x01(\x04\x12\r\n\x05guest\x18\t \x01(\x04\x12\x11\n\tguestNice\x18\n \x01(\x04\"H\n\rMemorySummary\x12\x10\n\x08memTotal\x18\x01 \x01(\x04\x12\x0f\n\x07memFree\x18\x02 \x01(\x04\x12\x14\n\x0cmemAvailable\x18\x03 \x01(\x04\"D\n\rGenericClient\x12\x1a\n\x08\x63lientId\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x17\n\x06secret\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02\x10\n\"\x88\x01\n\x0eTenantResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12-\n\tcreatedAt\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12-\n\tupdatedAt\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"]\n\x11PaginationOptions\x12\x10\n\x08ordering\x18\x01 \x01(\t\x12\x11\n\tdecending\x18\x02 \x01(\x08\x12\x11\n\tpageIndex\x18\x03 \x01(\x05\x12\x10\n\x08pageSize\x18\x04 \x01(\x05\"\xc2\x01\n\x12PaginationResponse\x12\x10\n\x08ordering\x18\x01 \x01(\t\x12\x11\n\tdecending\x18\x02 \x01(\x08\x12\x19\n\x11possibleOrderings\x18\x03 \x03(\t\x12\x12\n\ntotalCount\x18\x04 \x01(\x03\x12\x10\n\x08pageSize\x18\x05 \x01(\x05\x12\x15\n\rprevPageIndex\x18\x06 \x01(\x05\x12\x18\n\x10\x63urrentPageIndex\x18\x07 \x01(\x05\x12\x15\n\rnextPageIndex\x18\x08 \x01(\x05*\x16\n\x04Void\x12\x0e\n\nVOID_VALUE\x10\x00*Q\n\x07KeyType\x12\x0e\n\nPUBLIC_KEY\x10\x00\x12\x16\n\x12PUBLIC_KEY_ED25519\x10\x01\x12\x11\n\rSHARED_SECRET\x10\x03\x12\x0b\n\x07\x41\x45S_256\x10\x04*4\n\x0b\x46\x65\x61tureFlag\x12\x0c\n\x08TSSV_ALL\x10\x00\x12\n\n\x06TS_ALL\x10\x01\x12\x0b\n\x07TNL_ALL\x10\x02*\x90\x04\n\tModelType\x12\"\n\x1eVOICE_BIOMETRIC_TEXT_DEPENDENT\x10\x00\x12$\n VOICE_BIOMETRIC_TEXT_INDEPENDENT\x10\x01\x12\x1c\n\x18VOICE_BIOMETRIC_WAKEWORD\x10\x02\x12\x18\n\x14VOICE_EVENT_WAKEWORD\x10\x03\x12\x1c\n\x18VOICE_TRANSCRIBE_GRAMMAR\x10\x04\x12\'\n#VOICE_TRANSCRIBE_COMMAND_AND_SEARCH\x10\x05\x12(\n$VOICE_RECOGNITION_ACTIVITY_DETECTION\x10\x06\x12\x1b\n\x17VOICE_FEATURE_EXTRACTOR\x10\x07\x12\"\n\x1eVOICE_BIOMETRIC_LIVENESS_DIGIT\x10\x08\x12\x1a\n\x16SOUND_EVENT_ENROLLABLE\x10\x64\x12\x1c\n\x18SOUND_EVENT_REVALIDATION\x10\x65\x12\x15\n\x11SOUND_EVENT_FIXED\x10\x66\x12\x15\n\x11SOUND_SCENE_FIXED\x10g\x12\x13\n\x0e\x46\x41\x43\x45_BIOMETRIC\x10\xc9\x01\x12\x15\n\x10\x46\x41\x43\x45_RECOGNITION\x10\xca\x01\x12\x17\n\x12OBJECT_RECOGNITION\x10\xcb\x01\x12\x14\n\x0fIMAGE_TRANSFORM\x10\xcc\x01\x12\x0c\n\x07UNKNOWN\x10\xe8\x07*A\n\x0eTechnologyType\x12\x0b\n\x07NOT_SET\x10\x00\x12\x08\n\x04TSSV\x10\x01\x12\x06\n\x02TS\x10\x02\x12\x07\n\x03TNL\x10\x03\x12\x07\n\x03STT\x10\x04*&\n\x0f\x43ompressionType\x12\x13\n\x0fIMAGE_GRAYSCALE\x10\x00*9\n\nClientType\x12\x08\n\x04ROOT\x10\x00\x12\n\n\x06\x44\x45VICE\x10\x01\x12\x0b\n\x07\x43LUSTER\x10\x02\x12\x08\n\x04USER\x10\x03*E\n\x0eUsageEventType\x12\x12\n\x0e\x41UTHENTICATION\x10\x00\x12\x0f\n\x0bRECOGNITION\x10\x01\x12\x0e\n\nENROLLMENT\x10\x02*\x1f\n\nServerType\x12\t\n\x05TITAN\x10\x00\x12\x06\n\x02IO\x10\x01\x42o\n\x1a\x61i.sensorycloud.api.commonB\x15SensoryApiCommonProtoP\x01Z8gitlab.com/sensory-cloud/server/titan.git/pkg/api/commonb\x06proto3'
+  serialized_pb=b'\n\x13\x63ommon/common.proto\x12\x12sensory.api.common\x1a\x17validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"U\n\x18\x43ompressionConfiguration\x12\x39\n\x0c\x63ompressions\x18\x01 \x03(\x0e\x32#.sensory.api.common.CompressionType\"Y\n\rTokenResponse\x12\x13\n\x0b\x61\x63\x63\x65ssToken\x18\x01 \x01(\t\x12\x11\n\texpiresIn\x18\x02 \x01(\x05\x12\r\n\x05keyId\x18\x03 \x01(\t\x12\x11\n\ttokenType\x18\x04 \x01(\t\"A\n\rServiceHealth\x12\x11\n\tisHealthy\x18\x01 \x01(\x08\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\"\xc7\x01\n\x14ServerHealthResponse\x12\x11\n\tisHealthy\x18\x01 \x01(\x08\x12\x15\n\rserverVersion\x18\x02 \x01(\t\x12\n\n\x02id\x18\x03 \x01(\t\x12\x33\n\x08services\x18\x04 \x03(\x0b\x32!.sensory.api.common.ServiceHealth\x12\x32\n\nserverType\x18\x05 \x01(\x0e\x32\x1e.sensory.api.common.ServerType\x12\x10\n\x08isLeader\x18\x06 \x01(\x08\"\x83\x01\n\rSystemSummary\x12\x35\n\x03\x63pu\x18\x01 \x01(\x0b\x32\x1e.sensory.api.common.CpuSummaryB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12;\n\x06memory\x18\x02 \x01(\x0b\x32!.sensory.api.common.MemorySummaryB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\"\xa5\x01\n\nCpuSummary\x12\x0c\n\x04user\x18\x01 \x01(\x04\x12\x0c\n\x04nice\x18\x02 \x01(\x04\x12\x0e\n\x06system\x18\x03 \x01(\x04\x12\x0c\n\x04idle\x18\x04 \x01(\x04\x12\x0e\n\x06ioWait\x18\x05 \x01(\x04\x12\x0b\n\x03irq\x18\x06 \x01(\x04\x12\x0f\n\x07softIrq\x18\x07 \x01(\x04\x12\r\n\x05steal\x18\x08 \x01(\x04\x12\r\n\x05guest\x18\t \x01(\x04\x12\x11\n\tguestNice\x18\n \x01(\x04\"H\n\rMemorySummary\x12\x10\n\x08memTotal\x18\x01 \x01(\x04\x12\x0f\n\x07memFree\x18\x02 \x01(\x04\x12\x14\n\x0cmemAvailable\x18\x03 \x01(\x04\"D\n\rGenericClient\x12\x1a\n\x08\x63lientId\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x17\n\x06secret\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02\x10\n\"\x88\x01\n\x0eTenantResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12-\n\tcreatedAt\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12-\n\tupdatedAt\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"]\n\x11PaginationOptions\x12\x10\n\x08ordering\x18\x01 \x01(\t\x12\x11\n\tdecending\x18\x02 \x01(\x08\x12\x11\n\tpageIndex\x18\x03 \x01(\x05\x12\x10\n\x08pageSize\x18\x04 \x01(\x05\"\xc2\x01\n\x12PaginationResponse\x12\x10\n\x08ordering\x18\x01 \x01(\t\x12\x11\n\tdecending\x18\x02 \x01(\x08\x12\x19\n\x11possibleOrderings\x18\x03 \x03(\t\x12\x12\n\ntotalCount\x18\x04 \x01(\x03\x12\x10\n\x08pageSize\x18\x05 \x01(\x05\x12\x15\n\rprevPageIndex\x18\x06 \x01(\x05\x12\x18\n\x10\x63urrentPageIndex\x18\x07 \x01(\x05\x12\x15\n\rnextPageIndex\x18\x08 \x01(\x05\"4\n\x0f\x45nrollmentToken\x12\r\n\x05token\x18\x01 \x01(\x0c\x12\x12\n\nexpiration\x18\x02 \x01(\x03*\x16\n\x04Void\x12\x0e\n\nVOID_VALUE\x10\x00*Q\n\x07KeyType\x12\x0e\n\nPUBLIC_KEY\x10\x00\x12\x16\n\x12PUBLIC_KEY_ED25519\x10\x01\x12\x11\n\rSHARED_SECRET\x10\x03\x12\x0b\n\x07\x41\x45S_256\x10\x04*4\n\x0b\x46\x65\x61tureFlag\x12\x0c\n\x08TSSV_ALL\x10\x00\x12\n\n\x06TS_ALL\x10\x01\x12\x0b\n\x07TNL_ALL\x10\x02*\xa4\x04\n\tModelType\x12\x0b\n\x07UNKNOWN\x10\x00\x12$\n VOICE_BIOMETRIC_TEXT_INDEPENDENT\x10\x01\x12\x1c\n\x18VOICE_BIOMETRIC_WAKEWORD\x10\x02\x12\x18\n\x14VOICE_EVENT_WAKEWORD\x10\x03\x12\x1c\n\x18VOICE_TRANSCRIBE_GRAMMAR\x10\x04\x12\'\n#VOICE_TRANSCRIBE_COMMAND_AND_SEARCH\x10\x05\x12(\n$VOICE_RECOGNITION_ACTIVITY_DETECTION\x10\x06\x12\x1b\n\x17VOICE_FEATURE_EXTRACTOR\x10\x07\x12\"\n\x1eVOICE_BIOMETRIC_LIVENESS_DIGIT\x10\x08\x12\"\n\x1eVOICE_BIOMETRIC_TEXT_DEPENDENT\x10\t\x12\x13\n\x0fVOICE_SYNTHESIS\x10\n\x12\x1a\n\x16SOUND_EVENT_ENROLLABLE\x10\x64\x12\x1c\n\x18SOUND_EVENT_REVALIDATION\x10\x65\x12\x15\n\x11SOUND_EVENT_FIXED\x10\x66\x12\x15\n\x11SOUND_SCENE_FIXED\x10g\x12\x13\n\x0e\x46\x41\x43\x45_BIOMETRIC\x10\xc9\x01\x12\x15\n\x10\x46\x41\x43\x45_RECOGNITION\x10\xca\x01\x12\x17\n\x12OBJECT_RECOGNITION\x10\xcb\x01\x12\x14\n\x0fIMAGE_TRANSFORM\x10\xcc\x01*J\n\x0eTechnologyType\x12\x0b\n\x07NOT_SET\x10\x00\x12\x08\n\x04TSSV\x10\x01\x12\x06\n\x02TS\x10\x02\x12\x07\n\x03TNL\x10\x03\x12\x07\n\x03STT\x10\x04\x12\x07\n\x03TTS\x10\x05*&\n\x0f\x43ompressionType\x12\x13\n\x0fIMAGE_GRAYSCALE\x10\x00*[\n\nClientType\x12\x08\n\x04ROOT\x10\x00\x12\n\n\x06\x44\x45VICE\x10\x01\x12\x0b\n\x07\x43LUSTER\x10\x02\x12\x08\n\x04USER\x10\x03\x12\x0e\n\nSUPER_USER\x10\x04\x12\x10\n\x0c\x42ILLING_USER\x10\x05*g\n\x0eUsageEventType\x12\x12\n\x0e\x41UTHENTICATION\x10\x00\x12\x0f\n\x0bRECOGNITION\x10\x01\x12\x0e\n\nENROLLMENT\x10\x02\x12\r\n\tSYNTHESIS\x10\x03\x12\x11\n\rTRANSCRIPTION\x10\x04*\x1f\n\nServerType\x12\t\n\x05TITAN\x10\x00\x12\x06\n\x02IO\x10\x01\x42o\n\x1a\x61i.sensorycloud.api.commonB\x15SensoryApiCommonProtoP\x01Z8gitlab.com/sensory-cloud/server/titan.git/pkg/api/commonb\x06proto3'
   ,
   dependencies=[validate_dot_validate__pb2.DESCRIPTOR,google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -41,8 +41,8 @@ _VOID = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1407,
-  serialized_end=1429,
+  serialized_start=1479,
+  serialized_end=1501,
 )
 _sym_db.RegisterEnumDescriptor(_VOID)
 
@@ -77,8 +77,8 @@ _KEYTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1431,
-  serialized_end=1512,
+  serialized_start=1503,
+  serialized_end=1584,
 )
 _sym_db.RegisterEnumDescriptor(_KEYTYPE)
 
@@ -108,8 +108,8 @@ _FEATUREFLAG = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1514,
-  serialized_end=1566,
+  serialized_start=1586,
+  serialized_end=1638,
 )
 _sym_db.RegisterEnumDescriptor(_FEATUREFLAG)
 
@@ -122,7 +122,7 @@ _MODELTYPE = _descriptor.EnumDescriptor(
   create_key=_descriptor._internal_create_key,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='VOICE_BIOMETRIC_TEXT_DEPENDENT', index=0, number=0,
+      name='UNKNOWN', index=0, number=0,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -167,55 +167,60 @@ _MODELTYPE = _descriptor.EnumDescriptor(
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='SOUND_EVENT_ENROLLABLE', index=9, number=100,
+      name='VOICE_BIOMETRIC_TEXT_DEPENDENT', index=9, number=9,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='SOUND_EVENT_REVALIDATION', index=10, number=101,
+      name='VOICE_SYNTHESIS', index=10, number=10,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='SOUND_EVENT_FIXED', index=11, number=102,
+      name='SOUND_EVENT_ENROLLABLE', index=11, number=100,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='SOUND_SCENE_FIXED', index=12, number=103,
+      name='SOUND_EVENT_REVALIDATION', index=12, number=101,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='FACE_BIOMETRIC', index=13, number=201,
+      name='SOUND_EVENT_FIXED', index=13, number=102,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='FACE_RECOGNITION', index=14, number=202,
+      name='SOUND_SCENE_FIXED', index=14, number=103,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='OBJECT_RECOGNITION', index=15, number=203,
+      name='FACE_BIOMETRIC', index=15, number=201,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='IMAGE_TRANSFORM', index=16, number=204,
+      name='FACE_RECOGNITION', index=16, number=202,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='UNKNOWN', index=17, number=1000,
+      name='OBJECT_RECOGNITION', index=17, number=203,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='IMAGE_TRANSFORM', index=18, number=204,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1569,
-  serialized_end=2097,
+  serialized_start=1641,
+  serialized_end=2189,
 )
 _sym_db.RegisterEnumDescriptor(_MODELTYPE)
 
@@ -252,11 +257,16 @@ _TECHNOLOGYTYPE = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='TTS', index=5, number=5,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2099,
-  serialized_end=2164,
+  serialized_start=2191,
+  serialized_end=2265,
 )
 _sym_db.RegisterEnumDescriptor(_TECHNOLOGYTYPE)
 
@@ -276,8 +286,8 @@ _COMPRESSIONTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2166,
-  serialized_end=2204,
+  serialized_start=2267,
+  serialized_end=2305,
 )
 _sym_db.RegisterEnumDescriptor(_COMPRESSIONTYPE)
 
@@ -309,11 +319,21 @@ _CLIENTTYPE = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SUPER_USER', index=4, number=4,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='BILLING_USER', index=5, number=5,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2206,
-  serialized_end=2263,
+  serialized_start=2307,
+  serialized_end=2398,
 )
 _sym_db.RegisterEnumDescriptor(_CLIENTTYPE)
 
@@ -340,11 +360,21 @@ _USAGEEVENTTYPE = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='SYNTHESIS', index=3, number=3,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='TRANSCRIPTION', index=4, number=4,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2265,
-  serialized_end=2334,
+  serialized_start=2400,
+  serialized_end=2503,
 )
 _sym_db.RegisterEnumDescriptor(_USAGEEVENTTYPE)
 
@@ -369,8 +399,8 @@ _SERVERTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2336,
-  serialized_end=2367,
+  serialized_start=2505,
+  serialized_end=2536,
 )
 _sym_db.RegisterEnumDescriptor(_SERVERTYPE)
 
@@ -383,7 +413,7 @@ AES_256 = 4
 TSSV_ALL = 0
 TS_ALL = 1
 TNL_ALL = 2
-VOICE_BIOMETRIC_TEXT_DEPENDENT = 0
+UNKNOWN = 0
 VOICE_BIOMETRIC_TEXT_INDEPENDENT = 1
 VOICE_BIOMETRIC_WAKEWORD = 2
 VOICE_EVENT_WAKEWORD = 3
@@ -392,6 +422,8 @@ VOICE_TRANSCRIBE_COMMAND_AND_SEARCH = 5
 VOICE_RECOGNITION_ACTIVITY_DETECTION = 6
 VOICE_FEATURE_EXTRACTOR = 7
 VOICE_BIOMETRIC_LIVENESS_DIGIT = 8
+VOICE_BIOMETRIC_TEXT_DEPENDENT = 9
+VOICE_SYNTHESIS = 10
 SOUND_EVENT_ENROLLABLE = 100
 SOUND_EVENT_REVALIDATION = 101
 SOUND_EVENT_FIXED = 102
@@ -400,20 +432,24 @@ FACE_BIOMETRIC = 201
 FACE_RECOGNITION = 202
 OBJECT_RECOGNITION = 203
 IMAGE_TRANSFORM = 204
-UNKNOWN = 1000
 NOT_SET = 0
 TSSV = 1
 TS = 2
 TNL = 3
 STT = 4
+TTS = 5
 IMAGE_GRAYSCALE = 0
 ROOT = 0
 DEVICE = 1
 CLUSTER = 2
 USER = 3
+SUPER_USER = 4
+BILLING_USER = 5
 AUTHENTICATION = 0
 RECOGNITION = 1
 ENROLLMENT = 2
+SYNTHESIS = 3
+TRANSCRIPTION = 4
 TITAN = 0
 IO = 1
 
@@ -593,6 +629,13 @@ _SERVERHEALTHRESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='isLeader', full_name='sensory.api.common.ServerHealthResponse.isLeader', index=5,
+      number=6, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -606,7 +649,7 @@ _SERVERHEALTHRESPONSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=347,
-  serialized_end=528,
+  serialized_end=546,
 )
 
 
@@ -644,8 +687,8 @@ _SYSTEMSUMMARY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=531,
-  serialized_end=662,
+  serialized_start=549,
+  serialized_end=680,
 )
 
 
@@ -739,8 +782,8 @@ _CPUSUMMARY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=665,
-  serialized_end=830,
+  serialized_start=683,
+  serialized_end=848,
 )
 
 
@@ -785,8 +828,8 @@ _MEMORYSUMMARY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=832,
-  serialized_end=904,
+  serialized_start=850,
+  serialized_end=922,
 )
 
 
@@ -824,8 +867,8 @@ _GENERICCLIENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=906,
-  serialized_end=974,
+  serialized_start=924,
+  serialized_end=992,
 )
 
 
@@ -877,8 +920,8 @@ _TENANTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=977,
-  serialized_end=1113,
+  serialized_start=995,
+  serialized_end=1131,
 )
 
 
@@ -930,8 +973,8 @@ _PAGINATIONOPTIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1115,
-  serialized_end=1208,
+  serialized_start=1133,
+  serialized_end=1226,
 )
 
 
@@ -1011,8 +1054,47 @@ _PAGINATIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1211,
-  serialized_end=1405,
+  serialized_start=1229,
+  serialized_end=1423,
+)
+
+
+_ENROLLMENTTOKEN = _descriptor.Descriptor(
+  name='EnrollmentToken',
+  full_name='sensory.api.common.EnrollmentToken',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='token', full_name='sensory.api.common.EnrollmentToken.token', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='expiration', full_name='sensory.api.common.EnrollmentToken.expiration', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1425,
+  serialized_end=1477,
 )
 
 _COMPRESSIONCONFIGURATION.fields_by_name['compressions'].enum_type = _COMPRESSIONTYPE
@@ -1033,6 +1115,7 @@ DESCRIPTOR.message_types_by_name['GenericClient'] = _GENERICCLIENT
 DESCRIPTOR.message_types_by_name['TenantResponse'] = _TENANTRESPONSE
 DESCRIPTOR.message_types_by_name['PaginationOptions'] = _PAGINATIONOPTIONS
 DESCRIPTOR.message_types_by_name['PaginationResponse'] = _PAGINATIONRESPONSE
+DESCRIPTOR.message_types_by_name['EnrollmentToken'] = _ENROLLMENTTOKEN
 DESCRIPTOR.enum_types_by_name['Void'] = _VOID
 DESCRIPTOR.enum_types_by_name['KeyType'] = _KEYTYPE
 DESCRIPTOR.enum_types_by_name['FeatureFlag'] = _FEATUREFLAG
@@ -1120,6 +1203,13 @@ PaginationResponse = _reflection.GeneratedProtocolMessageType('PaginationRespons
   # @@protoc_insertion_point(class_scope:sensory.api.common.PaginationResponse)
   })
 _sym_db.RegisterMessage(PaginationResponse)
+
+EnrollmentToken = _reflection.GeneratedProtocolMessageType('EnrollmentToken', (_message.Message,), {
+  'DESCRIPTOR' : _ENROLLMENTTOKEN,
+  '__module__' : 'common.common_pb2'
+  # @@protoc_insertion_point(class_scope:sensory.api.common.EnrollmentToken)
+  })
+_sym_db.RegisterMessage(EnrollmentToken)
 
 
 DESCRIPTOR._options = None

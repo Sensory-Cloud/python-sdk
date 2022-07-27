@@ -23,7 +23,9 @@ def example_authenticate_with_audio() -> bool:
 
     authenticate_stream = audio_service.stream_authenticate(
         audio_config=audio_config,
-        enrollment_id=helpers.environment_config["audio_enrollment_id"],
+        enrollment_id=helpers.environment_config.get(
+            "examples-configuration", "audio_enrollment_id"
+        ),
         is_liveness_enabled=False,
         audio_stream_iterator=audio_stream_iterator,
     )
@@ -62,7 +64,9 @@ def example_group_authenticate_with_audio() -> bool:
 
     authenticate_stream = audio_service.stream_group_authenticate(
         audio_config=audio_config,
-        enrollment_group_id=helpers.environment_config["audio_enrollment_group_id"],
+        enrollment_group_id=helpers.environment_config.get(
+            "examples-configuration", "audio_enrollment_group_id"
+        ),
         is_liveness_enabled=False,
         audio_stream_iterator=audio_stream_iterator,
     )
@@ -100,7 +104,9 @@ def example_validate_enrolled_event() -> bool:
 
     validate_enrolled_event_stream = audio_service.stream_validate_enrolled_event(
         audio_config=audio_config,
-        enrollment_id=helpers.environment_config["audio_event_enrollment_id"],
+        enrollment_id=helpers.environment_config.get(
+            "examples-configuration", "audio_event_enrollment_id"
+        ),
         audio_stream_iterator=audio_stream_iterator,
     )
 
@@ -138,9 +144,9 @@ def example_group_validate_enrolled_event() -> bool:
 
     validate_enrolled_event_stream = audio_service.stream_group_validate_enrolled_event(
         audio_config=audio_config,
-        enrollment_group_id=helpers.environment_config[
-            "audio_event_enrollment_group_id"
-        ],
+        enrollment_group_id=helpers.environment_config.get(
+            "examples-configuration", "audio_event_enrollment_group_id"
+        ),
         audio_stream_iterator=audio_stream_iterator,
     )
 
@@ -175,14 +181,55 @@ def example_authenticate_with_video() -> bool:
     video_stream_iterator: helpers.VideoStreamIterator = helpers.VideoStreamIterator()
 
     authenticate_stream = video_service.stream_authentication(
-        enrollment_id=helpers.environment_config["video_enrollment_id"],
+        enrollment_id=helpers.environment_config.get(
+            "examples-configuration", "video_enrollment_id"
+        ),
         is_liveness_enabled=False,
         video_stream_iterator=video_stream_iterator,
     )
 
     success: bool = False
     try:
-        print("Authenticating...")
+        print("Authenticating video enrollment...")
+        for response in authenticate_stream:
+            print(response.success)
+            if response.success:
+                success = True
+                break
+        print("Authentication successful!\n")
+    except Exception as e:
+        print(f"Authentication failed with error {str(e)}")
+    finally:
+        video_stream_iterator.close()
+        authenticate_stream.cancel()
+
+    return success
+
+
+def example_group_authenticate_with_video() -> bool:
+    """
+    Example of face authentication against the video enrollment
+    created in enrollment_examples.py
+
+    Returns:
+        A boolean denoting whether or not the authentication was successful
+    """
+
+    video_service: VideoService = helpers.get_video_service()
+
+    video_stream_iterator: helpers.VideoStreamIterator = helpers.VideoStreamIterator()
+
+    authenticate_stream = video_service.stream_group_authentication(
+        enrollment_group_id=helpers.environment_config.get(
+            "examples-configuration", "video_enrollment_group_id"
+        ),
+        is_liveness_enabled=False,
+        video_stream_iterator=video_stream_iterator,
+    )
+
+    success: bool = False
+    try:
+        print("Authenticating video group enrollment...")
         for response in authenticate_stream:
             print(response.success)
             if response.success:

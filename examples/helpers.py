@@ -3,11 +3,12 @@ import json
 import pyaudio
 import time
 import cv2
+import configparser
 import multiprocessing
 from io import BytesIO
 from PIL import Image
 
-from sensory_cloud.config import Config
+from sensory_cloud.config import Config, CloudHost
 from sensory_cloud.token_manager import TokenManager
 from sensory_cloud.services.audio_service import AudioService
 from sensory_cloud.services.video_service import VideoService
@@ -19,32 +20,10 @@ import sensory_cloud.generated.v1.audio.audio_pb2 as audio_pb2
 from secure_credential_store_example import SecureCredentialStore
 
 
-config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
+config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.ini")
 
-expected_environment_config_fields = {
-    "audio_enrollment_group_id",
-    "audio_enrollment_id",
-    "audio_event_enrollment_group_id",
-    "audio_event_enrollment_id",
-    "client_id",
-    "client_secret",
-    "device_id",
-    "device_name",
-    "fully_qualified_domain_name",
-    "tenant_id",
-    "tenant_secret",
-    "user_id",
-    "video_enrollment_group_id",
-    "video_enrollment_id",
-}
-
-with open(config_path, "r") as config_file:
-    environment_config: dict = json.load(config_file)
-
-if expected_environment_config_fields != set(environment_config.keys()):
-    raise ValueError(
-        "The fields set in config.json do not match the expected fields.  Any missing fields must be set to an empty string in config.json"
-    )
+environment_config = configparser.ConfigParser()
+environment_config.read(config_path)
 
 
 def get_oauth_service() -> OauthService:
@@ -56,15 +35,21 @@ def get_oauth_service() -> OauthService:
         An OauthService object
     """
 
+    cloud_host: CloudHost = CloudHost(
+        host=environment_config.get("SDK-configuration", "fullyQualifiedDomainName"),
+        is_connection_secure=environment_config.getboolean(
+            "SDK-configuration", "isSecure"
+        ),
+    )
     config: Config = Config(
-        fully_qualified_domain_name=environment_config["fully_qualified_domain_name"],
-        tenant_id=environment_config["tenant_id"],
+        cloud_host=cloud_host,
+        tenant_id=environment_config.get("SDK-configuration", "tenantId"),
     )
     config.connect()
 
     credential_store: SecureCredentialStore = SecureCredentialStore(
-        client_id=environment_config["client_id"],
-        client_secret=environment_config["client_secret"],
+        client_id=environment_config.get("client-configuration", "clientId"),
+        client_secret=environment_config.get("client-configuration", "clientSecret"),
     )
 
     oauth_service: OauthService = OauthService(

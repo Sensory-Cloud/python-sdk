@@ -20,6 +20,16 @@ class EventServiceStub(object):
                 request_serializer=v1_dot_event_dot_event__pb2.PublishUsageEventsRequest.SerializeToString,
                 response_deserializer=v1_dot_event_dot_event__pb2.PublishUsageEventsResponse.FromString,
                 )
+        self.GetUsageEventList = channel.unary_unary(
+                '/sensory.api.v1.event.EventService/GetUsageEventList',
+                request_serializer=v1_dot_event_dot_event__pb2.UsageEventListRequest.SerializeToString,
+                response_deserializer=v1_dot_event_dot_event__pb2.UsageEventListResponse.FromString,
+                )
+        self.GetUsageEventSummary = channel.unary_unary(
+                '/sensory.api.v1.event.EventService/GetUsageEventSummary',
+                request_serializer=v1_dot_event_dot_event__pb2.UsageEventListRequest.SerializeToString,
+                response_deserializer=v1_dot_event_dot_event__pb2.UsageEventSummary.FromString,
+                )
 
 
 class EventServiceServicer(object):
@@ -34,6 +44,22 @@ class EventServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetUsageEventList(self, request, context):
+        """Obtains a list of events given the filter criteria
+        Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetUsageEventSummary(self, request, context):
+        """Obtains a summary of events given the filter critieria
+        Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_EventServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -41,6 +67,16 @@ def add_EventServiceServicer_to_server(servicer, server):
                     servicer.PublishUsageEvents,
                     request_deserializer=v1_dot_event_dot_event__pb2.PublishUsageEventsRequest.FromString,
                     response_serializer=v1_dot_event_dot_event__pb2.PublishUsageEventsResponse.SerializeToString,
+            ),
+            'GetUsageEventList': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetUsageEventList,
+                    request_deserializer=v1_dot_event_dot_event__pb2.UsageEventListRequest.FromString,
+                    response_serializer=v1_dot_event_dot_event__pb2.UsageEventListResponse.SerializeToString,
+            ),
+            'GetUsageEventSummary': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetUsageEventSummary,
+                    request_deserializer=v1_dot_event_dot_event__pb2.UsageEventListRequest.FromString,
+                    response_serializer=v1_dot_event_dot_event__pb2.UsageEventSummary.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -67,5 +103,39 @@ class EventService(object):
         return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.event.EventService/PublishUsageEvents',
             v1_dot_event_dot_event__pb2.PublishUsageEventsRequest.SerializeToString,
             v1_dot_event_dot_event__pb2.PublishUsageEventsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetUsageEventList(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.event.EventService/GetUsageEventList',
+            v1_dot_event_dot_event__pb2.UsageEventListRequest.SerializeToString,
+            v1_dot_event_dot_event__pb2.UsageEventListResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetUsageEventSummary(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.event.EventService/GetUsageEventSummary',
+            v1_dot_event_dot_event__pb2.UsageEventListRequest.SerializeToString,
+            v1_dot_event_dot_event__pb2.UsageEventSummary.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

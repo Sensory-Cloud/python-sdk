@@ -5,6 +5,7 @@ they are defined to avoid creating redundant enrollments.
 """
 
 import json
+import uuid
 import helpers
 
 from sensory_cloud.services.audio_service import AudioService
@@ -18,7 +19,7 @@ import sensory_cloud.generated.v1.management.enrollment_pb2 as enrollment_pb2
 def example_get_enrollments() -> enrollment_pb2.GetEnrollmentsResponse:
     """
     Example of retrieving all enrollments registered to the user_id set in
-    the config.json file.
+    the config.ini file.
 
     Returns:
         An enrollment_pb2.GetEnrollmentsResponse containing information about
@@ -29,7 +30,7 @@ def example_get_enrollments() -> enrollment_pb2.GetEnrollmentsResponse:
 
     enrollments: enrollment_pb2.GetEnrollmentsResponse = (
         management_service.get_enrollments(
-            user_id=helpers.environment_config["user_id"]
+            user_id=helpers.environment_config.get("examples-configuration", "userId")
         )
     )
 
@@ -39,7 +40,7 @@ def example_get_enrollments() -> enrollment_pb2.GetEnrollmentsResponse:
 def example_get_group_enrollments() -> enrollment_pb2.GetEnrollmentGroupsResponse:
     """
     Example of retrieving all enrollment groups registered to the user_id set in
-    the config.json file.
+    the config.ini file.
 
     Returns:
         An enrollment_pb2.GetEnrollmentGroupsResponse containing information about
@@ -50,7 +51,7 @@ def example_get_group_enrollments() -> enrollment_pb2.GetEnrollmentGroupsRespons
 
     enrollment_groups: enrollment_pb2.GetEnrollmentGroupsResponse = (
         management_service.get_enrollment_groups(
-            user_id=helpers.environment_config["user_id"]
+            user_id=helpers.environment_config.get("examples-configuration", "userId")
         )
     )
 
@@ -60,17 +61,24 @@ def example_get_group_enrollments() -> enrollment_pb2.GetEnrollmentGroupsRespons
 def example_enroll_with_audio() -> str:
     """
     Example of creating a new audio enrollment with the Open Sesame
-    wake word model.  This function will update the config.json file with
+    wake word model.  This function will update the config.ini file with
     the newly generated enrollment id so long as the enrollment was successful.
 
     NOTE: This function should only be run once if the enrollment is successful.
     The enrollment id associated with the enrollment created will be written to
-    the config.json file so it can be easily accessed to authenticate against in
+    the config.ini file so it can be easily accessed to authenticate against in
     the authentication examples.
 
     Returns:
         A string containing the the enrollment id if successful, otherwise None
     """
+
+    enrollment_id: str = helpers.environment_config.get(
+        "examples-configuration", "audio_enrollment_id", fallback=None
+    )
+    if enrollment_id is not None:
+        print(f"Audio enrollment, {enrollment_id}, already exists")
+        return
 
     model_name: str = "wakeword-16kHz-open_sesame.ubm"
     enrollment_description: str = "my open sesame wakeword enrollment"
@@ -84,14 +92,13 @@ def example_enroll_with_audio() -> str:
     enrollment_stream = audio_service.stream_enrollment(
         audio_config=audio_config,
         description=enrollment_description,
-        user_id=helpers.environment_config["user_id"],
-        device_id=helpers.environment_config["device_id"],
+        user_id=helpers.environment_config.get("examples-configuration", "userId"),
+        device_id=helpers.environment_config.get("SDK-configuration", "deviceId"),
         model_name=model_name,
         is_liveness_enabled=False,
         audio_stream_iterator=audio_stream_iterator,
     )
 
-    enrollment_id: str = None
     try:
         print(
             "Recording enrollment (repeat saying 'Open Sesame' until the enrollment is complete)..."
@@ -114,10 +121,12 @@ def example_enroll_with_audio() -> str:
         enrollment_stream.cancel()
 
     if enrollment_id is not None:
-        helpers.environment_config["audio_enrollment_id"] = enrollment_id
+        helpers.environment_config.set(
+            "examples-configuration", "audio_enrollment_id", enrollment_id
+        )
 
         with open(helpers.config_path, "w") as config_file:
-            json.dump(helpers.environment_config, config_file, indent=4)
+            helpers.environment_config.write(config_file)
 
     return enrollment_id
 
@@ -128,12 +137,31 @@ def example_create_audio_enrollment_group() -> enrollment_pb2.EnrollmentGroupRes
     was generated in the example_enroll_with_audio() function.  All enrollments in an
     enrollment group must use the same model, so we are using the 'wakeword-16kHz-open_sesame.ubm'
     again.  The enrollment group name and description are set below in this function and the
-    enrollment group_id is set by the user in the 'audio_enrollment_group_id' field of the config.json
+    enrollment group_id is set by the user in the 'audio_enrollment_group_id' field of the config.ini
     file.
 
     Returns:
         An enrollment_pb2.EnrollmentGroupResponse for the new audio enrollment group created
     """
+
+    group_id: str = helpers.environment_config.get(
+        "examples-configuration", "audio_enrollment_group_id", fallback=None
+    )
+    if group_id is not None:
+        print(f"Audio enrollment group, {group_id}, already exists")
+        return
+
+    enrollment_id: str = helpers.environment_config.get(
+        "examples-configuration", "audio_enrollment_id", fallback=None
+    )
+    if enrollment_id is None:
+        print(
+            "An audio enrollment needs to be generated before an enrollment group can be created."
+        )
+        print(
+            "Run the function, example_enroll_with_audio(), to generate an audio enrollment"
+        )
+        return
 
     model_name: str = "wakeword-16kHz-open_sesame.ubm"
     description: str = "my open sesame enrollment group"
@@ -141,16 +169,23 @@ def example_create_audio_enrollment_group() -> enrollment_pb2.EnrollmentGroupRes
 
     management_service: ManagementService = helpers.get_management_service()
 
+    group_id: str = str(uuid.uuid4())
     enrollment_group_response: enrollment_pb2.EnrollmentGroupResponse = (
         management_service.create_enrollment_group(
-            user_id=helpers.environment_config["user_id"],
-            group_id=helpers.environment_config["audio_enrollment_group_id"],
+            user_id=helpers.environment_config.get("examples-configuration", "userId"),
+            group_id=group_id,
             group_name=group_name,
             description=description,
             model_name=model_name,
-            enrollment_ids=[helpers.environment_config["audio_enrollment_id"]],
+            enrollment_ids=[enrollment_id],
         )
     )
+
+    helpers.environment_config.set(
+        "examples-configuration", "audio_enrollment_group_id", group_id
+    )
+    with open(helpers.config_path, "w") as config_file:
+        helpers.environment_config.write(config_file)
 
     return enrollment_group_response
 
@@ -158,17 +193,24 @@ def example_create_audio_enrollment_group() -> enrollment_pb2.EnrollmentGroupRes
 def example_create_enrolled_event() -> str:
     """
     Example of creating a new audio enrolled event.  This function will update
-    the config.json file with the newly generated enrollment id so long as the
+    the config.ini file with the newly generated enrollment id so long as the
     enrollment was successful.
 
     NOTE: This function should only be run once if the enrollment is successful.
     The enrollment id associated with the enrollment created will be written to
-    the config.json file so it can be easily accessed to authenticate against in
+    the config.ini file so it can be easily accessed to authenticate against in
     the authentication examples.
 
     Returns:
         A string containing the the enrollment id if successful, otherwise None
     """
+
+    enrollment_id: str = helpers.environment_config.get(
+        "examples-configuration", "audio_event_enrollment_id", fallback=None
+    )
+    if enrollment_id is not None:
+        print(f"Audio event enrollment, {enrollment_id}, already exists")
+        return
 
     model_name: str = "sound-dependent-16kHz.ubm"
     description: str = "hey sensory enrolled event"
@@ -182,12 +224,11 @@ def example_create_enrolled_event() -> str:
     enrolled_event_stream = audio_service.stream_create_enrolled_event(
         audio_config=audio_config,
         description=description,
-        user_id=helpers.environment_config["user_id"],
+        user_id=helpers.environment_config.get("examples-configuration", "userId"),
         model_name=model_name,
         audio_stream_iterator=audio_stream_iterator,
     )
 
-    enrollment_id = None
     try:
         print(
             "Recording enrollment (repeat saying 'Hey Sensory' or whatever enrollment phrase you choose until the enrollment is complete)..."
@@ -210,10 +251,12 @@ def example_create_enrolled_event() -> str:
         enrolled_event_stream.cancel()
 
     if enrollment_id is not None:
-        helpers.environment_config["audio_event_enrollment_id"] = enrollment_id
+        helpers.environment_config.set(
+            "examples-configuration", "audio_event_enrollment_id", enrollment_id
+        )
 
         with open(helpers.config_path, "w") as config_file:
-            json.dump(helpers.environment_config, config_file, indent=4)
+            helpers.environment_config.write(config_file)
 
     return enrollment_id
 
@@ -225,11 +268,30 @@ def example_create_audio_event_enrollment_group() -> enrollment_pb2.EnrollmentGr
     enrollment group must use the same model, so we are using the 'sound-dependent-16kHz.ubm'
     again.  The enrollment group name and description are set below in this function and the
     enrollment group_id is set by the user in the 'audio_event_enrollment_group_id' field of
-    the config.json file.
+    the config.ini file.
 
     Returns:
         An enrollment_pb2.EnrollmentGroupResponse for the new audio enrollment group created
     """
+
+    group_id: str = helpers.environment_config.get(
+        "examples-configuration", "audio_event_enrollment_group_id", fallback=None
+    )
+    if group_id is not None:
+        print(f"Audio event enrollment group, {group_id}, already exists")
+        return
+
+    enrollment_id: str = helpers.environment_config.get(
+        "examples-configuration", "audio_event_enrollment_id", fallback=None
+    )
+    if enrollment_id is None:
+        print(
+            "An audio event enrollment needs to be generated before an enrollment group can be created."
+        )
+        print(
+            "Run the function, example_create_enrolled_event(), to generate an audio event enrollment"
+        )
+        return
 
     model_name: str = "sound-dependent-16kHz.ubm"
     group_name: str = "my-audio-event-enrollment-group"
@@ -237,16 +299,23 @@ def example_create_audio_event_enrollment_group() -> enrollment_pb2.EnrollmentGr
 
     management_service: ManagementService = helpers.get_management_service()
 
+    group_id: str = str(uuid.uuid4())
     enrollment_group_response: enrollment_pb2.EnrollmentGroupResponse = (
         management_service.create_enrollment_group(
-            user_id=helpers.environment_config["user_id"],
-            group_id=helpers.environment_config["audio_event_enrollment_group_id"],
+            user_id=helpers.environment_config.get("examples-configuration", "userId"),
+            group_id=group_id,
             group_name=group_name,
             description=description,
             model_name=model_name,
-            enrollment_ids=[helpers.environment_config["audio_event_enrollment_id"]],
+            enrollment_ids=[enrollment_id],
         )
     )
+
+    helpers.environment_config.set(
+        "examples-configuration", "audio_event_enrollment_group_id", group_id
+    )
+    with open(helpers.config_path, "w") as config_file:
+        helpers.environment_config.write(config_file)
 
     return enrollment_group_response
 
@@ -254,17 +323,24 @@ def example_create_audio_event_enrollment_group() -> enrollment_pb2.EnrollmentGr
 def example_enroll_with_video() -> str:
     """
     Example of creating a new video enrollment This function will update the
-    config.json file with the newly generated enrollment id so long as the
+    config.ini file with the newly generated enrollment id so long as the
     enrollment was successful.
 
     NOTE: This function should only be run once if the enrollment is successful.
     The enrollment id associated with the enrollment created will be written to
-    the config.json file so it can be easily accessed to authenticate against in
+    the config.ini file so it can be easily accessed to authenticate against in
     the authentication examples.
 
     Returns:
         A string containing the the enrollment id if successful, otherwise None
     """
+
+    enrollment_id: str = helpers.environment_config.get(
+        "examples-configuration", "video_enrollment_id", fallback=None
+    )
+    if enrollment_id is not None:
+        print(f"Video event enrollment, {enrollment_id}, already exists")
+        return
 
     model_name: str = "face_biometric_hektor"
     description: str = "my video enrollment"
@@ -275,8 +351,8 @@ def example_enroll_with_video() -> str:
 
     enrollment_stream = video_service.stream_enrollment(
         description=description,
-        user_id=helpers.environment_config["user_id"],
-        device_id=helpers.environment_config["device_id"],
+        user_id=helpers.environment_config.get("examples-configuration", "userId"),
+        device_id=helpers.environment_config.get("SDK-configuration", "deviceId"),
         model_name=model_name,
         is_liveness_enabled=False,
         video_stream_iterator=video_stream_iterator,
@@ -284,7 +360,6 @@ def example_enroll_with_video() -> str:
 
     print("Recording enrollment, face your camera until complete...")
     percent_complete = 0
-    enrollment_id = None
     try:
         print(f"percent complete = {percent_complete}")
         for response in enrollment_stream:
@@ -303,10 +378,12 @@ def example_enroll_with_video() -> str:
         enrollment_stream.cancel()
 
     if enrollment_id is not None:
-        helpers.environment_config["video_enrollment_id"] = enrollment_id
+        helpers.environment_config.set(
+            "examples-configuration", "video_enrollment_id", enrollment_id
+        )
 
         with open(helpers.config_path, "w") as config_file:
-            json.dump(helpers.environment_config, config_file, indent=4)
+            helpers.environment_config.write(config_file)
 
     return enrollment_id
 
@@ -318,11 +395,30 @@ def example_create_video_enrollment_group() -> enrollment_pb2.EnrollmentGroupRes
     enrollment group must use the same model, so we are using the 'face_biometric_hektor'.
     The enrollment group name and description are set below in this function and the
     enrollment group_id is set by the user in the 'video_enrollment_group_id' field of
-    the config.json file.
+    the config.ini file.
 
     Returns:
         An enrollment_pb2.EnrollmentGroupResponse for the new audio enrollment group created
     """
+
+    group_id: str = helpers.environment_config.get(
+        "examples-configuration", "video_enrollment_group_id", fallback=None
+    )
+    if group_id is not None:
+        print(f"Video event enrollment group, {group_id}, already exists")
+        return
+
+    enrollment_id: str = helpers.environment_config.get(
+        "examples-configuration", "video_enrollment_id", fallback=None
+    )
+    if enrollment_id is None:
+        print(
+            "A video enrollment needs to be generated before an enrollment group can be created."
+        )
+        print(
+            "Run the function, example_enroll_with_video(), to generate a video enrollment"
+        )
+        return
 
     model_name: str = "face_biometric_hektor"
     group_name: str = "my-video-enrollment-group"
@@ -330,16 +426,23 @@ def example_create_video_enrollment_group() -> enrollment_pb2.EnrollmentGroupRes
 
     management_service: ManagementService = helpers.get_management_service()
 
+    group_id: str = str(uuid.uuid4())
     enrollment_group_response: enrollment_pb2.EnrollmentGroupResponse = (
         management_service.create_enrollment_group(
-            user_id=helpers.environment_config["user_id"],
-            group_id=helpers.environment_config["video_enrollment_group_id"],
+            user_id=helpers.environment_config.get("examples-configuration", "userId"),
+            group_id=group_id,
             group_name=group_name,
             description=description,
             model_name=model_name,
-            enrollment_ids=[helpers.environment_config["video_enrollment_id"]],
+            enrollment_ids=[enrollment_id],
         )
     )
+
+    helpers.environment_config.set(
+        "examples-configuration", "video_enrollment_group_id", group_id
+    )
+    with open(helpers.config_path, "w") as config_file:
+        helpers.environment_config.write(config_file)
 
     return enrollment_group_response
 
@@ -359,12 +462,19 @@ if __name__ == "__main__":
     """
 
     # audio_enrollment_id: str = example_enroll_with_audio()
-    # audio_enrollment_group_id: str = example_create_audio_enrollment_group()
+    # audio_enrollment_group_id: enrollment_pb2.EnrollmentGroupResponse = (
+    #     example_create_audio_enrollment_group()
+    # )
 
     # audio_event_enrollment_id: str = example_create_enrolled_event()
-    # audio_event_enrollment_group_id: str = example_create_audio_event_enrollment_group()
+    # audio_event_enrollment_group_id: enrollment_pb2.EnrollmentGroupResponse = (
+    #     example_create_audio_event_enrollment_group()
+    # )
 
     # video_enrollment_id: str = example_enroll_with_video()
+    # video_enrollment_group_response: enrollment_pb2.EnrollmentGroupResponse = (
+    #     example_create_video_enrollment_group()
+    # )
 
     # enrollment_group_response = example_create_video_enrollment_group()
 

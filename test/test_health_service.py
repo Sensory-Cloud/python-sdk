@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from sensory_cloud.config import Config
+from sensory_cloud.config import Config, CloudHost
 from sensory_cloud.services.health_service import HealthService
 from sensory_cloud.generated.common.common_pb2 import (
     ServerHealthResponse,
@@ -18,8 +18,9 @@ class MockHealthService(HealthService):
 
 class TestHealthService(unittest.TestCase):
     def test_get_health(self):
+        cloud_host: CloudHost = CloudHost(host="domain.name")
         config: Config = Config(
-            fully_qualified_domain_name="domain.name", tenant_id="tenant-id"
+            cloud_host=cloud_host, tenant_id="tenant-id"
         )
         config.connect()
 

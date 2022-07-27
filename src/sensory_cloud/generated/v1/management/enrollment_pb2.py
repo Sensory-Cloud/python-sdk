@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n!ai.sensorycloud.api.v1.managementB%SensoryApiV1ManagementEnrollmentProtoP\001Z?gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/management',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x1ev1/management/enrollment.proto\x12\x19sensory.api.v1.management\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\x1a\x13\x63ommon/common.proto\"2\n\x15GetEnrollmentsRequest\x12\x19\n\x06userId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"x\n\x16GetEnrollmentsResponse\x12\x42\n\x0b\x65nrollments\x18\x01 \x03(\x0b\x32-.sensory.api.v1.management.EnrollmentResponse\x12\x1a\n\x12isRequestorTrusted\x18\x02 \x01(\x08\"\x9b\x03\n\x12\x45nrollmentResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12-\n\tcreatedAt\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12-\n\tupdatedAt\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x11\n\tmodelName\x18\x05 \x01(\t\x12\x30\n\tmodelType\x18\x06 \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x14\n\x0cmodelVersion\x18\x07 \x01(\t\x12\x10\n\x08\x64\x65viceId\x18\x08 \x01(\t\x12\x0e\n\x06userId\x18\t \x01(\t\x12\x41\n\x0b\x63ompression\x18\n \x01(\x0b\x32,.sensory.api.common.CompressionConfiguration\x12\x12\n\ndeviceName\x18\x0b \x01(\t\x12\x1d\n\x15\x64idEnrollWithLiveness\x18\x0c \x01(\x08\x12\x13\n\x0breferenceId\x18\r \x01(\t\"k\n\x1bGetEnrollmentGroupsResponse\x12L\n\x10\x65nrollmentGroups\x18\x01 \x03(\x0b\x32\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\xd5\x02\n\x17\x45nrollmentGroupResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12-\n\tcreatedAt\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12-\n\tupdatedAt\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x0c\n\x04name\x18\x04 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x05 \x01(\t\x12\x11\n\tmodelName\x18\x06 \x01(\t\x12\x30\n\tmodelType\x18\x07 \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x14\n\x0cmodelVersion\x18\x08 \x01(\t\x12\x0e\n\x06userId\x18\t \x01(\t\x12\x42\n\x0b\x65nrollments\x18\n \x03(\x0b\x32-.sensory.api.v1.management.EnrollmentResponse\"\xbf\x01\n\x1c\x43reateEnrollmentGroupRequest\x12\x15\n\x02id\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x18\n\x04name\x18\x02 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x1d\n\x0b\x64\x65scription\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\x18\xff\x07\x12\x1d\n\tmodelName\x18\x04 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x19\n\x06userId\x18\x05 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x15\n\renrollmentIds\x18\x06 \x03(\t\"Q\n\x1c\x41ppendEnrollmentGroupRequest\x12\x1a\n\x07groupId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x15\n\renrollmentIds\x18\x02 \x03(\t\"/\n\x17\x44\x65leteEnrollmentRequest\x12\x14\n\x02id\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\"5\n\x1c\x44\x65leteEnrollmentGroupRequest\x12\x15\n\x02id\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"N\n\x17UpdateEnrollmentRequest\x12\x14\n\x02id\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1d\n\x0b\x64\x65scription\x18\x02 \x01(\tB\x08\xfa\x42\x05r\x03\x18\xff\x07\"N\n\x1cUpdateEnrollmentGroupRequest\x12\x15\n\x02id\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x17\n\x04name\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"W\n\x18RemoveEnrollmentsRequest\x12\x1a\n\x07groupId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1f\n\renrollmentIds\x18\x02 \x03(\tB\x08\xfa\x42\x05\x92\x01\x02\x08\x01\x32\xb0\t\n\x11\x45nrollmentService\x12w\n\x0eGetEnrollments\x12\x30.sensory.api.v1.management.GetEnrollmentsRequest\x1a\x31.sensory.api.v1.management.GetEnrollmentsResponse\"\x00\x12\x81\x01\n\x13GetEnrollmentGroups\x12\x30.sensory.api.v1.management.GetEnrollmentsRequest\x1a\x36.sensory.api.v1.management.GetEnrollmentGroupsResponse\"\x00\x12\x86\x01\n\x15\x43reateEnrollmentGroup\x12\x37.sensory.api.v1.management.CreateEnrollmentGroupRequest\x1a\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\x00\x12\x86\x01\n\x15\x41ppendEnrollmentGroup\x12\x37.sensory.api.v1.management.AppendEnrollmentGroupRequest\x1a\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\x00\x12w\n\x10\x44\x65leteEnrollment\x12\x32.sensory.api.v1.management.DeleteEnrollmentRequest\x1a-.sensory.api.v1.management.EnrollmentResponse\"\x00\x12\x86\x01\n\x15\x44\x65leteEnrollmentGroup\x12\x37.sensory.api.v1.management.DeleteEnrollmentGroupRequest\x1a\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\x00\x12w\n\x10UpdateEnrollment\x12\x32.sensory.api.v1.management.UpdateEnrollmentRequest\x1a-.sensory.api.v1.management.EnrollmentResponse\"\x00\x12\x86\x01\n\x15UpdateEnrollmentGroup\x12\x37.sensory.api.v1.management.UpdateEnrollmentGroupRequest\x1a\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\x00\x12\x87\x01\n\x1aRemoveEnrollmentsFromGroup\x12\x33.sensory.api.v1.management.RemoveEnrollmentsRequest\x1a\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\x00\x42\x8d\x01\n!ai.sensorycloud.api.v1.managementB%SensoryApiV1ManagementEnrollmentProtoP\x01Z?gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/managementb\x06proto3'
+  serialized_pb=b'\n\x1ev1/management/enrollment.proto\x12\x19sensory.api.v1.management\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\x1a\x13\x63ommon/common.proto\"2\n\x15GetEnrollmentsRequest\x12\x19\n\x06userId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"x\n\x16GetEnrollmentsResponse\x12\x42\n\x0b\x65nrollments\x18\x01 \x03(\x0b\x32-.sensory.api.v1.management.EnrollmentResponse\x12\x1a\n\x12isRequestorTrusted\x18\x02 \x01(\x08\"\xb9\x03\n\x12\x45nrollmentResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12-\n\tcreatedAt\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12-\n\tupdatedAt\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x11\n\tmodelName\x18\x05 \x01(\t\x12\x30\n\tmodelType\x18\x06 \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x14\n\x0cmodelVersion\x18\x07 \x01(\t\x12\x10\n\x08\x64\x65viceId\x18\x08 \x01(\t\x12\x0e\n\x06userId\x18\t \x01(\t\x12\x41\n\x0b\x63ompression\x18\n \x01(\x0b\x32,.sensory.api.common.CompressionConfiguration\x12\x12\n\ndeviceName\x18\x0b \x01(\t\x12\x1d\n\x15\x64idEnrollWithLiveness\x18\x0c \x01(\x08\x12\x13\n\x0breferenceId\x18\r \x01(\t\x12\x1c\n\x14\x64idEnrollAsBiometric\x18\x0e \x01(\x08\"k\n\x1bGetEnrollmentGroupsResponse\x12L\n\x10\x65nrollmentGroups\x18\x01 \x03(\x0b\x32\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\xd5\x02\n\x17\x45nrollmentGroupResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12-\n\tcreatedAt\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12-\n\tupdatedAt\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x0c\n\x04name\x18\x04 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x05 \x01(\t\x12\x11\n\tmodelName\x18\x06 \x01(\t\x12\x30\n\tmodelType\x18\x07 \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x14\n\x0cmodelVersion\x18\x08 \x01(\t\x12\x0e\n\x06userId\x18\t \x01(\t\x12\x42\n\x0b\x65nrollments\x18\n \x03(\x0b\x32-.sensory.api.v1.management.EnrollmentResponse\"\xbf\x01\n\x1c\x43reateEnrollmentGroupRequest\x12\x15\n\x02id\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x18\n\x04name\x18\x02 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x1d\n\x0b\x64\x65scription\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\x18\xff\x07\x12\x1d\n\tmodelName\x18\x04 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x19\n\x06userId\x18\x05 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x15\n\renrollmentIds\x18\x06 \x03(\t\"Q\n\x1c\x41ppendEnrollmentGroupRequest\x12\x1a\n\x07groupId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x15\n\renrollmentIds\x18\x02 \x03(\t\"/\n\x17\x44\x65leteEnrollmentRequest\x12\x14\n\x02id\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\"5\n\x1c\x44\x65leteEnrollmentGroupRequest\x12\x15\n\x02id\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"N\n\x17UpdateEnrollmentRequest\x12\x14\n\x02id\x18\x01 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1d\n\x0b\x64\x65scription\x18\x02 \x01(\tB\x08\xfa\x42\x05r\x03\x18\xff\x07\"N\n\x1cUpdateEnrollmentGroupRequest\x12\x15\n\x02id\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x17\n\x04name\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"W\n\x18RemoveEnrollmentsRequest\x12\x1a\n\x07groupId\x18\x01 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1f\n\renrollmentIds\x18\x02 \x03(\tB\x08\xfa\x42\x05\x92\x01\x02\x08\x01\x32\xb0\t\n\x11\x45nrollmentService\x12w\n\x0eGetEnrollments\x12\x30.sensory.api.v1.management.GetEnrollmentsRequest\x1a\x31.sensory.api.v1.management.GetEnrollmentsResponse\"\x00\x12\x81\x01\n\x13GetEnrollmentGroups\x12\x30.sensory.api.v1.management.GetEnrollmentsRequest\x1a\x36.sensory.api.v1.management.GetEnrollmentGroupsResponse\"\x00\x12\x86\x01\n\x15\x43reateEnrollmentGroup\x12\x37.sensory.api.v1.management.CreateEnrollmentGroupRequest\x1a\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\x00\x12\x86\x01\n\x15\x41ppendEnrollmentGroup\x12\x37.sensory.api.v1.management.AppendEnrollmentGroupRequest\x1a\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\x00\x12w\n\x10\x44\x65leteEnrollment\x12\x32.sensory.api.v1.management.DeleteEnrollmentRequest\x1a-.sensory.api.v1.management.EnrollmentResponse\"\x00\x12\x86\x01\n\x15\x44\x65leteEnrollmentGroup\x12\x37.sensory.api.v1.management.DeleteEnrollmentGroupRequest\x1a\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\x00\x12w\n\x10UpdateEnrollment\x12\x32.sensory.api.v1.management.UpdateEnrollmentRequest\x1a-.sensory.api.v1.management.EnrollmentResponse\"\x00\x12\x86\x01\n\x15UpdateEnrollmentGroup\x12\x37.sensory.api.v1.management.UpdateEnrollmentGroupRequest\x1a\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\x00\x12\x87\x01\n\x1aRemoveEnrollmentsFromGroup\x12\x33.sensory.api.v1.management.RemoveEnrollmentsRequest\x1a\x32.sensory.api.v1.management.EnrollmentGroupResponse\"\x00\x42\x8d\x01\n!ai.sensorycloud.api.v1.managementB%SensoryApiV1ManagementEnrollmentProtoP\x01Z?gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/managementb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,validate_dot_validate__pb2.DESCRIPTOR,common_dot_common__pb2.DESCRIPTOR,])
 
@@ -199,6 +199,13 @@ _ENROLLMENTRESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='didEnrollAsBiometric', full_name='sensory.api.v1.management.EnrollmentResponse.didEnrollAsBiometric', index=13,
+      number=14, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -212,7 +219,7 @@ _ENROLLMENTRESPONSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=315,
-  serialized_end=726,
+  serialized_end=756,
 )
 
 
@@ -243,8 +250,8 @@ _GETENROLLMENTGROUPSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=728,
-  serialized_end=835,
+  serialized_start=758,
+  serialized_end=865,
 )
 
 
@@ -338,8 +345,8 @@ _ENROLLMENTGROUPRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=838,
-  serialized_end=1179,
+  serialized_start=868,
+  serialized_end=1209,
 )
 
 
@@ -405,8 +412,8 @@ _CREATEENROLLMENTGROUPREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1182,
-  serialized_end=1373,
+  serialized_start=1212,
+  serialized_end=1403,
 )
 
 
@@ -444,8 +451,8 @@ _APPENDENROLLMENTGROUPREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1375,
-  serialized_end=1456,
+  serialized_start=1405,
+  serialized_end=1486,
 )
 
 
@@ -476,8 +483,8 @@ _DELETEENROLLMENTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1458,
-  serialized_end=1505,
+  serialized_start=1488,
+  serialized_end=1535,
 )
 
 
@@ -508,8 +515,125 @@ _DELETEENROLLMENTGROUPREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1507,
-  serialized_end=1560,
+  serialized_start=1537,
+  serialized_end=1590,
+)
+
+
+_UPDATEENROLLMENTREQUEST = _descriptor.Descriptor(
+  name='UpdateEnrollmentRequest',
+  full_name='sensory.api.v1.management.UpdateEnrollmentRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='sensory.api.v1.management.UpdateEnrollmentRequest.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\005r\003\260\001\001', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='sensory.api.v1.management.UpdateEnrollmentRequest.description', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\005r\003\030\377\007', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1592,
+  serialized_end=1670,
+)
+
+
+_UPDATEENROLLMENTGROUPREQUEST = _descriptor.Descriptor(
+  name='UpdateEnrollmentGroupRequest',
+  full_name='sensory.api.v1.management.UpdateEnrollmentGroupRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='sensory.api.v1.management.UpdateEnrollmentGroupRequest.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\006r\004\020\001\030\177', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='name', full_name='sensory.api.v1.management.UpdateEnrollmentGroupRequest.name', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\006r\004\020\001\030\177', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1672,
+  serialized_end=1750,
+)
+
+
+_REMOVEENROLLMENTSREQUEST = _descriptor.Descriptor(
+  name='RemoveEnrollmentsRequest',
+  full_name='sensory.api.v1.management.RemoveEnrollmentsRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='groupId', full_name='sensory.api.v1.management.RemoveEnrollmentsRequest.groupId', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\006r\004\020\001\030\177', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='enrollmentIds', full_name='sensory.api.v1.management.RemoveEnrollmentsRequest.enrollmentIds', index=1,
+      number=2, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\005\222\001\002\010\001', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1752,
+  serialized_end=1839,
 )
 
 
@@ -762,8 +886,8 @@ _ENROLLMENTSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1812,
-  serialized_end=3012,
+  serialized_start=1842,
+  serialized_end=3042,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetEnrollments',

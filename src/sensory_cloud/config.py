@@ -1,4 +1,58 @@
 import grpc
+from enum import Enum
+
+
+class EnrollmentType(Enum):
+    none = 1
+    shared_secret = 2
+    jwt = 3
+
+
+class SDKConfig:
+    """
+    All configurations required to initialize the Sensory Cloud SDK
+    """
+
+    def __init__(
+        self,
+        fully_qualified_domain_name: str,
+        tenant_id: str,
+        is_connection_secure: bool,
+        enrollment_type: EnrollmentType,
+        credential: str,
+        device_id: str,
+        device_name: str,
+    ):
+
+        self.fully_qualified_domain_name = fully_qualified_domain_name
+        self.tenant_id = tenant_id
+        self.is_connection_secure = is_connection_secure
+        self.enrollment_type = enrollment_type
+        self.credential = credential
+        self.device_id = device_id
+        self.device_name = device_name
+
+
+class CloudHost:
+    """
+    Class for providing info on a cloud host
+    """
+
+    def __init__(
+        self,
+        host: str,
+        port: int = 443,
+        is_connection_secure: bool = True,
+    ):
+
+        host_split = host.split(":")
+        if len(host_split) > 1:
+            host = host_split[0]
+            port = int(host_split[1])
+
+        self.host = host
+        self.port = port
+        self.is_connection_secure = is_connection_secure
 
 
 class Config:
@@ -8,23 +62,21 @@ class Config:
 
     def __init__(
         self,
-        fully_qualified_domain_name: str,
         tenant_id: str,
-        is_connection_secure: bool = True,
+        cloud_host: CloudHost,
     ):
         """
         Constructor method for the Config class
 
         Arguments:
-            fully_qualified_domain_name: String containing the domain to connect to
             tenant_id: String containing the tenant to connect to
-            is_connection_secure: Boolean denoting whether or not to establish a secure
-                grpc connection
+            cloud_host: CloudHost object that defines the fqdm and whether or not the
+                connection is secure
         """
 
-        self.fully_qualified_domain_name = fully_qualified_domain_name
-        self.is_connection_secure = is_connection_secure
         self.tenant_id = tenant_id
+        self.cloud_host = cloud_host
+        self.fully_qualified_domain_name = f"{cloud_host.host}:{cloud_host.port}"
 
         self._channel = None
 
@@ -34,7 +86,7 @@ class Config:
         constructor
         """
 
-        if self.is_connection_secure:
+        if self.cloud_host.is_connection_secure:
             self._channel = grpc.secure_channel(
                 target=self.fully_qualified_domain_name,
                 credentials=grpc.ssl_channel_credentials(),

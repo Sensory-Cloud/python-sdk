@@ -26,7 +26,7 @@ def example_stream_event() -> str:
 
     event_stream = audio_service.stream_event(
         audio_config=audio_config,
-        user_id=helpers.environment_config["user_id"],
+        user_id=helpers.environment_config.get("examples-configuration", "userId"),
         model_name=event_model,
         audio_stream_iterator=audio_stream_iterator,
     )
