@@ -1,4 +1,4 @@
-certifi==2021.10.8
+certifi==2022.12.7
 grpcio==1.42.0
 grpcio-tools==1.42.0
 protobuf==3.19.1
