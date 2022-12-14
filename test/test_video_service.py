@@ -58,9 +58,7 @@ class MockVidoService(VideoService):
 
 class VideoServiceTest(unittest.TestCase):
     cloud_host: CloudHost = CloudHost(host="domain.name")
-    config: Config = Config(
-        cloud_host=cloud_host, tenant_id="tenant-id"
-    )
+    config: Config = Config(cloud_host=cloud_host, tenant_id="tenant-id")
     config.connect()
 
     credential_store: MockCredentialStore = MockCredentialStore(

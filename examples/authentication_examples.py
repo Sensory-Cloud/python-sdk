@@ -245,43 +245,6 @@ def example_group_authenticate_with_video() -> bool:
     return success
 
 
-def example_group_authenticate_with_video() -> bool:
-    """
-    Example of face authentication against the video enrollment
-    created in enrollment_examples.py
-
-    Returns:
-        A boolean denoting whether or not the authentication was successful
-    """
-
-    video_service: VideoService = helpers.get_video_service()
-
-    video_stream_iterator: helpers.VideoStreamIterator = helpers.VideoStreamIterator()
-
-    authenticate_stream = video_service.stream_group_authentication(
-        enrollment_group_id=helpers.environment_config["video_enrollment_group_id"],
-        is_liveness_enabled=False,
-        video_stream_iterator=video_stream_iterator,
-    )
-
-    success: bool = False
-    try:
-        print("Authenticating...")
-        for response in authenticate_stream:
-            print(response.success)
-            if response.success:
-                success = True
-                break
-        print("Authentication successful!")
-    except Exception as e:
-        print(f"Authentication failed with error {str(e)}")
-    finally:
-        video_stream_iterator.close()
-        authenticate_stream.cancel()
-
-    return success
-
-
 if __name__ == "__main__":
     authenticate_with_audio = example_authenticate_with_audio()
     group_authenticate_with_audio = example_group_authenticate_with_audio()

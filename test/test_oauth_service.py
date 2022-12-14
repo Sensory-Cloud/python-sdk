@@ -70,9 +70,7 @@ class MockOAuthService(OauthService):
 
 class OauthServiceTest(unittest.TestCase):
     cloud_host: CloudHost = CloudHost(host="domain.name")
-    config: Config = Config(
-        cloud_host=cloud_host, tenant_id="tenant-id"
-    )
+    config: Config = Config(cloud_host=cloud_host, tenant_id="tenant-id")
     config.connect()
 
     oauth_client: oauth_pb2_grpc.OauthServiceStub = oauth_pb2_grpc.OauthServiceStub(
@@ -290,7 +288,9 @@ class OauthServiceTest(unittest.TestCase):
         mock_device_response: device_pb2.DeviceResponse = device_pb2.DeviceResponse(
             name="my-device-name", deviceId=device_id
         )
-        self.device_client.RenewDeviceCredential = MagicMock(return_value=mock_device_response)
+        self.device_client.RenewDeviceCredential = MagicMock(
+            return_value=mock_device_response
+        )
 
         oauth_service: MockOAuthService = MockOAuthService(
             config=self.config,
@@ -299,7 +299,11 @@ class OauthServiceTest(unittest.TestCase):
             device_client=self.device_client,
         )
 
-        device_response: device_pb2.DeviceResponse = oauth_service.renew_device_credential(device_id=device_id, credential=credential)
+        device_response: device_pb2.DeviceResponse = (
+            oauth_service.renew_device_credential(
+                device_id=device_id, credential=credential
+            )
+        )
 
         self.assertEqual(
             device_response,
@@ -308,6 +312,7 @@ class OauthServiceTest(unittest.TestCase):
         )
 
         self.config.channel.close()
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -19,9 +19,7 @@ class MockHealthService(HealthService):
 class TestHealthService(unittest.TestCase):
     def test_get_health(self):
         cloud_host: CloudHost = CloudHost(host="domain.name")
-        config: Config = Config(
-            cloud_host=cloud_host, tenant_id="tenant-id"
-        )
+        config: Config = Config(cloud_host=cloud_host, tenant_id="tenant-id")
         config.connect()
 
         response = ServerHealthResponse(

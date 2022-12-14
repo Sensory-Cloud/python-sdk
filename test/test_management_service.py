@@ -44,9 +44,7 @@ class MockManagementService(ManagementService):
 class ManagmentServiceTest(unittest.TestCase):
 
     cloud_host: CloudHost = CloudHost(host="domain.name")
-    config: Config = Config(
-        cloud_host=cloud_host, tenant_id="tenant-id"
-    )
+    config: Config = Config(cloud_host=cloud_host, tenant_id="tenant-id")
     config.connect()
 
     enrollment_client: EnrollmentServiceStub = EnrollmentServiceStub(

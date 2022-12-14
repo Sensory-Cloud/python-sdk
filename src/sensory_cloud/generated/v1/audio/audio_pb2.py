@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\034ai.sensorycloud.api.v1.audioB\026SensoryApiV1AudioProtoP\001Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/audio',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14v1/audio/audio.proto\x12\x14sensory.api.v1.audio\x1a\x17validate/validate.proto\x1a\x13\x63ommon/common.proto\"\x12\n\x10GetModelsRequest\"\xf2\x01\n\nAudioModel\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0cisEnrollable\x18\x02 \x01(\x08\x12\x30\n\tmodelType\x18\x03 \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x13\n\x0b\x66ixedPhrase\x18\x04 \x01(\t\x12\x12\n\nsampleRate\x18\x05 \x01(\x05\x12\x10\n\x08versions\x18\x06 \x03(\t\x12\x36\n\ntechnology\x18\x07 \x01(\x0e\x32\".sensory.api.common.TechnologyType\x12\x1b\n\x13isLivenessSupported\x18\x08 \x01(\x08\"\x7f\n AudioRequestPostProcessingAction\x12\x10\n\x08\x61\x63tionId\x18\x01 \x01(\t\x12I\n\x06\x61\x63tion\x18\x02 \x01(\x0e\x32/.sensory.api.v1.audio.AudioPostProcessingActionB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\"\x80\x01\n!AudioResponsePostProcessingAction\x12\x10\n\x08\x61\x63tionId\x18\x01 \x01(\t\x12I\n\x06\x61\x63tion\x18\x02 \x01(\x0e\x32/.sensory.api.v1.audio.AudioPostProcessingActionB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\"E\n\x11GetModelsResponse\x12\x30\n\x06models\x18\x01 \x03(\x0b\x32 .sensory.api.v1.audio.AudioModel\"\x8a\x01\n\x17\x43reateEnrollmentRequest\x12>\n\x06\x63onfig\x18\x01 \x01(\x0b\x32,.sensory.api.v1.audio.CreateEnrollmentConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x82\x01\n\x13\x41uthenticateRequest\x12:\n\x06\x63onfig\x18\x01 \x01(\x0b\x32(.sensory.api.v1.audio.AuthenticateConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\xda\x01\n\x14ValidateEventRequest\x12;\n\x06\x63onfig\x18\x01 \x01(\x0b\x32).sensory.api.v1.audio.ValidateEventConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x12T\n\x14postProcessingAction\x18\n \x01(\x0b\x32\x36.sensory.api.v1.audio.AudioRequestPostProcessingActionB\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x92\x01\n\x1a\x43reateEnrolledEventRequest\x12\x43\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\x31.sensory.api.v1.audio.CreateEnrollmentEventConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x94\x01\n\x1cValidateEnrolledEventRequest\x12\x43\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\x31.sensory.api.v1.audio.ValidateEnrolledEventConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\xd4\x01\n\x11TranscribeRequest\x12\x38\n\x06\x63onfig\x18\x01 \x01(\x0b\x32&.sensory.api.v1.audio.TranscribeConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x12T\n\x14postProcessingAction\x18\n \x01(\x0b\x32\x36.sensory.api.v1.audio.AudioRequestPostProcessingActionB\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"e\n\x17SynthesizeSpeechRequest\x12\x0e\n\x06phrase\x18\x01 \x01(\t\x12:\n\x06\x63onfig\x18\x02 \x01(\x0b\x32*.sensory.api.v1.audio.VoiceSynthesisConfig\"\xfa\x01\n\x18\x43reateEnrollmentResponse\x12\x17\n\x0fpercentComplete\x18\x01 \x01(\x03\x12\x13\n\x0b\x61udioEnergy\x18\x02 \x01(\x02\x12\x14\n\x0c\x65nrollmentId\x18\x03 \x01(\t\x12\x11\n\tmodelName\x18\x04 \x01(\t\x12\x14\n\x0cmodelVersion\x18\x05 \x01(\t\x12\x13\n\x0bmodelPrompt\x18\x06 \x01(\t\x12\x1e\n\x16percentSegmentComplete\x18\x07 \x01(\x03\x12<\n\x0f\x65nrollmentToken\x18\x08 \x01(\x0b\x32#.sensory.api.common.EnrollmentToken\"\xc9\x01\n\x14\x41uthenticateResponse\x12\x13\n\x0b\x61udioEnergy\x18\x01 \x01(\x02\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x30\n\x05token\x18\x03 \x01(\x0b\x32!.sensory.api.common.TokenResponse\x12\x0e\n\x06userId\x18\x04 \x01(\t\x12\x14\n\x0c\x65nrollmentId\x18\x05 \x01(\t\x12\x13\n\x0bmodelPrompt\x18\x06 \x01(\t\x12\x1e\n\x16percentSegmentComplete\x18\x07 \x01(\x03\"\xb5\x01\n\x15ValidateEventResponse\x12\x13\n\x0b\x61udioEnergy\x18\x01 \x01(\x02\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x10\n\x08resultId\x18\x03 \x01(\t\x12\r\n\x05score\x18\x04 \x01(\x02\x12U\n\x14postProcessingAction\x18\n \x01(\x0b\x32\x37.sensory.api.v1.audio.AudioResponsePostProcessingAction\"\x80\x01\n\x1dValidateEnrolledEventResponse\x12\x13\n\x0b\x61udioEnergy\x18\x01 \x01(\x02\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x14\n\x0c\x65nrollmentId\x18\x03 \x01(\t\x12\x0e\n\x06userId\x18\x04 \x01(\t\x12\x13\n\x0bmodelPrompt\x18\x05 \x01(\t\"\xa1\x01\n\x0eTranscribeWord\x12\x13\n\x0b\x62\x65gintimeMs\x18\x01 \x01(\x04\x12\x11\n\tendtimeMs\x18\x02 \x01(\x04\x12\x12\n\nconfidence\x18\x03 \x01(\x02\x12\x32\n\twordState\x18\x04 \x01(\x0e\x32\x1f.sensory.api.v1.audio.WordState\x12\x11\n\twordIndex\x18\x05 \x01(\x04\x12\x0c\n\x04word\x18\x06 \x01(\t\"|\n\x16TranscribeWordResponse\x12\x33\n\x05words\x18\x01 \x03(\x0b\x32$.sensory.api.v1.audio.TranscribeWord\x12\x16\n\x0e\x66irstWordIndex\x18\x02 \x01(\x04\x12\x15\n\rlastWordIndex\x18\x03 \x01(\x04\"\xf1\x01\n\x12TranscribeResponse\x12\x13\n\x0b\x61udioEnergy\x18\x01 \x01(\x02\x12\x12\n\ntranscript\x18\x02 \x01(\t\x12\x1b\n\x0fisPartialResult\x18\x03 \x01(\x08\x42\x02\x18\x01\x12>\n\x08wordList\x18\x04 \x01(\x0b\x32,.sensory.api.v1.audio.TranscribeWordResponse\x12U\n\x14postProcessingAction\x18\n \x01(\x0b\x32\x37.sensory.api.v1.audio.AudioResponsePostProcessingAction\"|\n\x18SynthesizeSpeechResponse\x12\x33\n\x06\x63onfig\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x42\x13\n\x11streamingResponse\"\xa0\x03\n\x16\x43reateEnrollmentConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x19\n\x06userId\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1b\n\x08\x64\x65viceId\x18\x03 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1d\n\tmodelName\x18\x04 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x1d\n\x0b\x64\x65scription\x18\x05 \x01(\tB\x08\xfa\x42\x05r\x03\x18\xff\x07\x12\x19\n\x11isLivenessEnabled\x18\x06 \x01(\x08\x12,\n\x17\x65nrollmentNumUtterances\x18\x07 \x01(\rB\t\xfa\x42\x06*\x04\x18\n(\x00H\x00\x12-\n\x12\x65nrollmentDuration\x18\x08 \x01(\x02\x42\x0f\xfa\x42\x0c\n\n\x1d\x00\x00pA-\x00\x00\x00\x00H\x00\x12\x1c\n\x0breferenceId\x18\t \x01(\tB\x07\xfa\x42\x04r\x02\x18\x7f\x12.\n&disableServerEnrollmentTemplateStorage\x18\n \x01(\x08\x42\x0e\n\x0c\x65nrollLength\"\xb5\x03\n\x12\x41uthenticateConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12 \n\x0c\x65nrollmentId\x18\x02 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01H\x00\x12\x1b\n\x11\x65nrollmentGroupId\x18\x03 \x01(\tH\x00\x12\x16\n\x0e\x64oIncludeToken\x18\x04 \x01(\x08\x12I\n\x0bsensitivity\x18\x05 \x01(\x0e\x32*.sensory.api.v1.audio.ThresholdSensitivityB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12V\n\x08security\x18\x06 \x01(\x0e\x32:.sensory.api.v1.audio.AuthenticateConfig.ThresholdSecurityB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x19\n\x11isLivenessEnabled\x18\x07 \x01(\x08\x12\x17\n\x0f\x65nrollmentToken\x18\x08 \x01(\x0c\"&\n\x11ThresholdSecurity\x12\x08\n\x04HIGH\x10\x00\x12\x07\n\x03LOW\x10\x01\x42\r\n\x06\x61uthId\x12\x03\xf8\x42\x01\"\xd6\x01\n\x13ValidateEventConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x1d\n\tmodelName\x18\x02 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x19\n\x06userId\x18\x03 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12I\n\x0bsensitivity\x18\x04 \x01(\x0e\x32*.sensory.api.v1.audio.ThresholdSensitivityB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\"\xbd\x02\n\x1b\x43reateEnrollmentEventConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x19\n\x06userId\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1d\n\tmodelName\x18\x03 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x1d\n\x0b\x64\x65scription\x18\x04 \x01(\tB\x08\xfa\x42\x05r\x03\x18\xff\x07\x12,\n\x17\x65nrollmentNumUtterances\x18\x05 \x01(\rB\t\xfa\x42\x06*\x04\x18\n(\x00H\x00\x12-\n\x12\x65nrollmentDuration\x18\x06 \x01(\x02\x42\x0f\xfa\x42\x0c\n\n\x1d\x00\x00pA-\x00\x00\x00\x00H\x00\x12\x1c\n\x0breferenceId\x18\x07 \x01(\tB\x07\xfa\x42\x04r\x02\x18\x7f\x42\x0e\n\x0c\x65nrollLength\"\x8b\x02\n\x1bValidateEnrolledEventConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12 \n\x0c\x65nrollmentId\x18\x02 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01H\x00\x12\x1b\n\x11\x65nrollmentGroupId\x18\x03 \x01(\tH\x00\x12I\n\x0bsensitivity\x18\x04 \x01(\x0e\x32*.sensory.api.v1.audio.ThresholdSensitivityB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x17\n\x0f\x65nrollmentToken\x18\x05 \x01(\x0c\x42\r\n\x06\x61uthId\x12\x03\xf8\x42\x01\"\x88\x01\n\x10TranscribeConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x1d\n\tmodelName\x18\x02 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x19\n\x06userId\x18\x03 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\"\xeb\x01\n\x0b\x41udioConfig\x12K\n\x08\x65ncoding\x18\x01 \x01(\x0e\x32/.sensory.api.v1.audio.AudioConfig.AudioEncodingB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12!\n\x0fsampleRateHertz\x18\x02 \x01(\x05\x42\x08\xfa\x42\x05\x1a\x03 \xc0>\x12\"\n\x11\x61udioChannelCount\x18\x03 \x01(\x05\x42\x07\xfa\x42\x04\x1a\x02 \x00\x12\x14\n\x0clanguageCode\x18\x04 \x01(\t\"2\n\rAudioEncoding\x12\x0c\n\x08LINEAR16\x10\x00\x12\x08\n\x04\x46LAC\x10\x01\x12\t\n\x05MULAW\x10\x02\"l\n\x14VoiceSynthesisConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x18\n\x05voice\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f*I\n\x19\x41udioPostProcessingAction\x12\x0b\n\x07NOT_SET\x10\x00\x12\t\n\x05\x46LUSH\x10\x01\x12\t\n\x05RESET\x10\x02\x12\t\n\x05\x46INAL\x10\x03*7\n\tWordState\x12\x15\n\x11WORDSTATE_PENDING\x10\x00\x12\x13\n\x0fWORDSTATE_FINAL\x10\x01*N\n\x14ThresholdSensitivity\x12\n\n\x06LOWEST\x10\x00\x12\x07\n\x03LOW\x10\x01\x12\n\n\x06MEDIUM\x10\x02\x12\x08\n\x04HIGH\x10\x03\x12\x0b\n\x07HIGHEST\x10\x04\x32m\n\x0b\x41udioModels\x12^\n\tGetModels\x12&.sensory.api.v1.audio.GetModelsRequest\x1a\'.sensory.api.v1.audio.GetModelsResponse\"\x00\x32\xf7\x01\n\x0f\x41udioBiometrics\x12w\n\x10\x43reateEnrollment\x12-.sensory.api.v1.audio.CreateEnrollmentRequest\x1a..sensory.api.v1.audio.CreateEnrollmentResponse\"\x00(\x01\x30\x01\x12k\n\x0c\x41uthenticate\x12).sensory.api.v1.audio.AuthenticateRequest\x1a*.sensory.api.v1.audio.AuthenticateResponse\"\x00(\x01\x30\x01\x32\x85\x03\n\x0b\x41udioEvents\x12n\n\rValidateEvent\x12*.sensory.api.v1.audio.ValidateEventRequest\x1a+.sensory.api.v1.audio.ValidateEventResponse\"\x00(\x01\x30\x01\x12}\n\x13\x43reateEnrolledEvent\x12\x30.sensory.api.v1.audio.CreateEnrolledEventRequest\x1a..sensory.api.v1.audio.CreateEnrollmentResponse\"\x00(\x01\x30\x01\x12\x86\x01\n\x15ValidateEnrolledEvent\x12\x32.sensory.api.v1.audio.ValidateEnrolledEventRequest\x1a\x33.sensory.api.v1.audio.ValidateEnrolledEventResponse\"\x00(\x01\x30\x01\x32|\n\x13\x41udioTranscriptions\x12\x65\n\nTranscribe\x12\'.sensory.api.v1.audio.TranscribeRequest\x1a(.sensory.api.v1.audio.TranscribeResponse\"\x00(\x01\x30\x01\x32\x87\x01\n\x0e\x41udioSynthesis\x12u\n\x10SynthesizeSpeech\x12-.sensory.api.v1.audio.SynthesizeSpeechRequest\x1a..sensory.api.v1.audio.SynthesizeSpeechResponse\"\x00\x30\x01\x42t\n\x1c\x61i.sensorycloud.api.v1.audioB\x16SensoryApiV1AudioProtoP\x01Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/audiob\x06proto3'
+  serialized_pb=b'\n\x14v1/audio/audio.proto\x12\x14sensory.api.v1.audio\x1a\x17validate/validate.proto\x1a\x13\x63ommon/common.proto\"\x12\n\x10GetModelsRequest\"\xf2\x01\n\nAudioModel\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x14\n\x0cisEnrollable\x18\x02 \x01(\x08\x12\x30\n\tmodelType\x18\x03 \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x13\n\x0b\x66ixedPhrase\x18\x04 \x01(\t\x12\x12\n\nsampleRate\x18\x05 \x01(\x05\x12\x10\n\x08versions\x18\x06 \x03(\t\x12\x36\n\ntechnology\x18\x07 \x01(\x0e\x32\".sensory.api.common.TechnologyType\x12\x1b\n\x13isLivenessSupported\x18\x08 \x01(\x08\"\x7f\n AudioRequestPostProcessingAction\x12\x10\n\x08\x61\x63tionId\x18\x01 \x01(\t\x12I\n\x06\x61\x63tion\x18\x02 \x01(\x0e\x32/.sensory.api.v1.audio.AudioPostProcessingActionB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\"\x80\x01\n!AudioResponsePostProcessingAction\x12\x10\n\x08\x61\x63tionId\x18\x01 \x01(\t\x12I\n\x06\x61\x63tion\x18\x02 \x01(\x0e\x32/.sensory.api.v1.audio.AudioPostProcessingActionB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\"E\n\x11GetModelsResponse\x12\x30\n\x06models\x18\x01 \x03(\x0b\x32 .sensory.api.v1.audio.AudioModel\"\x8a\x01\n\x17\x43reateEnrollmentRequest\x12>\n\x06\x63onfig\x18\x01 \x01(\x0b\x32,.sensory.api.v1.audio.CreateEnrollmentConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x82\x01\n\x13\x41uthenticateRequest\x12:\n\x06\x63onfig\x18\x01 \x01(\x0b\x32(.sensory.api.v1.audio.AuthenticateConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\xda\x01\n\x14ValidateEventRequest\x12;\n\x06\x63onfig\x18\x01 \x01(\x0b\x32).sensory.api.v1.audio.ValidateEventConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x12T\n\x14postProcessingAction\x18\n \x01(\x0b\x32\x36.sensory.api.v1.audio.AudioRequestPostProcessingActionB\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x92\x01\n\x1a\x43reateEnrolledEventRequest\x12\x43\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\x31.sensory.api.v1.audio.CreateEnrollmentEventConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\x94\x01\n\x1cValidateEnrolledEventRequest\x12\x43\n\x06\x63onfig\x18\x01 \x01(\x0b\x32\x31.sensory.api.v1.audio.ValidateEnrolledEventConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x42\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"\xd4\x01\n\x11TranscribeRequest\x12\x38\n\x06\x63onfig\x18\x01 \x01(\x0b\x32&.sensory.api.v1.audio.TranscribeConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x12T\n\x14postProcessingAction\x18\n \x01(\x0b\x32\x36.sensory.api.v1.audio.AudioRequestPostProcessingActionB\x17\n\x10streamingRequest\x12\x03\xf8\x42\x01\"e\n\x17SynthesizeSpeechRequest\x12\x0e\n\x06phrase\x18\x01 \x01(\t\x12:\n\x06\x63onfig\x18\x02 \x01(\x0b\x32*.sensory.api.v1.audio.VoiceSynthesisConfig\"\xfa\x01\n\x18\x43reateEnrollmentResponse\x12\x17\n\x0fpercentComplete\x18\x01 \x01(\x03\x12\x13\n\x0b\x61udioEnergy\x18\x02 \x01(\x02\x12\x14\n\x0c\x65nrollmentId\x18\x03 \x01(\t\x12\x11\n\tmodelName\x18\x04 \x01(\t\x12\x14\n\x0cmodelVersion\x18\x05 \x01(\t\x12\x13\n\x0bmodelPrompt\x18\x06 \x01(\t\x12\x1e\n\x16percentSegmentComplete\x18\x07 \x01(\x03\x12<\n\x0f\x65nrollmentToken\x18\x08 \x01(\x0b\x32#.sensory.api.common.EnrollmentToken\"\xc9\x01\n\x14\x41uthenticateResponse\x12\x13\n\x0b\x61udioEnergy\x18\x01 \x01(\x02\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x30\n\x05token\x18\x03 \x01(\x0b\x32!.sensory.api.common.TokenResponse\x12\x0e\n\x06userId\x18\x04 \x01(\t\x12\x14\n\x0c\x65nrollmentId\x18\x05 \x01(\t\x12\x13\n\x0bmodelPrompt\x18\x06 \x01(\t\x12\x1e\n\x16percentSegmentComplete\x18\x07 \x01(\x03\"\xb5\x01\n\x15ValidateEventResponse\x12\x13\n\x0b\x61udioEnergy\x18\x01 \x01(\x02\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x10\n\x08resultId\x18\x03 \x01(\t\x12\r\n\x05score\x18\x04 \x01(\x02\x12U\n\x14postProcessingAction\x18\n \x01(\x0b\x32\x37.sensory.api.v1.audio.AudioResponsePostProcessingAction\"\x80\x01\n\x1dValidateEnrolledEventResponse\x12\x13\n\x0b\x61udioEnergy\x18\x01 \x01(\x02\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x14\n\x0c\x65nrollmentId\x18\x03 \x01(\t\x12\x0e\n\x06userId\x18\x04 \x01(\t\x12\x13\n\x0bmodelPrompt\x18\x05 \x01(\t\"\xa1\x01\n\x0eTranscribeWord\x12\x13\n\x0b\x62\x65gintimeMs\x18\x01 \x01(\x04\x12\x11\n\tendtimeMs\x18\x02 \x01(\x04\x12\x12\n\nconfidence\x18\x03 \x01(\x02\x12\x32\n\twordState\x18\x04 \x01(\x0e\x32\x1f.sensory.api.v1.audio.WordState\x12\x11\n\twordIndex\x18\x05 \x01(\x04\x12\x0c\n\x04word\x18\x06 \x01(\t\"|\n\x16TranscribeWordResponse\x12\x33\n\x05words\x18\x01 \x03(\x0b\x32$.sensory.api.v1.audio.TranscribeWord\x12\x16\n\x0e\x66irstWordIndex\x18\x02 \x01(\x04\x12\x15\n\rlastWordIndex\x18\x03 \x01(\x04\"\x8b\x02\n\x12TranscribeResponse\x12\x13\n\x0b\x61udioEnergy\x18\x01 \x01(\x02\x12\x12\n\ntranscript\x18\x02 \x01(\t\x12\x1b\n\x0fisPartialResult\x18\x03 \x01(\x08\x42\x02\x18\x01\x12>\n\x08wordList\x18\x04 \x01(\x0b\x32,.sensory.api.v1.audio.TranscribeWordResponse\x12\x18\n\x10hasVoiceActivity\x18\x05 \x01(\x08\x12U\n\x14postProcessingAction\x18\n \x01(\x0b\x32\x37.sensory.api.v1.audio.AudioResponsePostProcessingAction\"|\n\x18SynthesizeSpeechResponse\x12\x33\n\x06\x63onfig\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigH\x00\x12\x16\n\x0c\x61udioContent\x18\x02 \x01(\x0cH\x00\x42\x13\n\x11streamingResponse\"\xa0\x03\n\x16\x43reateEnrollmentConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x19\n\x06userId\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1b\n\x08\x64\x65viceId\x18\x03 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1d\n\tmodelName\x18\x04 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x1d\n\x0b\x64\x65scription\x18\x05 \x01(\tB\x08\xfa\x42\x05r\x03\x18\xff\x07\x12\x19\n\x11isLivenessEnabled\x18\x06 \x01(\x08\x12,\n\x17\x65nrollmentNumUtterances\x18\x07 \x01(\rB\t\xfa\x42\x06*\x04\x18\n(\x00H\x00\x12-\n\x12\x65nrollmentDuration\x18\x08 \x01(\x02\x42\x0f\xfa\x42\x0c\n\n\x1d\x00\x00pA-\x00\x00\x00\x00H\x00\x12\x1c\n\x0breferenceId\x18\t \x01(\tB\x07\xfa\x42\x04r\x02\x18\x7f\x12.\n&disableServerEnrollmentTemplateStorage\x18\n \x01(\x08\x42\x0e\n\x0c\x65nrollLength\"\xb5\x03\n\x12\x41uthenticateConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12 \n\x0c\x65nrollmentId\x18\x02 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01H\x00\x12\x1b\n\x11\x65nrollmentGroupId\x18\x03 \x01(\tH\x00\x12\x16\n\x0e\x64oIncludeToken\x18\x04 \x01(\x08\x12I\n\x0bsensitivity\x18\x05 \x01(\x0e\x32*.sensory.api.v1.audio.ThresholdSensitivityB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12V\n\x08security\x18\x06 \x01(\x0e\x32:.sensory.api.v1.audio.AuthenticateConfig.ThresholdSecurityB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x19\n\x11isLivenessEnabled\x18\x07 \x01(\x08\x12\x17\n\x0f\x65nrollmentToken\x18\x08 \x01(\x0c\"&\n\x11ThresholdSecurity\x12\x08\n\x04HIGH\x10\x00\x12\x07\n\x03LOW\x10\x01\x42\r\n\x06\x61uthId\x12\x03\xf8\x42\x01\"\xd6\x01\n\x13ValidateEventConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x1d\n\tmodelName\x18\x02 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x19\n\x06userId\x18\x03 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12I\n\x0bsensitivity\x18\x04 \x01(\x0e\x32*.sensory.api.v1.audio.ThresholdSensitivityB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\"\xbd\x02\n\x1b\x43reateEnrollmentEventConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x19\n\x06userId\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\x1d\n\tmodelName\x18\x03 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x1d\n\x0b\x64\x65scription\x18\x04 \x01(\tB\x08\xfa\x42\x05r\x03\x18\xff\x07\x12,\n\x17\x65nrollmentNumUtterances\x18\x05 \x01(\rB\t\xfa\x42\x06*\x04\x18\n(\x00H\x00\x12-\n\x12\x65nrollmentDuration\x18\x06 \x01(\x02\x42\x0f\xfa\x42\x0c\n\n\x1d\x00\x00pA-\x00\x00\x00\x00H\x00\x12\x1c\n\x0breferenceId\x18\x07 \x01(\tB\x07\xfa\x42\x04r\x02\x18\x7f\x42\x0e\n\x0c\x65nrollLength\"\x8b\x02\n\x1bValidateEnrolledEventConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12 \n\x0c\x65nrollmentId\x18\x02 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01H\x00\x12\x1b\n\x11\x65nrollmentGroupId\x18\x03 \x01(\tH\x00\x12I\n\x0bsensitivity\x18\x04 \x01(\x0e\x32*.sensory.api.v1.audio.ThresholdSensitivityB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x17\n\x0f\x65nrollmentToken\x18\x05 \x01(\x0c\x42\r\n\x06\x61uthId\x12\x03\xf8\x42\x01\"2\n\x15\x43ustomVocabularyWords\x12\x19\n\x05words\x18\x01 \x03(\tB\n\xfa\x42\x07\x92\x01\x04\x08\x01\x10\x64\"\xd6\x03\n\x10TranscribeConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x1d\n\tmodelName\x18\x02 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x01\x12\x19\n\x06userId\x18\x03 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12\'\n\x1f\x65nablePunctuationCapitalization\x18\x04 \x01(\x08\x12\x19\n\x11\x64oSingleUtterance\x18\x05 \x01(\x08\x12\x42\n\x0evadSensitivity\x18\x06 \x01(\x0e\x32*.sensory.api.v1.audio.ThresholdSensitivity\x12\x13\n\x0bvadDuration\x18\x07 \x01(\x02\x12N\n\x1a\x63ustomVocabRewardThreshold\x18\x08 \x01(\x0e\x32*.sensory.api.v1.audio.ThresholdSensitivity\x12\x1a\n\x12\x63ustomVocabularyId\x18\t \x01(\t\x12\x43\n\x0e\x63ustomWordList\x18\n \x01(\x0b\x32+.sensory.api.v1.audio.CustomVocabularyWords\"\xeb\x01\n\x0b\x41udioConfig\x12K\n\x08\x65ncoding\x18\x01 \x01(\x0e\x32/.sensory.api.v1.audio.AudioConfig.AudioEncodingB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12!\n\x0fsampleRateHertz\x18\x02 \x01(\x05\x42\x08\xfa\x42\x05\x1a\x03 \xc0>\x12\"\n\x11\x61udioChannelCount\x18\x03 \x01(\x05\x42\x07\xfa\x42\x04\x1a\x02 \x00\x12\x14\n\x0clanguageCode\x18\x04 \x01(\t\"2\n\rAudioEncoding\x12\x0c\n\x08LINEAR16\x10\x00\x12\x08\n\x04\x46LAC\x10\x01\x12\t\n\x05MULAW\x10\x02\"l\n\x14VoiceSynthesisConfig\x12:\n\x05\x61udio\x18\x01 \x01(\x0b\x32!.sensory.api.v1.audio.AudioConfigB\x08\xfa\x42\x05\x8a\x01\x02\x10\x01\x12\x18\n\x05voice\x18\x02 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f*I\n\x19\x41udioPostProcessingAction\x12\x0b\n\x07NOT_SET\x10\x00\x12\t\n\x05\x46LUSH\x10\x01\x12\t\n\x05RESET\x10\x02\x12\t\n\x05\x46INAL\x10\x03*7\n\tWordState\x12\x15\n\x11WORDSTATE_PENDING\x10\x00\x12\x13\n\x0fWORDSTATE_FINAL\x10\x01*W\n\x14ThresholdSensitivity\x12\n\n\x06LOWEST\x10\x00\x12\x07\n\x03LOW\x10\x01\x12\n\n\x06MEDIUM\x10\x02\x12\x08\n\x04HIGH\x10\x03\x12\x0b\n\x07HIGHEST\x10\x04\x12\x07\n\x03OFF\x10\x05\x32m\n\x0b\x41udioModels\x12^\n\tGetModels\x12&.sensory.api.v1.audio.GetModelsRequest\x1a\'.sensory.api.v1.audio.GetModelsResponse\"\x00\x32\xf7\x01\n\x0f\x41udioBiometrics\x12w\n\x10\x43reateEnrollment\x12-.sensory.api.v1.audio.CreateEnrollmentRequest\x1a..sensory.api.v1.audio.CreateEnrollmentResponse\"\x00(\x01\x30\x01\x12k\n\x0c\x41uthenticate\x12).sensory.api.v1.audio.AuthenticateRequest\x1a*.sensory.api.v1.audio.AuthenticateResponse\"\x00(\x01\x30\x01\x32\x85\x03\n\x0b\x41udioEvents\x12n\n\rValidateEvent\x12*.sensory.api.v1.audio.ValidateEventRequest\x1a+.sensory.api.v1.audio.ValidateEventResponse\"\x00(\x01\x30\x01\x12}\n\x13\x43reateEnrolledEvent\x12\x30.sensory.api.v1.audio.CreateEnrolledEventRequest\x1a..sensory.api.v1.audio.CreateEnrollmentResponse\"\x00(\x01\x30\x01\x12\x86\x01\n\x15ValidateEnrolledEvent\x12\x32.sensory.api.v1.audio.ValidateEnrolledEventRequest\x1a\x33.sensory.api.v1.audio.ValidateEnrolledEventResponse\"\x00(\x01\x30\x01\x32|\n\x13\x41udioTranscriptions\x12\x65\n\nTranscribe\x12\'.sensory.api.v1.audio.TranscribeRequest\x1a(.sensory.api.v1.audio.TranscribeResponse\"\x00(\x01\x30\x01\x32\x87\x01\n\x0e\x41udioSynthesis\x12u\n\x10SynthesizeSpeech\x12-.sensory.api.v1.audio.SynthesizeSpeechRequest\x1a..sensory.api.v1.audio.SynthesizeSpeechResponse\"\x00\x30\x01\x42t\n\x1c\x61i.sensorycloud.api.v1.audioB\x16SensoryApiV1AudioProtoP\x01Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/audiob\x06proto3'
   ,
   dependencies=[validate_dot_validate__pb2.DESCRIPTOR,common_dot_common__pb2.DESCRIPTOR,])
 
@@ -56,8 +56,8 @@ _AUDIOPOSTPROCESSINGACTION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=5386,
-  serialized_end=5459,
+  serialized_start=5798,
+  serialized_end=5871,
 )
 _sym_db.RegisterEnumDescriptor(_AUDIOPOSTPROCESSINGACTION)
 
@@ -82,8 +82,8 @@ _WORDSTATE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=5461,
-  serialized_end=5516,
+  serialized_start=5873,
+  serialized_end=5928,
 )
 _sym_db.RegisterEnumDescriptor(_WORDSTATE)
 
@@ -120,11 +120,16 @@ _THRESHOLDSENSITIVITY = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='OFF', index=5, number=5,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=5518,
-  serialized_end=5596,
+  serialized_start=5930,
+  serialized_end=6017,
 )
 _sym_db.RegisterEnumDescriptor(_THRESHOLDSENSITIVITY)
 
@@ -140,6 +145,7 @@ LOW = 1
 MEDIUM = 2
 HIGH = 3
 HIGHEST = 4
+OFF = 5
 
 
 _AUTHENTICATECONFIG_THRESHOLDSECURITY = _descriptor.EnumDescriptor(
@@ -162,8 +168,8 @@ _AUTHENTICATECONFIG_THRESHOLDSECURITY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=4037,
-  serialized_end=4075,
+  serialized_start=4063,
+  serialized_end=4101,
 )
 _sym_db.RegisterEnumDescriptor(_AUTHENTICATECONFIG_THRESHOLDSECURITY)
 
@@ -192,8 +198,8 @@ _AUDIOCONFIG_AUDIOENCODING = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=5224,
-  serialized_end=5274,
+  serialized_start=5636,
+  serialized_end=5686,
 )
 _sym_db.RegisterEnumDescriptor(_AUDIOCONFIG_AUDIOENCODING)
 
@@ -1156,7 +1162,14 @@ _TRANSCRIBERESPONSE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='postProcessingAction', full_name='sensory.api.v1.audio.TranscribeResponse.postProcessingAction', index=4,
+      name='hasVoiceActivity', full_name='sensory.api.v1.audio.TranscribeResponse.hasVoiceActivity', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='postProcessingAction', full_name='sensory.api.v1.audio.TranscribeResponse.postProcessingAction', index=5,
       number=10, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -1175,7 +1188,7 @@ _TRANSCRIBERESPONSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=2864,
-  serialized_end=3105,
+  serialized_end=3131,
 )
 
 
@@ -1218,8 +1231,8 @@ _SYNTHESIZESPEECHRESPONSE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=3107,
-  serialized_end=3231,
+  serialized_start=3133,
+  serialized_end=3257,
 )
 
 
@@ -1318,8 +1331,8 @@ _CREATEENROLLMENTCONFIG = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=3234,
-  serialized_end=3650,
+  serialized_start=3260,
+  serialized_end=3676,
 )
 
 
@@ -1405,8 +1418,8 @@ _AUTHENTICATECONFIG = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[], serialized_options=b'\370B\001'),
   ],
-  serialized_start=3653,
-  serialized_end=4090,
+  serialized_start=3679,
+  serialized_end=4116,
 )
 
 
@@ -1458,8 +1471,8 @@ _VALIDATEEVENTCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4093,
-  serialized_end=4307,
+  serialized_start=4119,
+  serialized_end=4333,
 )
 
 
@@ -1537,8 +1550,8 @@ _CREATEENROLLMENTEVENTCONFIG = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=4310,
-  serialized_end=4627,
+  serialized_start=4336,
+  serialized_end=4653,
 )
 
 
@@ -1602,8 +1615,40 @@ _VALIDATEENROLLEDEVENTCONFIG = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[], serialized_options=b'\370B\001'),
   ],
-  serialized_start=4630,
-  serialized_end=4897,
+  serialized_start=4656,
+  serialized_end=4923,
+)
+
+
+_CUSTOMVOCABULARYWORDS = _descriptor.Descriptor(
+  name='CustomVocabularyWords',
+  full_name='sensory.api.v1.audio.CustomVocabularyWords',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='words', full_name='sensory.api.v1.audio.CustomVocabularyWords.words', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\007\222\001\004\010\001\020d', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4925,
+  serialized_end=4975,
 )
 
 
@@ -1636,6 +1681,55 @@ _TRANSCRIBECONFIG = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=b'\372B\006r\004\020\001\030\177', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='enablePunctuationCapitalization', full_name='sensory.api.v1.audio.TranscribeConfig.enablePunctuationCapitalization', index=3,
+      number=4, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='doSingleUtterance', full_name='sensory.api.v1.audio.TranscribeConfig.doSingleUtterance', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='vadSensitivity', full_name='sensory.api.v1.audio.TranscribeConfig.vadSensitivity', index=5,
+      number=6, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='vadDuration', full_name='sensory.api.v1.audio.TranscribeConfig.vadDuration', index=6,
+      number=7, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='customVocabRewardThreshold', full_name='sensory.api.v1.audio.TranscribeConfig.customVocabRewardThreshold', index=7,
+      number=8, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='customVocabularyId', full_name='sensory.api.v1.audio.TranscribeConfig.customVocabularyId', index=8,
+      number=9, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='customWordList', full_name='sensory.api.v1.audio.TranscribeConfig.customWordList', index=9,
+      number=10, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -1648,8 +1742,8 @@ _TRANSCRIBECONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4900,
-  serialized_end=5036,
+  serialized_start=4978,
+  serialized_end=5448,
 )
 
 
@@ -1702,8 +1796,8 @@ _AUDIOCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5039,
-  serialized_end=5274,
+  serialized_start=5451,
+  serialized_end=5686,
 )
 
 
@@ -1741,8 +1835,8 @@ _VOICESYNTHESISCONFIG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=5276,
-  serialized_end=5384,
+  serialized_start=5688,
+  serialized_end=5796,
 )
 
 _AUDIOMODEL.fields_by_name['modelType'].enum_type = common_dot_common__pb2._MODELTYPE
@@ -1844,6 +1938,9 @@ _VALIDATEENROLLEDEVENTCONFIG.oneofs_by_name['authId'].fields.append(
   _VALIDATEENROLLEDEVENTCONFIG.fields_by_name['enrollmentGroupId'])
 _VALIDATEENROLLEDEVENTCONFIG.fields_by_name['enrollmentGroupId'].containing_oneof = _VALIDATEENROLLEDEVENTCONFIG.oneofs_by_name['authId']
 _TRANSCRIBECONFIG.fields_by_name['audio'].message_type = _AUDIOCONFIG
+_TRANSCRIBECONFIG.fields_by_name['vadSensitivity'].enum_type = _THRESHOLDSENSITIVITY
+_TRANSCRIBECONFIG.fields_by_name['customVocabRewardThreshold'].enum_type = _THRESHOLDSENSITIVITY
+_TRANSCRIBECONFIG.fields_by_name['customWordList'].message_type = _CUSTOMVOCABULARYWORDS
 _AUDIOCONFIG.fields_by_name['encoding'].enum_type = _AUDIOCONFIG_AUDIOENCODING
 _AUDIOCONFIG_AUDIOENCODING.containing_type = _AUDIOCONFIG
 _VOICESYNTHESISCONFIG.fields_by_name['audio'].message_type = _AUDIOCONFIG
@@ -1872,6 +1969,7 @@ DESCRIPTOR.message_types_by_name['AuthenticateConfig'] = _AUTHENTICATECONFIG
 DESCRIPTOR.message_types_by_name['ValidateEventConfig'] = _VALIDATEEVENTCONFIG
 DESCRIPTOR.message_types_by_name['CreateEnrollmentEventConfig'] = _CREATEENROLLMENTEVENTCONFIG
 DESCRIPTOR.message_types_by_name['ValidateEnrolledEventConfig'] = _VALIDATEENROLLEDEVENTCONFIG
+DESCRIPTOR.message_types_by_name['CustomVocabularyWords'] = _CUSTOMVOCABULARYWORDS
 DESCRIPTOR.message_types_by_name['TranscribeConfig'] = _TRANSCRIBECONFIG
 DESCRIPTOR.message_types_by_name['AudioConfig'] = _AUDIOCONFIG
 DESCRIPTOR.message_types_by_name['VoiceSynthesisConfig'] = _VOICESYNTHESISCONFIG
@@ -2055,6 +2153,13 @@ ValidateEnrolledEventConfig = _reflection.GeneratedProtocolMessageType('Validate
   })
 _sym_db.RegisterMessage(ValidateEnrolledEventConfig)
 
+CustomVocabularyWords = _reflection.GeneratedProtocolMessageType('CustomVocabularyWords', (_message.Message,), {
+  'DESCRIPTOR' : _CUSTOMVOCABULARYWORDS,
+  '__module__' : 'v1.audio.audio_pb2'
+  # @@protoc_insertion_point(class_scope:sensory.api.v1.audio.CustomVocabularyWords)
+  })
+_sym_db.RegisterMessage(CustomVocabularyWords)
+
 TranscribeConfig = _reflection.GeneratedProtocolMessageType('TranscribeConfig', (_message.Message,), {
   'DESCRIPTOR' : _TRANSCRIBECONFIG,
   '__module__' : 'v1.audio.audio_pb2'
@@ -2115,6 +2220,7 @@ _VALIDATEENROLLEDEVENTCONFIG.oneofs_by_name['authId']._options = None
 _VALIDATEENROLLEDEVENTCONFIG.fields_by_name['audio']._options = None
 _VALIDATEENROLLEDEVENTCONFIG.fields_by_name['enrollmentId']._options = None
 _VALIDATEENROLLEDEVENTCONFIG.fields_by_name['sensitivity']._options = None
+_CUSTOMVOCABULARYWORDS.fields_by_name['words']._options = None
 _TRANSCRIBECONFIG.fields_by_name['audio']._options = None
 _TRANSCRIBECONFIG.fields_by_name['modelName']._options = None
 _TRANSCRIBECONFIG.fields_by_name['userId']._options = None
@@ -2131,8 +2237,8 @@ _AUDIOMODELS = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=5598,
-  serialized_end=5707,
+  serialized_start=6019,
+  serialized_end=6128,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetModels',
@@ -2157,8 +2263,8 @@ _AUDIOBIOMETRICS = _descriptor.ServiceDescriptor(
   index=1,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=5710,
-  serialized_end=5957,
+  serialized_start=6131,
+  serialized_end=6378,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateEnrollment',
@@ -2193,8 +2299,8 @@ _AUDIOEVENTS = _descriptor.ServiceDescriptor(
   index=2,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=5960,
-  serialized_end=6349,
+  serialized_start=6381,
+  serialized_end=6770,
   methods=[
   _descriptor.MethodDescriptor(
     name='ValidateEvent',
@@ -2239,8 +2345,8 @@ _AUDIOTRANSCRIPTIONS = _descriptor.ServiceDescriptor(
   index=3,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=6351,
-  serialized_end=6475,
+  serialized_start=6772,
+  serialized_end=6896,
   methods=[
   _descriptor.MethodDescriptor(
     name='Transcribe',
@@ -2265,8 +2371,8 @@ _AUDIOSYNTHESIS = _descriptor.ServiceDescriptor(
   index=4,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=6478,
-  serialized_end=6613,
+  serialized_start=6899,
+  serialized_end=7034,
   methods=[
   _descriptor.MethodDescriptor(
     name='SynthesizeSpeech',

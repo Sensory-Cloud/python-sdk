@@ -6,6 +6,7 @@ installed:
 
 ```
 pip install sensory-cloud
+pip install Wave
 pip install PyAudio
 pip install opencv-python
 pip install Pillow
@@ -129,8 +130,8 @@ no enrollment is required to run the event detection models.  A sample implement
 ## Audio Transcription
 Similar to audio events, audio transcription models can be run without enrollment.  The `audio_transcription_examples.py`
 file shows a sample implementation of one of Sensory's speech to text models.  The transcription models use a seven second sliding window that contain
-the transcript of the most recent seven seconds.  There are two example functions in `audio_transcription_examples.py` - one that shows how to access the most 
-recent seven second window of the transcription, and one that returns the transcript of the entire recording.
+the transcript of the most recent seven seconds.  There are two example functions in `audio_transcription_examples.py` for live audio - one that shows 
+how to access the most recent seven second window of the transcription, and one that returns the transcript of the entire recording.
 
 ## Video Liveness
 Video liveness models return a boolean denoting whether or not a live person is detected in a set of images or a video recording.  For example,

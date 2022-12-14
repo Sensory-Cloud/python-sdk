@@ -1,5 +1,8 @@
 import datetime
-from http.client import responses
+import wave
+import typing
+import threading
+from queue import Queue
 
 import helpers
 
@@ -30,6 +33,7 @@ def example_audio_transcription_partial() -> str:
         audio_config=audio_config,
         user_id=helpers.environment_config.get("examples-configuration", "userId"),
         model_name=transcription_model,
+        enable_punctuation_capitalization=True,
         audio_stream_iterator=audio_stream_iterator,
     )
 
@@ -73,6 +77,7 @@ def example_audio_transcription_full() -> str:
         audio_config=audio_config,
         user_id=helpers.environment_config.get("examples-configuration", "userId"),
         model_name=transcription_model,
+        enable_punctuation_capitalization=True,
         audio_stream_iterator=audio_stream_iterator,
     )
 
