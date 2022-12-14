@@ -31,10 +31,14 @@ class RequestIterator:
     grpc server.  There are six possible audio request types and and five request configurations
     that are given by the AudioRequest and RequestConfig enums respectively.  The first
     request sent must be a configuration request and all subsequent requests contain the audio
-    content being streamed.
+    content being streamed and any post processing actions if relevant.
     """
 
     _first_request: bool = True
+    _post_processing_requests: set = {
+        audio_pb2.TranscribeRequest,
+        audio_pb2.ValidateEventRequest,
+    }
 
     def __init__(
         self,
@@ -58,13 +62,20 @@ class RequestIterator:
     def __iter__(self):
         return self
 
-    def __next__(self):
+    def __next__(self) -> AudioRequest:
         if self._first_request:
             self._first_request = False
             return self._audio_request(config=self._request_config)
         else:
-            audio_content = next(self._audio_stream_iterator)
-            return self._audio_request(audioContent=audio_content)
+            audio_content, post_processing_action = next(self._audio_stream_iterator)
+            if self._audio_request in self._post_processing_requests:
+                _request = self._audio_request(
+                    audioContent=audio_content,
+                    postProcessingAction=post_processing_action,
+                )
+            else:
+                _request = self._audio_request(audioContent=audio_content)
+        return _request
 
 
 class TranscriptAggregator:
@@ -77,28 +88,44 @@ class TranscriptAggregator:
         Constructor method for the TranscriptAggregator class
         """
 
-        self._word_list: typing.List[str] = []
+        self._word_list: typing.List[audio_pb2.TranscribeWord] = []
+        self._response_list: typing.List[audio_pb2.TranscribeResponse] = []
+        self.is_stream_finalized: bool = False
 
     @property
-    def word_list(self) -> typing.List[str]:
+    def word_list(self) -> typing.List[audio_pb2.TranscribeWord]:
         """
         Get method that returns the word list attribute
         """
         return self._word_list
+
+    @property
+    def response_list(self) -> typing.List[audio_pb2.TranscribeResponse]:
+        """
+        Get method that returns the word list attribute
+        """
+        return self._response_list
 
     def process_response(self, response: audio_pb2.TranscribeResponse) -> None:
         """
         Method that processes a single sliding-window response from the server
         """
 
+        self.is_stream_finalized = (
+            response.postProcessingAction.action
+            == audio_pb2.AudioPostProcessingAction.FINAL
+        )
+
+        self._response_list.append(response)
         if len(response.wordList.words) == 0:
             return
         word_count: int = response.wordList.lastWordIndex + 1
         self._word_list += [""] * (word_count - len(self._word_list))
         for item in response.wordList.words:
-            self._word_list[item.wordIndex] = item.word
+            self._word_list[item.wordIndex] = item
+        self._word_list = self._word_list[:word_count]
 
-    def get_transcript(self, delimiter=" ") -> str:
+    def get_transcript(self, delimiter: str = " ") -> str:
         """
         Method that concatenates the self._word_list attribute using the specified
         delimiter
@@ -113,7 +140,9 @@ class TranscriptAggregator:
 
         if len(self._word_list) == 0:
             return ""
-        transcript: str = delimiter.join(self._word_list).strip()
+        transcript: str = delimiter.join(
+            [item.word for item in self._word_list]
+        ).strip()
 
         return transcript
 
@@ -509,6 +538,13 @@ class AudioService:
         user_id: str,
         model_name: str,
         audio_stream_iterator: typing.Iterable[bytes],
+        enable_punctuation_capitalization: bool = False,
+        do_single_utterance: bool = False,
+        vad_sensitivity: audio_pb2.ThresholdSensitivity = None,
+        vad_duration: float = None,
+        custom_vocab_reward_threshold: audio_pb2.ThresholdSensitivity = None,
+        custom_vocabulary_id: str = None,
+        custom_word_list: typing.List[str] = None,
     ) -> typing.Iterable[audio_pb2.TranscribeResponse]:
         """
         Stream audio to Sensory Cloud in order to transcribe spoken words
@@ -523,8 +559,23 @@ class AudioService:
             An iterator of TranscribeResponse objects
         """
 
+        custom_vocab = (
+            audio_pb2.CustomVocabularyWords(words=custom_word_list)
+            if custom_word_list is not None
+            else None
+        )
+
         config: audio_pb2.TranscribeConfig = audio_pb2.TranscribeConfig(
-            audio=audio_config, modelName=model_name, userId=user_id
+            audio=audio_config,
+            modelName=model_name,
+            userId=user_id,
+            enablePunctuationCapitalization=enable_punctuation_capitalization,
+            doSingleUtterance=do_single_utterance,
+            vadSensitivity=vad_sensitivity,
+            vadDuration=vad_duration,
+            customVocabRewardThreshold=custom_vocab_reward_threshold,
+            customVocabularyId=custom_vocabulary_id,
+            customWordList=custom_vocab,
         )
 
         request_iterator: RequestIterator = RequestIterator(

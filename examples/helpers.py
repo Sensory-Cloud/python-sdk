@@ -1,5 +1,5 @@
 import os
-import json
+import typing
 import pyaudio
 import time
 import cv2
@@ -11,6 +11,7 @@ from PIL import Image
 from sensory_cloud.config import Config, CloudHost
 from sensory_cloud.token_manager import TokenManager
 from sensory_cloud.services.audio_service import AudioService
+
 from sensory_cloud.services.video_service import VideoService
 from sensory_cloud.services.oauth_service import OauthService
 from sensory_cloud.services.management_service import ManagementService
@@ -92,6 +93,7 @@ class AudioStreamIterator:
         rate: int,
         frames_per_buffer: int,
         format: int = pyaudio.paInt16,
+        post_processing: audio_pb2.AudioPostProcessingAction = None,
     ):
         self.channels = channels
         self.rate = rate
@@ -105,6 +107,7 @@ class AudioStreamIterator:
             frames_per_buffer=frames_per_buffer,
             stream_callback=self._record_callback,
         )
+        self._post_processing = post_processing
 
     def _record_callback(self, in_data, count, time_info, status):
         self._p_input.send(in_data)
@@ -113,8 +116,14 @@ class AudioStreamIterator:
     def __iter__(self):
         return self
 
-    def __next__(self):
-        return self._p_output.recv()
+    def __next__(
+        self,
+    ) -> typing.Tuple[bytes, audio_pb2.AudioRequestPostProcessingAction]:
+        _next = (
+            self._p_output.recv(),
+            audio_pb2.AudioRequestPostProcessingAction(action=self._post_processing),
+        )
+        return _next
 
     def close(self):
         self._stream.stop_stream()
@@ -171,7 +180,7 @@ def get_audio_service() -> AudioService:
     return audio_service
 
 
-def get_audio_config() -> audio_pb2.AudioConfig:
+def get_audio_config(sample_rate_hertz: int = 16000) -> audio_pb2.AudioConfig:
     """
     Function that creates an audio_pb2.AudioConfig object with
     Linear 16 encoding, one audio channel, 16 KHz sample rate, and
@@ -184,7 +193,7 @@ def get_audio_config() -> audio_pb2.AudioConfig:
     audio_config: audio_pb2.AudioConfig = audio_pb2.AudioConfig(
         encoding=audio_pb2.AudioConfig.AudioEncoding.Value("LINEAR16"),
         audioChannelCount=1,
-        sampleRateHertz=16000,
+        sampleRateHertz=sample_rate_hertz,
         languageCode="en-US",
     )
 

@@ -4,7 +4,7 @@ dist/
 *.egg-info
 *.env
 *.pyc
-*.ini
+examples/*.ini
 *.wav
 **/__pycache__
 *config.json

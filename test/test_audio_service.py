@@ -72,9 +72,7 @@ class MockAudioService(AudioService):
 
 class AudioServiceTest(unittest.TestCase):
     cloud_host: CloudHost = CloudHost(host="domain.name")
-    config: Config = Config(
-        cloud_host=cloud_host, tenant_id="tenant-id"
-    )
+    config: Config = Config(cloud_host=cloud_host, tenant_id="tenant-id")
     config.connect()
 
     credential_store: MockCredentialStore = MockCredentialStore(
@@ -626,9 +624,13 @@ class AudioServiceTest(unittest.TestCase):
 
         user_id = "user-id"
         model_name = "model-name"
+        enable_punctuation_capitalization = True
 
         transcribe_config: TranscribeConfig = TranscribeConfig(
-            audio=self.audio_config, modelName=model_name, userId=user_id
+            audio=self.audio_config,
+            modelName=model_name,
+            userId=user_id,
+            enablePunctuationCapitalization=enable_punctuation_capitalization,
         )
 
         mock_request: TranscribeRequest = TranscribeRequest(config=transcribe_config)
@@ -654,6 +656,7 @@ class AudioServiceTest(unittest.TestCase):
             audio_config=self.audio_config,
             user_id=user_id,
             model_name=model_name,
+            enable_punctuation_capitalization=enable_punctuation_capitalization,
             audio_stream_iterator=None,
         )
 
@@ -673,6 +676,11 @@ class AudioServiceTest(unittest.TestCase):
             config_message.modelName,
             model_name,
             "Model name should match what was passed in",
+        )
+        self.assertEqual(
+            config_message.enablePunctuationCapitalization,
+            enable_punctuation_capitalization,
+            "Enable punctation capitalization should match what was passed in",
         )
 
         self.config.channel.close()
