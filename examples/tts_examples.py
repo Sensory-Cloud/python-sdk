@@ -15,17 +15,16 @@ def example_text_to_speech(wav_path: str):
     """
 
     phrase: str = "testing one two three"
-    voice_name: str = "craig"
+    model_name: str = "text_to_spectrogram_donna_en-us"
 
-    audio_config: audio_pb2.AudioConfig = helpers.get_audio_config()
-    audio_config.sampleRateHertz = 22050
+    sample_rate_hz = 22050
 
     audio_service: AudioService = helpers.get_audio_service()
 
     synthesis_stream: typing.Iterable[
         audio_pb2.SynthesizeSpeechResponse
     ] = audio_service.synthesize_speech(
-        audio_config=audio_config, phrase=phrase, voice_name=voice_name
+        sample_rate_hz=sample_rate_hz, phrase=phrase, model_name=model_name
     )
 
     audio_bytes: bytes = b"".join([item.audioContent for item in synthesis_stream])

@@ -33,7 +33,7 @@ if __name__ == "__main__":
     ]
 
     for path in proto_paths:
-        cmd = f"python -m grpc_tools.protoc -I {proto_root} --python_out={python_proto_root} --grpc_python_out={python_proto_root} {path}"
+        cmd = f"python3 -m grpc_tools.protoc -I {proto_root} --python_out={python_proto_root} --grpc_python_out={python_proto_root} {path}"
         os.system(cmd)
     
     proto_python_paths = [

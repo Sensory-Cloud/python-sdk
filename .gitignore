@@ -8,3 +8,6 @@ examples/*.ini
 *.wav
 **/__pycache__
 *config.json
+venv/
+.idea/
+.DS_STORE

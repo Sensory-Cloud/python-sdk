@@ -596,17 +596,17 @@ class AudioService:
 
     def synthesize_speech(
         self,
-        audio_config: audio_pb2.AudioConfig,
+        sample_rate_hz: int,
         phrase: str,
-        voice_name: str,
+        model_name: str,
     ) -> typing.Iterable[audio_pb2.SynthesizeSpeechResponse]:
         """
         Sends a request to Sensory Cloud to synthesize speech
 
         Arguments:
-            audio_config (AudioConfig): Configuration for how the synthesized audio should be formatted
+            sample_rate_hz (int): The sample rate in Hz for the returned audio
             phrase (str): The text phrase to synthesize a voice saying
-            voice_name (str): The name of the voice to use during speech synthesis
+            model_name (str): The name of the model to use during speech synthesis
 
         Returns:
             An iterator containing audio bytes of the synthesized phrase
@@ -614,8 +614,8 @@ class AudioService:
 
         voice_synthesis_config: audio_pb2.VoiceSynthesisConfig = (
             audio_pb2.VoiceSynthesisConfig(
-                audio=audio_config,
-                voice=voice_name,
+                modelName=model_name,
+                sampleRateHertz=sample_rate_hz,
             )
         )
 

@@ -342,7 +342,7 @@ def example_enroll_with_video() -> str:
         print(f"Video event enrollment, {enrollment_id}, already exists")
         return
 
-    model_name: str = "face_biometric_hektor"
+    model_name: str = "face_recognition"
     description: str = "my video enrollment"
 
     video_service: VideoService = helpers.get_video_service()
@@ -392,7 +392,7 @@ def example_create_video_enrollment_group() -> enrollment_pb2.EnrollmentGroupRes
     """
     Example creating a video event enrollment group that contains the video enrollment that
     was generated in the example_enroll_with_video() function.  All enrollments in an
-    enrollment group must use the same model, so we are using the 'face_biometric_hektor'.
+    enrollment group must use the same model, so we are using the 'face_recognition'.
     The enrollment group name and description are set below in this function and the
     enrollment group_id is set by the user in the 'video_enrollment_group_id' field of
     the config.ini file.
@@ -420,7 +420,7 @@ def example_create_video_enrollment_group() -> enrollment_pb2.EnrollmentGroupRes
         )
         return
 
-    model_name: str = "face_biometric_hektor"
+    model_name: str = "face_recognition"
     group_name: str = "my-video-enrollment-group"
     description: str = "my video enrollment group"
 

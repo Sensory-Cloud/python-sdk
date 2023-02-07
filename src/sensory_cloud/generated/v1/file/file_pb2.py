@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\033ai.sensorycloud.api.v1.fileB\025SensoryApiV1FileProtoP\001Z9gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/file',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x12v1/file/file.proto\x12\x13sensory.api.v1.file\x1a\x17validate/validate.proto\"u\n\x0b\x46ileRequest\x12\x18\n\x04\x66ile\x18\x01 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x0f\x12<\n\x08\x63\x61tegory\x18\x02 \x01(\x0b\x32*.sensory.api.v1.file.VersionedFileCategory\x12\x0e\n\x06offset\x18\x03 \x01(\x03\"\x95\x01\n\x0c\x46ileResponse\x12-\n\x04info\x18\x01 \x01(\x0b\x32\x1d.sensory.api.v1.file.FileInfoH\x00\x12/\n\x05\x63hunk\x18\x02 \x01(\x0b\x32\x1e.sensory.api.v1.file.FileChunkH\x00\x12\x10\n\x08\x63omplete\x18\x03 \x01(\x08\x42\x13\n\x11streamingResponse\"^\n\x12\x46ileCatalogRequest\x12H\n\ncategories\x18\x01 \x03(\x0b\x32*.sensory.api.v1.file.VersionedFileCategoryB\x08\xfa\x42\x05\x92\x01\x02\x08\x01\".\n\x1a\x46ileCompleteCatalogRequest\x12\x10\n\x08tenantId\x18\x01 \x01(\t\"H\n\x13\x46ileCatalogResponse\x12\x31\n\x07\x63\x61talog\x18\x01 \x03(\x0b\x32 .sensory.api.v1.file.FileCatalog\"*\n\tFileChunk\x12\r\n\x05\x62ytes\x18\x01 \x01(\x0c\x12\x0e\n\x06offset\x18\x02 \x01(\x03\"q\n\x08\x46ileInfo\x12\x0c\n\x04\x66ile\x18\x01 \x01(\t\x12\x14\n\x0c\x61\x62solutePath\x18\x02 \x01(\t\x12\x0c\n\x04size\x18\x03 \x01(\x03\x12\x13\n\x0b\x63ontentType\x18\x04 \x01(\t\x12\x0c\n\x04hash\x18\x05 \x01(\t\x12\x10\n\x08tenantId\x18\x06 \x01(\t\"y\n\x0b\x46ileCatalog\x12,\n\x05\x66iles\x18\x01 \x03(\x0b\x32\x1d.sensory.api.v1.file.FileInfo\x12<\n\x08\x63\x61tegory\x18\x02 \x01(\x0b\x32*.sensory.api.v1.file.VersionedFileCategory\"g\n\x15VersionedFileCategory\x12=\n\x08\x63\x61tegory\x18\x01 \x01(\x0e\x32!.sensory.api.v1.file.FileCategoryB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x0f\n\x07version\x18\x02 \x01(\t*L\n\x0c\x46ileCategory\x12\x0e\n\nTSSV_MODEL\x10\x00\x12\x10\n\x0c\x46\x45NRIR_MODEL\x10\x01\x12\r\n\tTNL_MODEL\x10\x02\x12\x0b\n\x07UNKNOWN\x10\x64\x32\xff\x02\n\x04\x46ile\x12L\n\x07GetInfo\x12 .sensory.api.v1.file.FileRequest\x1a\x1d.sensory.api.v1.file.FileInfo\"\x00\x12\x61\n\nGetCatalog\x12\'.sensory.api.v1.file.FileCatalogRequest\x1a(.sensory.api.v1.file.FileCatalogResponse\"\x00\x12q\n\x12GetCompleteCatalog\x12/.sensory.api.v1.file.FileCompleteCatalogRequest\x1a(.sensory.api.v1.file.FileCatalogResponse\"\x00\x12S\n\x08\x44ownload\x12 .sensory.api.v1.file.FileRequest\x1a!.sensory.api.v1.file.FileResponse\"\x00\x30\x01\x42q\n\x1b\x61i.sensorycloud.api.v1.fileB\x15SensoryApiV1FileProtoP\x01Z9gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/fileb\x06proto3'
+  serialized_pb=b'\n\x12v1/file/file.proto\x12\x13sensory.api.v1.file\x1a\x17validate/validate.proto\"u\n\x0b\x46ileRequest\x12\x18\n\x04\x66ile\x18\x01 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x0f\x12<\n\x08\x63\x61tegory\x18\x02 \x01(\x0b\x32*.sensory.api.v1.file.VersionedFileCategory\x12\x0e\n\x06offset\x18\x03 \x01(\x03\"\x95\x01\n\x0c\x46ileResponse\x12-\n\x04info\x18\x01 \x01(\x0b\x32\x1d.sensory.api.v1.file.FileInfoH\x00\x12/\n\x05\x63hunk\x18\x02 \x01(\x0b\x32\x1e.sensory.api.v1.file.FileChunkH\x00\x12\x10\n\x08\x63omplete\x18\x03 \x01(\x08\x42\x13\n\x11streamingResponse\"^\n\x12\x46ileCatalogRequest\x12H\n\ncategories\x18\x01 \x03(\x0b\x32*.sensory.api.v1.file.VersionedFileCategoryB\x08\xfa\x42\x05\x92\x01\x02\x08\x01\".\n\x1a\x46ileCompleteCatalogRequest\x12\x10\n\x08tenantId\x18\x01 \x01(\t\"H\n\x13\x46ileCatalogResponse\x12\x31\n\x07\x63\x61talog\x18\x01 \x03(\x0b\x32 .sensory.api.v1.file.FileCatalog\"*\n\tFileChunk\x12\r\n\x05\x62ytes\x18\x01 \x01(\x0c\x12\x0e\n\x06offset\x18\x02 \x01(\x03\"q\n\x08\x46ileInfo\x12\x0c\n\x04\x66ile\x18\x01 \x01(\t\x12\x14\n\x0c\x61\x62solutePath\x18\x02 \x01(\t\x12\x0c\n\x04size\x18\x03 \x01(\x03\x12\x13\n\x0b\x63ontentType\x18\x04 \x01(\t\x12\x0c\n\x04hash\x18\x05 \x01(\t\x12\x10\n\x08tenantId\x18\x06 \x01(\t\"y\n\x0b\x46ileCatalog\x12,\n\x05\x66iles\x18\x01 \x03(\x0b\x32\x1d.sensory.api.v1.file.FileInfo\x12<\n\x08\x63\x61tegory\x18\x02 \x01(\x0b\x32*.sensory.api.v1.file.VersionedFileCategory\"g\n\x15VersionedFileCategory\x12=\n\x08\x63\x61tegory\x18\x01 \x01(\x0e\x32!.sensory.api.v1.file.FileCategoryB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x0f\n\x07version\x18\x02 \x01(\t*K\n\x0c\x46ileCategory\x12\x0e\n\nTSSV_MODEL\x10\x00\x12\x0f\n\x0b\x41TLAS_MODEL\x10\x01\x12\r\n\tTNL_MODEL\x10\x02\x12\x0b\n\x07UNKNOWN\x10\x64\x32\xff\x02\n\x04\x46ile\x12L\n\x07GetInfo\x12 .sensory.api.v1.file.FileRequest\x1a\x1d.sensory.api.v1.file.FileInfo\"\x00\x12\x61\n\nGetCatalog\x12\'.sensory.api.v1.file.FileCatalogRequest\x1a(.sensory.api.v1.file.FileCatalogResponse\"\x00\x12q\n\x12GetCompleteCatalog\x12/.sensory.api.v1.file.FileCompleteCatalogRequest\x1a(.sensory.api.v1.file.FileCatalogResponse\"\x00\x12S\n\x08\x44ownload\x12 .sensory.api.v1.file.FileRequest\x1a!.sensory.api.v1.file.FileResponse\"\x00\x30\x01\x42q\n\x1b\x61i.sensorycloud.api.v1.fileB\x15SensoryApiV1FileProtoP\x01Z9gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/fileb\x06proto3'
   ,
   dependencies=[validate_dot_validate__pb2.DESCRIPTOR,])
 
@@ -38,7 +38,7 @@ _FILECATEGORY = _descriptor.EnumDescriptor(
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='FENRIR_MODEL', index=1, number=1,
+      name='ATLAS_MODEL', index=1, number=1,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -56,13 +56,13 @@ _FILECATEGORY = _descriptor.EnumDescriptor(
   containing_type=None,
   serialized_options=None,
   serialized_start=944,
-  serialized_end=1020,
+  serialized_end=1019,
 )
 _sym_db.RegisterEnumDescriptor(_FILECATEGORY)
 
 FileCategory = enum_type_wrapper.EnumTypeWrapper(_FILECATEGORY)
 TSSV_MODEL = 0
-FENRIR_MODEL = 1
+ATLAS_MODEL = 1
 TNL_MODEL = 2
 UNKNOWN = 100
 
@@ -546,8 +546,8 @@ _FILE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1023,
-  serialized_end=1406,
+  serialized_start=1022,
+  serialized_end=1405,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetInfo',
