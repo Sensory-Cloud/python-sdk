@@ -44,10 +44,10 @@ to set them as environment variables with the following keys:
 - SENSORYCLOUD_DEVICE_NAME
 
 The sdk will look for these environment variable keys first when finding device credentials.  The second option is to store the device credentials
-on disk.  If the environment variables are not present as environment variables then the sdk will look for them as files called `sensory-cloud.deviceID` and
+on disk.  If the device credentials are not present as environment variables then the sdk will look for them as files called `sensory-cloud.deviceID` and
 `sensory-cloud.deviceName`.  If you run the `registration_examples.py` script, then that script will look for the device credential files in this examples
-subdirectory.  If they are not present there and they are not environment variables, then the `registration_examples.py` script will generate random uuids for
-each credential and store them in this examples directory.
+subdirectory.  If you want to store the device info on disk but in another location, you can edit the `device_info_path` on line 26 of the `helpers.py` file.  If the device credentials are not present in the `device_info_path` and they are not environment variables, then the `registration_examples.py` script will generate random uuids for
+each credential and store them in the `device_info_path`.
 
 ## Helpers
 The `helpers.py` file has several helper functions that are used throughout the examples discussed below.  For example,
