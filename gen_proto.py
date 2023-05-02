@@ -17,10 +17,9 @@ def replace_imports(path, packages):
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
-        print("A proto file directory path must be passed as an argument!  Exiting script.")
-        quit()
-
-    proto_root = sys.argv[1]
+        proto_root = "proto/"
+    else:
+        proto_root = sys.argv[1]
 
     if not proto_root.endswith("/"):
         proto_root = proto_root + "/"

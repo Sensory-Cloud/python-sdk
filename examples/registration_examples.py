@@ -1,7 +1,8 @@
+import os
 import typing
 from helpers import config_path
 
-from sensory_cloud.initializer import Initializer
+from sensory_cloud.initializer import Initializer, FileSystemCredentialStore
 
 import sensory_cloud.generated.v1.management.device_pb2 as device_pb2
 
@@ -12,7 +13,8 @@ def enroll_device_example() -> typing.Union[device_pb2.DeviceResponse, Exception
     create new client credentials
     """
 
-    initializer: Initializer = Initializer(init_config=config_path)
+    keychain = FileSystemCredentialStore(root_path=os.path.dirname(os.path.abspath(__file__)))
+    initializer: Initializer = Initializer(init_config=config_path, keychain=keychain)
 
     response: typing.Union[
         device_pb2.DeviceResponse, Exception

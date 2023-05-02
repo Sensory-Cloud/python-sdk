@@ -11,6 +11,7 @@ from PIL import Image
 from sensory_cloud.config import Config, CloudHost
 from sensory_cloud.token_manager import TokenManager
 from sensory_cloud.services.audio_service import AudioService
+from sensory_cloud.initializer import FileSystemCredentialStore
 
 from sensory_cloud.services.video_service import VideoService
 from sensory_cloud.services.oauth_service import OauthService
@@ -259,3 +260,23 @@ def get_management_service() -> ManagementService:
     )
 
     return management_service
+
+
+def get_device_id() -> str:
+    """
+    Function that first checks environment variables for the device id.
+    If the device id is not set as an environment variable then the device information
+    will be retrieved from the root directory of this project.
+    """
+    
+    device_id = os.environ.get("SENSORYCLOUD_DEVICE_ID")
+    if device_id is None:
+        keychain = FileSystemCredentialStore(root_path=os.path.dirname(os.path.abspath(__file__)))
+        if "deviceID" in keychain:
+            device_id = keychain["deviceID"]
+        else:
+            error_string = """The device id is not stored as an environment variable or in the root directory of this project.
+            Make sure you have run the registration_examples.py script to set the device id."""
+            raise Exception(error_string)
+        
+    return device_id

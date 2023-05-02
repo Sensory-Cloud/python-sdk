@@ -6,8 +6,7 @@ from sensory_cloud.generated.v1.assistant import assistant_pb2 as v1_dot_assista
 
 
 class AssistantServiceStub(object):
-    """Serivce to comunicate with an assistant
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
         """Constructor.
@@ -15,19 +14,18 @@ class AssistantServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.ProcessMessage = channel.stream_stream(
-                '/sensory.api.v1.assistant.AssistantService/ProcessMessage',
-                request_serializer=v1_dot_assistant_dot_assistant__pb2.AssistantMessageRequest.SerializeToString,
-                response_deserializer=v1_dot_assistant_dot_assistant__pb2.AssistantMessageResponse.FromString,
+        self.TextChat = channel.unary_unary(
+                '/sensory.api.v1.assistant.AssistantService/TextChat',
+                request_serializer=v1_dot_assistant_dot_assistant__pb2.TextChatRequest.SerializeToString,
+                response_deserializer=v1_dot_assistant_dot_assistant__pb2.TextChatResponse.FromString,
                 )
 
 
 class AssistantServiceServicer(object):
-    """Serivce to comunicate with an assistant
-    """
+    """Missing associated documentation comment in .proto file."""
 
-    def ProcessMessage(self, request_iterator, context):
-        """Sends and process messages from a virtual assistant
+    def TextChat(self, request, context):
+        """Allows a user to verify their own email. Will fail if the email is already verified.
         Authorization metadata is required {"authorization": "Bearer <TOKEN>"}
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -37,10 +35,10 @@ class AssistantServiceServicer(object):
 
 def add_AssistantServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'ProcessMessage': grpc.stream_stream_rpc_method_handler(
-                    servicer.ProcessMessage,
-                    request_deserializer=v1_dot_assistant_dot_assistant__pb2.AssistantMessageRequest.FromString,
-                    response_serializer=v1_dot_assistant_dot_assistant__pb2.AssistantMessageResponse.SerializeToString,
+            'TextChat': grpc.unary_unary_rpc_method_handler(
+                    servicer.TextChat,
+                    request_deserializer=v1_dot_assistant_dot_assistant__pb2.TextChatRequest.FromString,
+                    response_serializer=v1_dot_assistant_dot_assistant__pb2.TextChatResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -50,11 +48,10 @@ def add_AssistantServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class AssistantService(object):
-    """Serivce to comunicate with an assistant
-    """
+    """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def ProcessMessage(request_iterator,
+    def TextChat(request,
             target,
             options=(),
             channel_credentials=None,
@@ -64,8 +61,8 @@ class AssistantService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/sensory.api.v1.assistant.AssistantService/ProcessMessage',
-            v1_dot_assistant_dot_assistant__pb2.AssistantMessageRequest.SerializeToString,
-            v1_dot_assistant_dot_assistant__pb2.AssistantMessageResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/sensory.api.v1.assistant.AssistantService/TextChat',
+            v1_dot_assistant_dot_assistant__pb2.TextChatRequest.SerializeToString,
+            v1_dot_assistant_dot_assistant__pb2.TextChatResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

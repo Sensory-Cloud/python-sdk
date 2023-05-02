@@ -4,6 +4,7 @@ import binascii
 import typing
 import base64
 import configparser
+import uuid
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
 from sensory_cloud.config import (
@@ -22,6 +23,41 @@ from sensory_cloud.services.oauth_service import (
 import sensory_cloud.generated.v1.management.device_pb2 as device_pb2
 
 
+class FileSystemCredentialStore:
+    """A file-system--based credential storage manager."""
+
+    def __init__(self, root_path: str, package: str = "sensory-cloud"):
+        """Initialize a new secure credential storage interface."""
+        self._root_path = root_path
+        self._package = package
+
+    def __setitem__(self, key: str, value: str):
+        """Emplace or replace a key/value pair in the secure credential store.
+
+        Unlike most key-value store abstractions in the STL, this implementation of
+        emplace will overwrite existing values in the key-value store.
+        """
+        with open(self._key_path(key), "w") as output_file:
+            output_file.write(value)
+
+    def __contains__(self, key: str) -> bool:
+        """Return True if the key exists in the secure credential store."""
+        return os.path.isfile(self._key_path(key))
+
+    def __getitem__(self, key: str) -> str:
+        """Look-up a secret value in the secure credential store."""
+        with open(self._key_path(key)) as input_file:
+            return input_file.read().strip()
+
+    def __delitem__(self, key: str):
+        """Remove a secret key-value pair in the secure credential store."""
+        os.remove(self._key_path(key))
+
+    def _key_path(self, key: str) -> str:
+        """Return the path of the given key."""
+        return os.path.join(self._root_path, f"{self._package}.{key}")
+
+
 class Initializer:
     """
     Initialization class used to register a device
@@ -37,6 +73,7 @@ class Initializer:
         self,
         init_config: typing.Union[str, SDKConfig],
         secure_credential_store: ISecureCredentialStore = None,
+        keychain: FileSystemCredentialStore = None,
     ):
         """
         Constructor method to generate an Initializer object
@@ -49,12 +86,49 @@ class Initializer:
                 argument is an ISecureCredentialStore abstract class object.  If it is set to
                 None then the client credentials will be written to a GenericCredentialStore
                 object
+            keychain (FileSystemCredentialStore): The keychain will store the location of
+                and the values of the device id and device name if they are not set as
+                environment variables
         """
 
         self.init_config: typing.Union[str, SDKConfig] = init_config
         self.secure_credential_store: ISecureCredentialStore = secure_credential_store
+        self.keychain = keychain
         self.sdk_config: SDKConfig = None
         self.config_parser: configparser.ConfigParser = None
+        self.device_id = None
+        self.device_name = None
+
+    def _get_device_information(self) -> None:
+        """
+        Private method that first checks environment variables for device information.
+        If the device information is not set as environment variables then the device information
+        will be retrieved from the keychain initialization argument.  If the keychain does not 
+        contain the device information then it will be randomly generated and written to the current
+        working directory.
+        """
+        
+        device_id = os.environ.get("SENSORYCLOUD_DEVICE_ID")
+        device_name = os.environ.get("SENSORYCLOUD_DEVICE_NAME")
+        
+        if device_id is None:
+            if self.keychain is None:
+                self.keychain = FileSystemCredentialStore(root_path=os.getcwd())
+                
+            if 'deviceID' in self.keychain:
+                device_id = self.keychain["deviceID"]
+            else:
+                device_id = str(uuid.uuid1())
+                self.keychain["deviceID"] = device_id
+                
+            if 'deviceName' in self.keychain:
+                device_name = self.keychain["deviceName"]
+            else:
+                device_name = str(uuid.uuid1())
+                self.keychain["deviceName"] = device_name
+                
+        self.device_id = device_id
+        self.device_name = device_name
 
     def _read_config_from_file(self) -> None:
         """
@@ -79,8 +153,6 @@ class Initializer:
                 sdk_config_parser.get("enrollmentType")
             ],
             credential=sdk_config_parser.get("credential"),
-            device_id=sdk_config_parser.get("deviceId"),
-            device_name=sdk_config_parser.get("deviceName"),
         )
 
         if (
@@ -211,6 +283,8 @@ class Initializer:
             Exception will be returned.
         """
 
+        self._get_device_information()
+
         if isinstance(self.init_config, str):
             if not os.path.exists(self.init_config):
                 raise Exception(f"The path, {self.init_config}, does not exist")
@@ -238,7 +312,7 @@ class Initializer:
 
         try:
             device_response = oauth_service.get_who_am_i()
-            device_is_registered = self.sdk_config.device_id == device_response.deviceId
+            device_is_registered = self.device_id == device_response.deviceId
             if not device_is_registered:
                 err: str = f"Another device with deviceId = {device_response.deviceId} is already enrolled with this client"
                 print(err)
@@ -249,8 +323,8 @@ class Initializer:
         if not device_is_registered:
             credential: str = self._get_credential()
             response: device_pb2.DeviceResponse = oauth_service.register(
-                device_id=self.sdk_config.device_id,
-                device_name=self.sdk_config.device_name,
+                device_id=self.device_id,
+                device_name=self.device_name,
                 credential=credential,
             )
             if self.config_parser is not None:

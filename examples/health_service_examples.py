@@ -6,7 +6,6 @@ from sensory_cloud.services.health_service import HealthService
 
 
 def health_service_example() -> ServerHealthResponse:
-
     cloud_host: CloudHost = CloudHost(
         host=helpers.environment_config.get(
             "SDK-configuration", "fullyQualifiedDomainName"

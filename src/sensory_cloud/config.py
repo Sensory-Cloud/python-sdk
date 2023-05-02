@@ -20,8 +20,6 @@ class SDKConfig:
         is_connection_secure: bool,
         enrollment_type: EnrollmentType,
         credential: str,
-        device_id: str,
-        device_name: str,
     ):
 
         self.fully_qualified_domain_name = fully_qualified_domain_name
@@ -29,8 +27,6 @@ class SDKConfig:
         self.is_connection_secure = is_connection_secure
         self.enrollment_type = enrollment_type
         self.credential = credential
-        self.device_id = device_id
-        self.device_name = device_name
 
 
 class CloudHost:
