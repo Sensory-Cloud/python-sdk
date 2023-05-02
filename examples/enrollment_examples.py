@@ -93,7 +93,8 @@ def example_enroll_with_audio() -> str:
         audio_config=audio_config,
         description=enrollment_description,
         user_id=helpers.environment_config.get("examples-configuration", "userId"),
-        device_id=helpers.environment_config.get("SDK-configuration", "deviceId"),
+        # device_id=helpers.environment_config.get("SDK-configuration", "deviceId"),
+        device_id=helpers.get_device_id(),
         model_name=model_name,
         is_liveness_enabled=False,
         audio_stream_iterator=audio_stream_iterator,
@@ -261,7 +262,9 @@ def example_create_enrolled_event() -> str:
     return enrollment_id
 
 
-def example_create_audio_event_enrollment_group() -> enrollment_pb2.EnrollmentGroupResponse:
+def example_create_audio_event_enrollment_group() -> (
+    enrollment_pb2.EnrollmentGroupResponse
+):
     """
     Example creating an audio event enrollment group that contains the audio enrollment that
     was generated in the example_create_enrolled_event() function.  All enrollments in an
@@ -352,7 +355,8 @@ def example_enroll_with_video() -> str:
     enrollment_stream = video_service.stream_enrollment(
         description=description,
         user_id=helpers.environment_config.get("examples-configuration", "userId"),
-        device_id=helpers.environment_config.get("SDK-configuration", "deviceId"),
+        # device_id=helpers.environment_config.get("SDK-configuration", "deviceId"),
+        device_id=helpers.get_device_id(),
         model_name=model_name,
         is_liveness_enabled=False,
         video_stream_iterator=video_stream_iterator,
@@ -448,7 +452,6 @@ def example_create_video_enrollment_group() -> enrollment_pb2.EnrollmentGroupRes
 
 
 if __name__ == "__main__":
-
     """
     The enrollment/create enrollment group function calls below are deliberately
     commented out because it is recommended that they are only run once.  Running
@@ -475,8 +478,6 @@ if __name__ == "__main__":
     # video_enrollment_group_response: enrollment_pb2.EnrollmentGroupResponse = (
     #     example_create_video_enrollment_group()
     # )
-
-    # enrollment_group_response = example_create_video_enrollment_group()
 
     """
     The example_get_enrollments() and example_get_group_enrollments() can be called 

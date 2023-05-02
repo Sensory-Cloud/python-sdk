@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="sensory_cloud",
-    version="1.0.0",
+    version="1.0.3",
     description="Python SDK for Sensory Cloud",
     author="Jonathan Hersch",
     author_email="jhersch@sensoryinc.com",

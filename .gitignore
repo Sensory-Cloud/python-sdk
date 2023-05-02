@@ -11,3 +11,6 @@ examples/*.ini
 venv/
 .idea/
 .DS_STORE
+*.deviceID
+*.deviceName
+examples/*.yaml

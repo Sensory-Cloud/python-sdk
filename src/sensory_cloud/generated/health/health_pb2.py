@@ -18,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='health/health.proto',
   package='sensory.api.health',
   syntax='proto3',
-  serialized_options=b'\n\032ai.sensorycloud.api.healthB\025SensoryApiHealthProtoP\001Z8gitlab.com/sensory-cloud/server/titan.git/pkg/api/health',
+  serialized_options=b'\n\032ai.sensorycloud.api.healthB\025SensoryApiHealthProtoP\001Z8gitlab.com/sensory-cloud/server/titan.git/pkg/api/health\242\002\004SENG',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x13health/health.proto\x12\x12sensory.api.health\x1a\x13\x63ommon/common.proto\"\x0f\n\rHealthRequest2k\n\rHealthService\x12Z\n\tGetHealth\x12!.sensory.api.health.HealthRequest\x1a(.sensory.api.common.ServerHealthResponse\"\x00\x42o\n\x1a\x61i.sensorycloud.api.healthB\x15SensoryApiHealthProtoP\x01Z8gitlab.com/sensory-cloud/server/titan.git/pkg/api/healthb\x06proto3'
+  serialized_pb=b'\n\x13health/health.proto\x12\x12sensory.api.health\x1a\x13\x63ommon/common.proto\"\x0f\n\rHealthRequest2k\n\rHealthService\x12Z\n\tGetHealth\x12!.sensory.api.health.HealthRequest\x1a(.sensory.api.common.ServerHealthResponse\"\x00\x42v\n\x1a\x61i.sensorycloud.api.healthB\x15SensoryApiHealthProtoP\x01Z8gitlab.com/sensory-cloud/server/titan.git/pkg/api/health\xa2\x02\x04SENGb\x06proto3'
   ,
   dependencies=[common_dot_common__pb2.DESCRIPTOR,])
 

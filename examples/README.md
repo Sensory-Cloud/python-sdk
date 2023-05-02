@@ -21,8 +21,6 @@ fullyQualifiedDomainName = my.unique.domain.com                                 
 tenantId = my-tenant-id                                                         # Obtained from Sensory
 credential = my-credential                                                      # Obtained from Sensory
 enrollmentType = none, jwt, or sharedSecret                                     # Selected by user
-deviceId = my-device-id                                                         # Selected by user
-deviceName = my-device-name                                                     # Selected by user
 isSecure = True or False                                                        # Selected by user
 
 [examples-configuration]
@@ -35,8 +33,21 @@ script is successfully run and an additional section called `client-configuratio
 `registration_examples.py` script is successfully run.
 
 The `fullyQualifiedDomainName`, `tenantId`, and `credential` are obtained from Sensory upon registration and those credentials should
-be placed in the `config.ini` file.  The `enrollmentType`, `deviceId`, `deviceName`, `isSecure`, and `userId` values are selected by the user.  
+be placed in the `config.ini` file.  The `enrollmentType`, `isSecure`, and `userId` values are selected by the user.  
 The remaining configuration parameters will be set as we work through the registration and enrollment examples.
+
+## Device Credentials
+The two device credentials used are `deviceId` and `deviceName`.  These two values can bet set and retrieved in one of two ways.  The first way is 
+to set them as environment variables with the following keys:
+
+- SENSORYCLOUD_DEVICE_ID
+- SENSORYCLOUD_DEVICE_NAME
+
+The sdk will look for these environment variable keys first when finding device credentials.  The second option is to store the device credentials
+on disk.  If the environment variables are not present as environment variables then the sdk will look for them as files called `sensory-cloud.deviceID` and
+`sensory-cloud.deviceName`.  If you run the `registration_examples.py` script, then that script will look for the device credential files in this examples
+subdirectory.  If they are not present there and they are not environment variables, then the `registration_examples.py` script will generate random uuids for
+each credential and store them in this examples directory.
 
 ## Helpers
 The `helpers.py` file has several helper functions that are used throughout the examples discussed below.  For example,
@@ -54,8 +65,6 @@ fullyQualifiedDomainName = my.unique.domain.com                                 
 tenantId = my-tenant-id                                                         # Obtained from Sensory
 credential = my-credential                                                      # Obtained from Sensory
 enrollmentType = none, jwt, or sharedSecret                                     # Selected by user
-deviceId = my-device-id                                                         # Selected by user
-deviceName = my-device-name                                                     # Selected by user
 isSecure = True or False                                                        # Selected by user
 
 [examples-configuration]
@@ -88,8 +97,6 @@ fullyQualifiedDomainName = my.unique.domain.com                                 
 tenantId = my-tenant-id                                                         # Obtained from Sensory
 credential = my-credential                                                      # Obtained from Sensory
 enrollmentType = none, jwt, or sharedSecret                                     # Selected by user
-deviceId = my-device-id                                                         # Selected by user
-deviceName = my-device-name                                                     # Selected by user
 isSecure = True or False                                                        # Selected by user
 
 [examples-configuration]
@@ -140,3 +147,42 @@ file.
 
 ## Health Service
 It's important to check the health of your Sensory Inference server. You can do so by following the example in `health_service_examples.py`.
+
+## Batch Audio Transcription
+The `sensory_cloud_stt.py` file allows users to transcribe batches of wav files.  The script is setup to recieve a csv file with a column
+of file paths to be transcribed called `audio_file` and an optional column of expected transcripts called `expected_transcript`.  If the expected
+transcipts are present then the error rate is calculated for each individual file and for the entire corpus of files.  A yaml file containing
+the stt configuration parameters is required as a command line argument to run the script.  The command line call will look like the statement below:
+
+`python sensory_cloud_stt.py --config_path=/path/to/config.yaml`
+
+### Sample Yaml Config File
+```
+stt-config:
+  sensory_cloud_config_path: /path/to/sensory-cloud/config.ini
+  model_name: speech_recognition_en
+  audio_channel_count: 1
+  sample_rate_hertz: 16000
+  language_code: en-US
+  enable_punctuation_capitalization: False
+  do_single_utterance: False
+  vad_sensitivity: 
+  vad_duration: 
+  custom_vocab_reward_threshold: 
+  custom_vocabulary_id: 
+  custom_word_list: 
+  chunkmsec: 100 (chunk size in ms of audio that is passed up to sensory cloud)
+  score_type: wer or cer (wer = word error rate, cer = character error rate)
+  strip_spaces: False (set to True for cer)
+
+io-config:
+  input_path: /path/to/input-file.csv
+  output_path: /path/to/output-file.csv
+```
+
+### Batch Audio Transcription Requirements
+- pip install sensory-cloud
+- pip install PyYAML
+- pip install jiwer
+- pip install Wave
+- pip install pandas

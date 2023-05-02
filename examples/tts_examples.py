@@ -14,8 +14,8 @@ def example_text_to_speech(wav_path: str):
     wav_path defined below as well
     """
 
-    phrase: str = "testing one two three"
-    model_name: str = "text_to_spectrogram_donna_en-us"
+    phrase: str = "The wind speed is 20 mph."
+    model_name: str = "text_to_spectrogram_mike_en-us"
 
     sample_rate_hz = 22050
 
