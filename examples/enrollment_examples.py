@@ -93,7 +93,6 @@ def example_enroll_with_audio() -> str:
         audio_config=audio_config,
         description=enrollment_description,
         user_id=helpers.environment_config.get("examples-configuration", "userId"),
-        # device_id=helpers.environment_config.get("SDK-configuration", "deviceId"),
         device_id=helpers.get_device_id(),
         model_name=model_name,
         is_liveness_enabled=False,

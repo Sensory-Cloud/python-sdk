@@ -23,6 +23,7 @@ from secure_credential_store_example import SecureCredentialStore
 
 
 config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.ini")
+device_info_path = os.path.dirname(config_path)
 
 environment_config = configparser.ConfigParser()
 environment_config.read(config_path)
