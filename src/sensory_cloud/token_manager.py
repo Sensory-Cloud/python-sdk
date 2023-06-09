@@ -38,7 +38,7 @@ class TokenManager(ITokenManager):
     Manages the rotation and injection of OAuth JWTs into grpc requests
     """
 
-    _expires_buffer_seconds: int = 60 ** 2
+    _expires_buffer_seconds: int = 60**2
     _token_mutex: threading.Lock = threading.Lock()
     _token: str = None
     _expires: datetime.datetime = None
@@ -47,7 +47,6 @@ class TokenManager(ITokenManager):
         self.oauth_service: IOauthService = oauth_service
 
     def get_token(self) -> str:
-
         self._token_mutex.acquire()
 
         if (
@@ -68,7 +67,6 @@ class TokenManager(ITokenManager):
             raise (e)
 
     def get_authorization_metadata(self) -> Metadata:
-
         token: str = self.get_token()
         return (("authorization", f"Bearer {token}"),)
 

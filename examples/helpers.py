@@ -269,15 +269,17 @@ def get_device_id() -> str:
     If the device id is not set as an environment variable then the device information
     will be retrieved from the root directory of this project.
     """
-    
+
     device_id = os.environ.get("SENSORYCLOUD_DEVICE_ID")
     if device_id is None:
-        keychain = FileSystemCredentialStore(root_path=os.path.dirname(os.path.abspath(__file__)))
+        keychain = FileSystemCredentialStore(
+            root_path=os.path.dirname(os.path.abspath(__file__))
+        )
         if "deviceID" in keychain:
             device_id = keychain["deviceID"]
         else:
             error_string = """The device id is not stored as an environment variable or in the root directory of this project.
             Make sure you have run the registration_examples.py script to set the device id."""
             raise Exception(error_string)
-        
+
     return device_id

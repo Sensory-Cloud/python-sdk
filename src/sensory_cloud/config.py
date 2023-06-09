@@ -21,7 +21,6 @@ class SDKConfig:
         enrollment_type: EnrollmentType,
         credential: str,
     ):
-
         self.fully_qualified_domain_name = fully_qualified_domain_name
         self.tenant_id = tenant_id
         self.is_connection_secure = is_connection_secure
@@ -40,7 +39,6 @@ class CloudHost:
         port: int = 443,
         is_connection_secure: bool = True,
     ):
-
         host_split = host.split(":")
         if len(host_split) > 1:
             host = host_split[0]

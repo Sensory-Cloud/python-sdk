@@ -14,7 +14,9 @@ def enroll_device_example() -> typing.Union[device_pb2.DeviceResponse, Exception
     """
 
     keychain = FileSystemCredentialStore(root_path=helpers.device_info_path)
-    initializer: Initializer = Initializer(init_config=helpers.config_path, keychain=keychain)
+    initializer: Initializer = Initializer(
+        init_config=helpers.config_path, keychain=keychain
+    )
 
     response: typing.Union[
         device_pb2.DeviceResponse, Exception
