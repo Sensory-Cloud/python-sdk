@@ -103,30 +103,30 @@ class Initializer:
         """
         Private method that first checks environment variables for device information.
         If the device information is not set as environment variables then the device information
-        will be retrieved from the keychain initialization argument.  If the keychain does not 
+        will be retrieved from the keychain initialization argument.  If the keychain does not
         contain the device information then it will be randomly generated and written to the current
         working directory.
         """
-        
+
         device_id = os.environ.get("SENSORYCLOUD_DEVICE_ID")
         device_name = os.environ.get("SENSORYCLOUD_DEVICE_NAME")
-        
+
         if device_id is None:
             if self.keychain is None:
                 self.keychain = FileSystemCredentialStore(root_path=os.getcwd())
-                
-            if 'deviceID' in self.keychain:
+
+            if "deviceID" in self.keychain:
                 device_id = self.keychain["deviceID"]
             else:
                 device_id = str(uuid.uuid1())
                 self.keychain["deviceID"] = device_id
-                
-            if 'deviceName' in self.keychain:
+
+            if "deviceName" in self.keychain:
                 device_name = self.keychain["deviceName"]
             else:
                 device_name = str(uuid.uuid1())
                 self.keychain["deviceName"] = device_name
-                
+
         self.device_id = device_id
         self.device_name = device_name
 

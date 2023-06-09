@@ -355,6 +355,7 @@ class AudioService:
         sensitivity: audio_pb2.ThresholdSensitivity = audio_pb2.ThresholdSensitivity.Value(
             "MEDIUM"
         ),
+        topN: int = 5,
     ) -> typing.Iterable[audio_pb2.ValidateEventResponse]:
         """
         Stream audio to Sensory Cloud in order to recognize a specific phrase or sound
@@ -366,6 +367,8 @@ class AudioService:
             audio_stream_iterator: Iterator of audio bytes
             sensitivity: ThresholdSensitivity enum that sets the sensitivity level of the authentication
                 default = ThresholdSensitivity.Value("MEDIUM")
+            topN: Integer indicating how many sounds to return when using the sound_id_topn model
+                default = 5
 
         Returns:
             An iterator of ValidateEventResponse objects
@@ -376,6 +379,7 @@ class AudioService:
             modelName=model_name,
             userId=user_id,
             sensitivity=sensitivity,
+            topN=topN,
         )
 
         request_iterator: RequestIterator = RequestIterator(
@@ -545,6 +549,7 @@ class AudioService:
         custom_vocab_reward_threshold: audio_pb2.ThresholdSensitivity = None,
         custom_vocabulary_id: str = None,
         custom_word_list: typing.List[str] = None,
+        do_offline_mode: bool = False,
     ) -> typing.Iterable[audio_pb2.TranscribeResponse]:
         """
         Stream audio to Sensory Cloud in order to transcribe spoken words
@@ -554,6 +559,8 @@ class AudioService:
             user_id: String containing the user id
             model_name: String containing the name of the model to be used
             audio_stream_iterator: Iterator of audio bytes
+            enable_punctuation_capitalization: Boolean indicating whether or
+                not the transcript should use punctuation and capitalization
 
         Returns:
             An iterator of TranscribeResponse objects
@@ -576,6 +583,7 @@ class AudioService:
             customVocabRewardThreshold=custom_vocab_reward_threshold,
             customVocabularyId=custom_vocabulary_id,
             customWordList=custom_vocab,
+            doOfflineMode=do_offline_mode,
         )
 
         request_iterator: RequestIterator = RequestIterator(

@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\034ai.sensorycloud.api.v1.eventB\026SensoryApiV1EventProtoP\001Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/event\242\002\004SENG',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x14v1/event/event.proto\x12\x14sensory.api.v1.event\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\x1a\x13\x63ommon/common.proto\"M\n\x19PublishUsageEventsRequest\x12\x30\n\x06\x65vents\x18\x01 \x03(\x0b\x32 .sensory.api.v1.event.UsageEvent\"\xb1\x03\n\nUsageEvent\x12\x37\n\ttimestamp\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x08\xfa\x42\x05\xb2\x01\x02\x08\x01\x12\x19\n\x08\x64uration\x18\x02 \x01(\x03\x42\x07\xfa\x42\x04\"\x02(\x00\x12\x14\n\x02id\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1b\n\x08\x63lientId\x18\x04 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12:\n\x04type\x18\x05 \x01(\x0e\x32\".sensory.api.common.UsageEventTypeB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x19\n\x05route\x18\x06 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x03\x12\x38\n\x0ctechnologies\x18\x07 \x03(\x0e\x32\".sensory.api.common.TechnologyType\x12\x0e\n\x06models\x18\x08 \x03(\t\x12\x17\n\x0f\x61udioDurationMs\x18\t \x01(\x03\x12\x17\n\x0fvideoFrameCount\x18\n \x01(\x03\x12\x10\n\x08tenantId\x18\x0b \x01(\t\x12\x37\n\x10\x62illableFunction\x18\x0c \x01(\x0e\x32\x1d.sensory.api.common.ModelType\"\xc6\x03\n\x12UsageEventResponse\x12\x37\n\ttimestamp\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x08\xfa\x42\x05\xb2\x01\x02\x08\x01\x12\x19\n\x08\x64uration\x18\x02 \x01(\x03\x42\x07\xfa\x42\x04\"\x02(\x00\x12\x14\n\x02id\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1b\n\x08\x63lientId\x18\x04 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12:\n\x04type\x18\x05 \x01(\x0e\x32\".sensory.api.common.UsageEventTypeB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x19\n\x05route\x18\x06 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x03\x12\x38\n\x0ctechnologies\x18\x07 \x03(\x0e\x32\".sensory.api.common.TechnologyType\x12\x0e\n\x06models\x18\x08 \x03(\t\x12\x15\n\rbillableValue\x18\t \x01(\x03\x12\x15\n\rbillableUnits\x18\n \x01(\t\x12\x10\n\x08tenantId\x18\x0b \x01(\t\x12\x37\n\x10\x62illableFunction\x18\x0c \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x0f\n\x07\x63redits\x18\r \x01(\x01\"\xf5\x01\n\x15UsageEventListRequest\x12\x10\n\x08tenantId\x18\x01 \x01(\t\x12\x39\n\npagination\x18\x02 \x01(\x0b\x32%.sensory.api.common.PaginationOptions\x12)\n\x05\x61\x66ter\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12*\n\x06\x62\x65\x66ore\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x38\n\x11\x62illableFunctions\x18\x05 \x03(\x0e\x32\x1d.sensory.api.common.ModelType\"\x8e\x01\n\x16UsageEventListResponse\x12\x38\n\x06\x65vents\x18\x01 \x03(\x0b\x32(.sensory.api.v1.event.UsageEventResponse\x12:\n\npagination\x18\x02 \x01(\x0b\x32&.sensory.api.common.PaginationResponse\"\xbd\x01\n\x19GlobalEventSummaryRequest\x12\x0f\n\x07tenants\x18\x01 \x03(\t\x12)\n\x05\x61\x66ter\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12*\n\x06\x62\x65\x66ore\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x38\n\x11\x62illableFunctions\x18\x05 \x03(\x0e\x32\x1d.sensory.api.common.ModelType\"T\n\x11UsageEventSummary\x12?\n\tsummaries\x18\x01 \x03(\x0b\x32,.sensory.api.v1.event.UsageEventModelSummary\"\xa1\x01\n\x16UsageEventModelSummary\x12\x37\n\x10\x62illableFunction\x18\x01 \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\r\n\x05units\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\x03\x12\r\n\x05\x63ount\x18\x04 \x01(\x03\x12\x0f\n\x07\x63redits\x18\x05 \x01(\x01\x12\x10\n\x08tenantId\x18\x06 \x01(\t\"\x1c\n\x1aPublishUsageEventsResponse2\xe0\x03\n\x0c\x45ventService\x12y\n\x12PublishUsageEvents\x12/.sensory.api.v1.event.PublishUsageEventsRequest\x1a\x30.sensory.api.v1.event.PublishUsageEventsResponse\"\x00\x12p\n\x11GetUsageEventList\x12+.sensory.api.v1.event.UsageEventListRequest\x1a,.sensory.api.v1.event.UsageEventListResponse\"\x00\x12n\n\x14GetUsageEventSummary\x12+.sensory.api.v1.event.UsageEventListRequest\x1a\'.sensory.api.v1.event.UsageEventSummary\"\x00\x12s\n\x15GetGlobalUsageSummary\x12/.sensory.api.v1.event.GlobalEventSummaryRequest\x1a\'.sensory.api.v1.event.UsageEventSummary\"\x00\x42{\n\x1c\x61i.sensorycloud.api.v1.eventB\x16SensoryApiV1EventProtoP\x01Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/event\xa2\x02\x04SENGb\x06proto3'
+  serialized_pb=b'\n\x14v1/event/event.proto\x12\x14sensory.api.v1.event\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\x1a\x13\x63ommon/common.proto\"M\n\x19PublishUsageEventsRequest\x12\x30\n\x06\x65vents\x18\x01 \x03(\x0b\x32 .sensory.api.v1.event.UsageEvent\"\xc5\x03\n\nUsageEvent\x12\x37\n\ttimestamp\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x08\xfa\x42\x05\xb2\x01\x02\x08\x01\x12\x19\n\x08\x64uration\x18\x02 \x01(\x03\x42\x07\xfa\x42\x04\"\x02(\x00\x12\x14\n\x02id\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1b\n\x08\x63lientId\x18\x04 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12:\n\x04type\x18\x05 \x01(\x0e\x32\".sensory.api.common.UsageEventTypeB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x19\n\x05route\x18\x06 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x03\x12\x38\n\x0ctechnologies\x18\x07 \x03(\x0e\x32\".sensory.api.common.TechnologyType\x12\x0e\n\x06models\x18\x08 \x03(\t\x12\x17\n\x0f\x61udioDurationMs\x18\t \x01(\x03\x12\x17\n\x0fvideoFrameCount\x18\n \x01(\x03\x12\x10\n\x08tenantId\x18\x0b \x01(\t\x12\x37\n\x10\x62illableFunction\x18\x0c \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x12\n\ntokenCount\x18\r \x01(\x03\"\xc6\x03\n\x12UsageEventResponse\x12\x37\n\ttimestamp\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x08\xfa\x42\x05\xb2\x01\x02\x08\x01\x12\x19\n\x08\x64uration\x18\x02 \x01(\x03\x42\x07\xfa\x42\x04\"\x02(\x00\x12\x14\n\x02id\x18\x03 \x01(\tB\x08\xfa\x42\x05r\x03\xb0\x01\x01\x12\x1b\n\x08\x63lientId\x18\x04 \x01(\tB\t\xfa\x42\x06r\x04\x10\x01\x18\x7f\x12:\n\x04type\x18\x05 \x01(\x0e\x32\".sensory.api.common.UsageEventTypeB\x08\xfa\x42\x05\x82\x01\x02\x10\x01\x12\x19\n\x05route\x18\x06 \x01(\tB\n\xfa\x42\x07r\x05\x10\x01\x18\xff\x03\x12\x38\n\x0ctechnologies\x18\x07 \x03(\x0e\x32\".sensory.api.common.TechnologyType\x12\x0e\n\x06models\x18\x08 \x03(\t\x12\x15\n\rbillableValue\x18\t \x01(\x03\x12\x15\n\rbillableUnits\x18\n \x01(\t\x12\x10\n\x08tenantId\x18\x0b \x01(\t\x12\x37\n\x10\x62illableFunction\x18\x0c \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\x0f\n\x07\x63redits\x18\r \x01(\x01\"\xf5\x01\n\x15UsageEventListRequest\x12\x10\n\x08tenantId\x18\x01 \x01(\t\x12\x39\n\npagination\x18\x02 \x01(\x0b\x32%.sensory.api.common.PaginationOptions\x12)\n\x05\x61\x66ter\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12*\n\x06\x62\x65\x66ore\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x38\n\x11\x62illableFunctions\x18\x05 \x03(\x0e\x32\x1d.sensory.api.common.ModelType\"\x8e\x01\n\x16UsageEventListResponse\x12\x38\n\x06\x65vents\x18\x01 \x03(\x0b\x32(.sensory.api.v1.event.UsageEventResponse\x12:\n\npagination\x18\x02 \x01(\x0b\x32&.sensory.api.common.PaginationResponse\"\xbd\x01\n\x19GlobalEventSummaryRequest\x12\x0f\n\x07tenants\x18\x01 \x03(\t\x12)\n\x05\x61\x66ter\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12*\n\x06\x62\x65\x66ore\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x38\n\x11\x62illableFunctions\x18\x05 \x03(\x0e\x32\x1d.sensory.api.common.ModelType\"T\n\x11UsageEventSummary\x12?\n\tsummaries\x18\x01 \x03(\x0b\x32,.sensory.api.v1.event.UsageEventModelSummary\"\xa1\x01\n\x16UsageEventModelSummary\x12\x37\n\x10\x62illableFunction\x18\x01 \x01(\x0e\x32\x1d.sensory.api.common.ModelType\x12\r\n\x05units\x18\x02 \x01(\t\x12\r\n\x05value\x18\x03 \x01(\x03\x12\r\n\x05\x63ount\x18\x04 \x01(\x03\x12\x0f\n\x07\x63redits\x18\x05 \x01(\x01\x12\x10\n\x08tenantId\x18\x06 \x01(\t\"\x1c\n\x1aPublishUsageEventsResponse2\xe0\x03\n\x0c\x45ventService\x12y\n\x12PublishUsageEvents\x12/.sensory.api.v1.event.PublishUsageEventsRequest\x1a\x30.sensory.api.v1.event.PublishUsageEventsResponse\"\x00\x12p\n\x11GetUsageEventList\x12+.sensory.api.v1.event.UsageEventListRequest\x1a,.sensory.api.v1.event.UsageEventListResponse\"\x00\x12n\n\x14GetUsageEventSummary\x12+.sensory.api.v1.event.UsageEventListRequest\x1a\'.sensory.api.v1.event.UsageEventSummary\"\x00\x12s\n\x15GetGlobalUsageSummary\x12/.sensory.api.v1.event.GlobalEventSummaryRequest\x1a\'.sensory.api.v1.event.UsageEventSummary\"\x00\x42{\n\x1c\x61i.sensorycloud.api.v1.eventB\x16SensoryApiV1EventProtoP\x01Z:gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/event\xa2\x02\x04SENGb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,validate_dot_validate__pb2.DESCRIPTOR,common_dot_common__pb2.DESCRIPTOR,])
 
@@ -153,6 +153,13 @@ _USAGEEVENT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='tokenCount', full_name='sensory.api.v1.event.UsageEvent.tokenCount', index=12,
+      number=13, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -166,7 +173,7 @@ _USAGEEVENT = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=205,
-  serialized_end=638,
+  serialized_end=658,
 )
 
 
@@ -281,8 +288,8 @@ _USAGEEVENTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=641,
-  serialized_end=1095,
+  serialized_start=661,
+  serialized_end=1115,
 )
 
 
@@ -341,8 +348,8 @@ _USAGEEVENTLISTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1098,
-  serialized_end=1343,
+  serialized_start=1118,
+  serialized_end=1363,
 )
 
 
@@ -380,8 +387,8 @@ _USAGEEVENTLISTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1346,
-  serialized_end=1488,
+  serialized_start=1366,
+  serialized_end=1508,
 )
 
 
@@ -433,8 +440,8 @@ _GLOBALEVENTSUMMARYREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1491,
-  serialized_end=1680,
+  serialized_start=1511,
+  serialized_end=1700,
 )
 
 
@@ -465,8 +472,8 @@ _USAGEEVENTSUMMARY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1682,
-  serialized_end=1766,
+  serialized_start=1702,
+  serialized_end=1786,
 )
 
 
@@ -532,8 +539,8 @@ _USAGEEVENTMODELSUMMARY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1769,
-  serialized_end=1930,
+  serialized_start=1789,
+  serialized_end=1950,
 )
 
 
@@ -557,8 +564,8 @@ _PUBLISHUSAGEEVENTSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1932,
-  serialized_end=1960,
+  serialized_start=1952,
+  serialized_end=1980,
 )
 
 _PUBLISHUSAGEEVENTSREQUEST.fields_by_name['events'].message_type = _USAGEEVENT
@@ -677,8 +684,8 @@ _EVENTSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1963,
-  serialized_end=2443,
+  serialized_start=1983,
+  serialized_end=2463,
   methods=[
   _descriptor.MethodDescriptor(
     name='PublishUsageEvents',

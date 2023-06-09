@@ -212,7 +212,7 @@ def example_create_enrolled_event() -> str:
         print(f"Audio event enrollment, {enrollment_id}, already exists")
         return
 
-    model_name: str = "sound-dependent-16kHz.ubm"
+    model_name: str = "text-dependent-16kHz.ubm"
     description: str = "hey sensory enrolled event"
 
     audio_service: AudioService = helpers.get_audio_service()
@@ -354,7 +354,6 @@ def example_enroll_with_video() -> str:
     enrollment_stream = video_service.stream_enrollment(
         description=description,
         user_id=helpers.environment_config.get("examples-configuration", "userId"),
-        # device_id=helpers.environment_config.get("SDK-configuration", "deviceId"),
         device_id=helpers.get_device_id(),
         model_name=model_name,
         is_liveness_enabled=False,
