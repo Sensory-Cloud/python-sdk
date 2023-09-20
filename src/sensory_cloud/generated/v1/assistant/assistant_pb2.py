@@ -12,7 +12,6 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from sensory_cloud.generated.common import common_pb2 as common_dot_common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -21,9 +20,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n ai.sensorycloud.api.v1.assistantB!SensoryApiV1ManagementServerProtoP\001Z>gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/assistant',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x1cv1/assistant/assistant.proto\x12\x18sensory.api.v1.assistant\x1a\x13\x63ommon/common.proto\"P\n\x0b\x43hatMessage\x12\x30\n\x04role\x18\x01 \x01(\x0e\x32\".sensory.api.v1.assistant.ChatRole\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\"]\n\x0fTextChatRequest\x12\x11\n\tmodelName\x18\x01 \x01(\t\x12\x37\n\x08messages\x18\x02 \x03(\x0b\x32%.sensory.api.v1.assistant.ChatMessage\"J\n\x10TextChatResponse\x12\x36\n\x07message\x18\x01 \x01(\x0b\x32%.sensory.api.v1.assistant.ChatMessage*/\n\x08\x43hatRole\x12\n\n\x06SYSTEM\x10\x00\x12\x08\n\x04USER\x10\x01\x12\r\n\tASSISTANT\x10\x02\x32w\n\x10\x41ssistantService\x12\x63\n\x08TextChat\x12).sensory.api.v1.assistant.TextChatRequest\x1a*.sensory.api.v1.assistant.TextChatResponse\"\x00\x42\x87\x01\n ai.sensorycloud.api.v1.assistantB!SensoryApiV1ManagementServerProtoP\x01Z>gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/assistantb\x06proto3'
-  ,
-  dependencies=[common_dot_common__pb2.DESCRIPTOR,])
+  serialized_pb=b'\n\x1cv1/assistant/assistant.proto\x12\x18sensory.api.v1.assistant\"P\n\x0b\x43hatMessage\x12\x30\n\x04role\x18\x01 \x01(\x0e\x32\".sensory.api.v1.assistant.ChatRole\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\"]\n\x0fTextChatRequest\x12\x11\n\tmodelName\x18\x01 \x01(\t\x12\x37\n\x08messages\x18\x02 \x03(\x0b\x32%.sensory.api.v1.assistant.ChatMessage\"J\n\x10TextChatResponse\x12\x36\n\x07message\x18\x01 \x01(\x0b\x32%.sensory.api.v1.assistant.ChatMessage*/\n\x08\x43hatRole\x12\n\n\x06SYSTEM\x10\x00\x12\x08\n\x04USER\x10\x01\x12\r\n\tASSISTANT\x10\x02\x32w\n\x10\x41ssistantService\x12\x63\n\x08TextChat\x12).sensory.api.v1.assistant.TextChatRequest\x1a*.sensory.api.v1.assistant.TextChatResponse\"\x00\x42\x87\x01\n ai.sensorycloud.api.v1.assistantB!SensoryApiV1ManagementServerProtoP\x01Z>gitlab.com/sensory-cloud/server/titan.git/pkg/api/v1/assistantb\x06proto3'
+)
 
 _CHATROLE = _descriptor.EnumDescriptor(
   name='ChatRole',
@@ -50,8 +48,8 @@ _CHATROLE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=332,
-  serialized_end=379,
+  serialized_start=311,
+  serialized_end=358,
 )
 _sym_db.RegisterEnumDescriptor(_CHATROLE)
 
@@ -96,8 +94,8 @@ _CHATMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=79,
-  serialized_end=159,
+  serialized_start=58,
+  serialized_end=138,
 )
 
 
@@ -135,8 +133,8 @@ _TEXTCHATREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=161,
-  serialized_end=254,
+  serialized_start=140,
+  serialized_end=233,
 )
 
 
@@ -167,8 +165,8 @@ _TEXTCHATRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=256,
-  serialized_end=330,
+  serialized_start=235,
+  serialized_end=309,
 )
 
 _CHATMESSAGE.fields_by_name['role'].enum_type = _CHATROLE
@@ -211,8 +209,8 @@ _ASSISTANTSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=381,
-  serialized_end=500,
+  serialized_start=360,
+  serialized_end=479,
   methods=[
   _descriptor.MethodDescriptor(
     name='TextChat',
