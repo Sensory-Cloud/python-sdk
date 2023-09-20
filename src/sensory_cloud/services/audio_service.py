@@ -356,6 +356,8 @@ class AudioService:
             "MEDIUM"
         ),
         topN: int = 5,
+        clear_buffer_at_end_of_utterance: bool = False,
+        sound_id_class: audio_pb2.SoundIdClass = audio_pb2.SoundIdClass.Value("ALL"),
     ) -> typing.Iterable[audio_pb2.ValidateEventResponse]:
         """
         Stream audio to Sensory Cloud in order to recognize a specific phrase or sound
@@ -369,6 +371,11 @@ class AudioService:
                 default = ThresholdSensitivity.Value("MEDIUM")
             topN: Integer indicating how many sounds to return when using the sound_id_topn model
                 default = 5
+            clear_buffer_at_end_of_utterance: Boolean that determines whether or not the audio buffer
+                should be cleared when the end of an utterance is detected
+                default = False
+            sound_id_class: Enum that determines which subset of sounds should be used
+                default = audio_pb2.SoundIdClass.Value("ALL")
 
         Returns:
             An iterator of ValidateEventResponse objects
@@ -380,6 +387,8 @@ class AudioService:
             userId=user_id,
             sensitivity=sensitivity,
             topN=topN,
+            clearBufferAtEndOfUtterance=clear_buffer_at_end_of_utterance,
+            soundIdClass=sound_id_class,
         )
 
         request_iterator: RequestIterator = RequestIterator(
